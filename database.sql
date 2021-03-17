@@ -73,7 +73,11 @@ CREATE TABLE "affiliation" (
 
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk1" FOREIGN KEY ("event_id") REFERENCES "event"("id");
-
 ALTER TABLE "user" ADD CONSTRAINT "user_fk0" FOREIGN KEY ("college_id") REFERENCES "affiliation"("id");
 
 
+INSERT INTO "affiliation" ("college_name") VALUES ('NDSU');
+INSERT INTO "affiliation" ("college_name") VALUES ('MSU');
+INSERT INTO "affiliation" ("college_name") VALUES ('U Mary');
+INSERT INTO "affiliation" ("college_name") VALUES ('UND');
+INSERT INTO "affiliation" ("college_name") VALUES ('VSCU');
