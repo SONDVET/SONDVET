@@ -1,4 +1,5 @@
 const express = require('express');
+const { restart } = require('nodemon');
 const {
   rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
@@ -55,8 +56,18 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
   "phone_number" = $5, "address" = $6, "city" = $7, "state" = $8, 
   "zip" = $9, "dob" = $10, "involved_w_sond_since" = $11,
   "college_id" = $12, "password" = $13, "access_level" = $14`;
-  
-})
+  pool.query(query, [userEdit.category, userEdit.first_name, userEdit.last_name,
+  userEdit.email, userEdit.phone_number, userEdit.address, userEdit.city,
+  userEdit.state, userEdit.zip, userEdit.dob, userEdit.involved_w_sond_since,
+  userEdit.college_id, userEdit.password, userEdit.access_level])
+    .then((result) => {
+      console.log(`Updated user information for ${userEdit.email}`);
+      res.sendStatus(200);
+    }).catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    })
+});
 
 
 
