@@ -65,5 +65,23 @@ router.put('/', (req,res) => {
     })
 });
 
+//Post Request For Adding User To Event
+//Posts To user_event Table
+
+router.post('/attending',(req , res) => {
+    const userId = req.body.userId
+    const eventId = req.body.eventId
+    const queryText = `
+    INSERT INTO "user_event" ("user_id" , "event_id") 
+    VALUES ($1 , $2)`;
+    pool.query(queryText, [userId , eventId])
+    .then((result) => {
+        console.log(`Added user with id: ${userId} to event with id: ${eventId}`);
+        res.sendStatus(201);
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
 
 module.exports = router;
