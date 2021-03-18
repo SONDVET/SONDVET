@@ -13,9 +13,9 @@ CREATE TABLE "user_event" (
 	"id" serial NOT NULL,
 	"user_id" int NOT NULL,
 	"event_id" int NOT NULL,
-	"check_in" TIMESTAMP NOT NULL,
-	"check_out" TIMESTAMP NOT NULL,
-	"total_time" int NOT NULL,
+	"check_in" TIMESTAMP,
+	"check_out" TIMESTAMP,
+	"total_time" int NOT NULL DEFAULT '0',
 	CONSTRAINT "user_event_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -68,6 +68,7 @@ CREATE TABLE "affiliation" (
 ) WITH (
   OIDS=FALSE
 );
+
 
 
 

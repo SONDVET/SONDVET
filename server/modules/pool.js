@@ -28,6 +28,8 @@ if (process.env.DATABASE_URL) {
   };
 } else {
   config = {
+    user: process.env.DB_USERNAME || null,
+    password: process.env.DB_PASSWORD || null,
     host: 'localhost', // Server hosting the postgres database
     port: 5432, // env var: PGPORT
     database: 'SONDVET', // CHANGE THIS LINE! env var: PGDATABASE, this is likely the one thing you need to change to get up and running
