@@ -89,7 +89,7 @@ INSERT INTO "user" ("category" , "first_name" , "last_name" , "email" , "phone_n
 VALUES ( 'Admin' , 'Dwight' , 'Schrute' , 'dschrute@gmail.com' , '701-232-5555' , '1134 1st St N' , 'Fargo' , 'ND' , 58102 , '19821110' , '20010101' , 1 , 'bigtuna' , 1);
 INSERT INTO "user" ("category" , "first_name" , "last_name" , "email" , "phone_number" , "address" , "city" , "state" , "zip" , "dob" , "involved_w_sond_since" , "college_id" , "password" , "access_level" ) 
 VALUES ( 'Volunteer' , 'Lance' , 'Gagner' , 'gagnerlance@gmail.com' , '701-400-5555' , '3342 29th ave' , 'Fargo' , 'ND' , 58103 , '19950702' , '20200304' , 1 , '123' , 1);
--- Create Starting Even
+-- Create Starting Events
 INSERT INTO "event" ("name" , "description" , "special_inst" , "location" , "date" , "pic_url")
 VALUES ('Fargo Polar Plunge' , 'Jump in some cold cold water for a good good cause' , 'BYOT (Bring Your Own Towel)' , 'Delta Hotels Fargo' , '20210410' , 'https://cdn.firespring.com/images/078a2188-221f-4876-8a49-eaea25b20932.png');
 INSERT INTO "event" ("name" , "description" , "special_inst" , "location" , "date" , "pic_url")

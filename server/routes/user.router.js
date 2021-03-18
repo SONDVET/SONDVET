@@ -14,6 +14,8 @@ const router = express.Router();
 //   res.send(req.user);
 // });
 
+
+// GET all users from DB ordered by last name alphabetically
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
   const query = `SELECT * FROM "user" ORDER BY "last_name" ASC`;
@@ -25,8 +27,20 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log(`Error getting all users`, err);
     res.sendStatus(500)
   })
-
 });
+
+// Updates user data 
+router.put('/:id', rejectUnauthenticated, (req, res) => {
+  console.log(req.body, req.params)
+
+  let id = req.params.id;
+
+  const query = `UPDATE "user"`
+})
+
+
+
+
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
