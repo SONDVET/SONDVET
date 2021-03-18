@@ -93,9 +93,14 @@ router.put('/checkout', (req,res) => {
     UPDATE "user_event"
     SET "check_out" = CURRENT_TIMESTAMP
     WHERE "user_id" = $1 AND "event_id" = $2;`
+    const differenceQuery = `
+    UPDATE "user_event"
+    SET "total_time" = ("total_time" + age("check_out", "check_in"))
+    WHERE "user_id" = $1 AND "event_id" = $2;`
     pool.query(queryText, [userId, eventId])
+    .then(pool.query(differenceQuery, [userId, eventId]))
     .then((result) => {
-        console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
+        console.log(`user with id: ${userId} has been checked out of event with id ${eventId}`);
         res.sendStatus(200);
     }).catch ((err) => {
         console.log(err);
