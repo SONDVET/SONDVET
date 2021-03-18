@@ -39,4 +39,31 @@ router.post('/', (req, res) => {
         })
 });
 
+//PUT route for editing a specific event 
+// reqs: name, description, special_inst, location, date, pic_url
+router.put('/', (req,res) => {
+    const eventEdit = {
+        id: req.body.id,
+        name: req.body.name,
+        description: req.body.description,
+        special_inst: req.body.special_inst,
+        location: req.body.location,
+        date: req.body.date,
+        image: req.body.pic_url,
+    }
+    const queryText = `
+    UPDATE "event"
+    SET "name" = $1, "description" = $2, "special_inst" = $3, location = $4, "date" = $5, "pic_url" = $6
+    WHERE "id" = $7`;
+    pool.query(queryText, [eventEdit.name, eventEdit.description, eventEdit.special_inst, eventEdit.location, eventEdit.date, eventEdit.image, eventEdit.id])
+    .then((result) => {
+        console.log(`Updated information for event with id: ${eventEdit.id}`);
+        res.sendStatus(200);
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+
 module.exports = router;
