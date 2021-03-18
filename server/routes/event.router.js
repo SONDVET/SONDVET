@@ -147,23 +147,6 @@ router.delete('/attending', (req , res ) => {
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
-
-
-// router.get('/details/:id', (req, res) => {
-//     const eventId = req.params.id
-//     const queryText = `SELECT * FROM "user_event" as ue
-//     JOIN "user" as u ON ue."user_id" = u."id"
-//     WHERE  ue."event_id" = ${eventId}`;
-//     pool.query (queryText)
-//     .then((result) => {
-//         console.log(`getting info on event with id ${eventId}`);
-//         res.send(result.rows)
-//     }).catch((err) => {
-//         console.log(err);
-//         res.sendStatus(500);
-//     })
-// })
-
 router.get('/details/:id', (req, res) => {
     const eventId = req.params.id
     const queryText = `SELECT u."id","category" , "first_name" , "last_name" , "email" , "phone_number" , "address" , "city" , "state" , "zip" , "dob" , "involved_w_sond_since" , "college_id" , "access_level" , "check_in" , "check_out" , "total_time"
