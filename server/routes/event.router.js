@@ -2,12 +2,24 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
+//GET route for retrieving all events
+router.get('/', (req, res) => {
+    console.log('getting all events');
+    const queryText = `SELECT * FROM "event";`;
+    pool.query(queryText)
+        .then(result => {
+            res.sendStatus(200);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
 
 // POST route for adding new event.
 // reqs: name, description, special_inst, location, date, pic_url
 // SERVER SIDE DONE, but untested.
 router.post('/', (req, res) => {
-console.log('router posting new event');
+    console.log('router posting new event');
     const newEvent = req.body.name;
     const newDesc = req.body.description;
     const newSpec = req.body.special_inst;
@@ -17,14 +29,14 @@ console.log('router posting new event');
     const queryText = `INSERT INTO "event" ("name", "description", "special_inst", "location", "date", "pic_url")
      VALUES ($1, $2, $3, $4, $5, $6);`;
     pool.query(queryText, [newEvent, newDesc, newSpec, newLoc, newDate, newPic])
-    .then(async result => {
-        console.log('new event made', result);
-        res.sendStatus(201);
-    }).catch(err => {
-        // catch 
-        console.log(err);
-        res.sendStatus(500)
-    })
+        .then(async result => {
+            console.log('new event made', result);
+            res.sendStatus(201);
+        }).catch(err => {
+            // catch 
+            console.log(err);
+            res.sendStatus(500)
+        })
 });
 
 module.exports = router;
