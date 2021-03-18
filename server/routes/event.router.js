@@ -84,7 +84,7 @@ router.put('/checkin', (req,res) => {
     })
 });
 
-//PUT route to insert timestamp into check_out for a user
+//PUT route to insert timestamp into check_out for a user and update total time
 //reqs: user_id, event_id
 router.put('/checkout', (req,res) => {
     const userId = req.body.user_id;
@@ -98,6 +98,7 @@ router.put('/checkout', (req,res) => {
     SET "total_time" = ("total_time" + age("check_out", "check_in"))
     WHERE "user_id" = $1 AND "event_id" = $2;`
     pool.query(queryText, [userId, eventId])
+    //After a checkout has been submitted, a second query is sent to update the total time for that user
     .then(pool.query(differenceQuery, [userId, eventId]))
     .then((result) => {
         console.log(`user with id: ${userId} has been checked out of event with id ${eventId}`);
