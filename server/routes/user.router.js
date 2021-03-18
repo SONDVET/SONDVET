@@ -9,24 +9,12 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 
 // Handles Ajax request for user information if user is authenticated
-// router.get('/', rejectUnauthenticated, (req, res) => {
-//   // Send back user object from the session (previously queried from the database)
-//   res.send(req.user);
-// });
-
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
-  const query = `SELECT * FROM "user" ORDER BY "last_name" ASC`;
-  pool.query(query)
-  .then( result => {
-    res.send(result.rows);
-  })
-  .catch(err => {
-    console.log(`Error getting all users`, err);
-    res.sendStatus(500)
-  })
-
+  res.send(req.user);
 });
+
+
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen

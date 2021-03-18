@@ -8,9 +8,12 @@ const sessionMiddleware = require('./modules/session-middleware');
 const passport = require('./strategies/user.strategy');
 
 // Route includes:
+// user router is specifically for login-out and creating new users.
 const userRouter = require('./routes/user.router');
 // router to handle all requests specific to events
-const eventRouter = require('./routes/event.router')
+const eventRouter = require('./routes/event.router');
+// router to handle all volunteer reqs
+const volunteerRouter = require('./routes/volunteer.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -25,7 +28,8 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user', userRouter);
-app.use('/api/event', eventRouter)
+app.use('/api/event', eventRouter);
+app.use('/api/volunteer', volunteerRouter);
 
 // Serve static files
 app.use(express.static('build'));
