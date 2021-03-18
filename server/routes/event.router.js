@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
 });
 
 //PUT route for editing a specific event 
-// reqs: name, description, special_inst, location, date, pic_url
+// reqs: id, name, description, special_inst, location, date, pic_url
 router.put('/', (req,res) => {
     const eventEdit = {
         id: req.body.id,
@@ -60,6 +60,44 @@ router.put('/', (req,res) => {
         console.log(`Updated information for event with id: ${eventEdit.id}`);
         res.sendStatus(200);
     }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+//PUT route to insert timestamp into check_in for a user
+//reqs: user_id, event_id
+router.put('/checkin', (req,res) => {
+    const userId = req.body.user_id;
+    const eventId = req.body.event_id;
+    const queryText = `
+    UPDATE "user_event"
+    SET "check_in" = CURRENT_TIMESTAMP
+    WHERE "user_id" = $1 AND "event_id" = $2;`
+    pool.query(queryText, [userId, eventId])
+    .then((result) => {
+        console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
+        res.sendStatus(200);
+    }).catch ((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+//PUT route to insert timestamp into check_out for a user
+//reqs: user_id, event_id
+router.put('/checkout', (req,res) => {
+    const userId = req.body.user_id;
+    const eventId = req.body.event_id;
+    const queryText = `
+    UPDATE "user_event"
+    SET "check_out" = CURRENT_TIMESTAMP
+    WHERE "user_id" = $1 AND "event_id" = $2;`
+    pool.query(queryText, [userId, eventId])
+    .then((result) => {
+        console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
+        res.sendStatus(200);
+    }).catch ((err) => {
         console.log(err);
         res.sendStatus(500);
     })
