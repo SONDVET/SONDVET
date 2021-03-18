@@ -66,6 +66,7 @@ router.put('/', (req,res) => {
 });
 
 //Post Request For Adding User To Event
+//To be used with "join" button on event cards
 //Posts To user_event Table
 
 router.post('/attending',(req , res) => {
@@ -84,4 +85,24 @@ router.post('/attending',(req , res) => {
     })
 });
 
+// Delete Request For Removing User From Event
+// To be used with "cant make it" button on event cards
+//Deletes from "user_event Table"
+
+router.delete('/attending', (req , res ) => {
+    const userId = req.body.userId
+    const eventId = req.body.eventId
+    const queryText = ` 
+    DELETE FROM "user_event" 
+    WHERE "user_id" = $1 
+    AND "event_id" = $2;`
+    pool.query(queryText, [userId , eventId])
+    .then((result) => {
+        console.log(`Removed user with id: ${userId} from event with id: ${eventId}`);
+        res.sendStatus(204);
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
 module.exports = router;
