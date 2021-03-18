@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
 });
 
 //PUT route for editing a specific event 
-// reqs: name, description, special_inst, location, date, pic_url
+// reqs: id, name, description, special_inst, location, date, pic_url
 router.put('/', (req,res) => {
     const eventEdit = {
         id: req.body.id,
@@ -65,5 +65,82 @@ router.put('/', (req,res) => {
     })
 });
 
+//PUT route to insert timestamp into check_in for a user
+//reqs: user_id, event_id
+router.put('/checkin', (req,res) => {
+    const userId = req.body.user_id;
+    const eventId = req.body.event_id;
+    const queryText = `
+    UPDATE "user_event"
+    SET "check_in" = CURRENT_TIMESTAMP
+    WHERE "user_id" = $1 AND "event_id" = $2;`
+    pool.query(queryText, [userId, eventId])
+    .then((result) => {
+        console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
+        res.sendStatus(200);
+    }).catch ((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
 
+//PUT route to insert timestamp into check_out for a user
+//reqs: user_id, event_id
+router.put('/checkout', (req,res) => {
+    const userId = req.body.user_id;
+    const eventId = req.body.event_id;
+    const queryText = `
+    UPDATE "user_event"
+    SET "check_out" = CURRENT_TIMESTAMP
+    WHERE "user_id" = $1 AND "event_id" = $2;`
+    pool.query(queryText, [userId, eventId])
+    .then((result) => {
+        console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
+        res.sendStatus(200);
+    }).catch ((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+//Post Request For Adding User To Event
+//To be used with "join" button on event cards
+//Posts To user_event Table
+
+router.post('/attending',(req , res) => {
+    const userId = req.body.userId
+    const eventId = req.body.eventId
+    const queryText = `
+    INSERT INTO "user_event" ("user_id" , "event_id") 
+    VALUES ($1 , $2)`;
+    pool.query(queryText, [userId , eventId])
+    .then((result) => {
+        console.log(`Added user with id: ${userId} to event with id: ${eventId}`);
+        res.sendStatus(201);
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+// Delete Request For Removing User From Event
+// To be used with "cant make it" button on event cards
+//Deletes from "user_event Table"
+
+router.delete('/attending', (req , res ) => {
+    const userId = req.body.userId
+    const eventId = req.body.eventId
+    const queryText = ` 
+    DELETE FROM "user_event" 
+    WHERE "user_id" = $1 
+    AND "event_id" = $2;`
+    pool.query(queryText, [userId , eventId])
+    .then((result) => {
+        console.log(`Removed user with id: ${userId} from event with id: ${eventId}`);
+        res.sendStatus(204);
+    }).catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+})
 module.exports = router;
