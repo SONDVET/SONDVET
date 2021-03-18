@@ -15,7 +15,7 @@ CREATE TABLE "user_event" (
 	"event_id" int NOT NULL,
 	"check_in" TIMESTAMP,
 	"check_out" TIMESTAMP,
-	"total_time" int NOT NULL DEFAULT '0',
+	"total_time" interval NOT NULL DEFAULT '0',
 	CONSTRAINT "user_event_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
