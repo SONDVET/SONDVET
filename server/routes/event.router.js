@@ -66,16 +66,34 @@ router.put('/', (req,res) => {
 });
 
 //PUT route to insert timestamp into check_in for a user
-//reqs: user_id, event_id, checkInTime
+//reqs: user_id, event_id
 router.put('/checkin', (req,res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
-    const checkInTime = req.body.checkInTime;
     const queryText = `
-    UPDATE "event_user"
-    SET "check_in" = $1
-    WHERE "user_id" = $2 && "event_id" = $3;`
-    pool.query(queryText, [checkInTime, userId, eventId])
+    UPDATE "user_event"
+    SET "check_in" = CURRENT_TIMESTAMP
+    WHERE "user_id" = $1 AND "event_id" = $2;`
+    pool.query(queryText, [userId, eventId])
+    .then((result) => {
+        console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
+        res.sendStatus(200);
+    }).catch ((err) => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+});
+
+//PUT route to insert timestamp into check_out for a user
+//reqs: user_id, event_id
+router.put('/checkout', (req,res) => {
+    const userId = req.body.user_id;
+    const eventId = req.body.event_id;
+    const queryText = `
+    UPDATE "user_event"
+    SET "check_out" = CURRENT_TIMESTAMP
+    WHERE "user_id" = $1 AND "event_id" = $2;`
+    pool.query(queryText, [userId, eventId])
     .then((result) => {
         console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
         res.sendStatus(200);
