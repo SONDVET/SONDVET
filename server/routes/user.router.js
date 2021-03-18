@@ -13,6 +13,7 @@ const router = express.Router();
 router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from the session (previously queried from the database)
   res.send(req.user);
+});
 
 // Updates user data at http://localhost:5000/api/user/
 router.put('/', rejectUnauthenticated, (req, res) => {
