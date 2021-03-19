@@ -31,8 +31,8 @@ function Events() {
                     {/* loops over every event in the event store and displays them in a div */}
                     {store.event[0] && store.event.map((event) =>
                         <div key={event.id}> <img src={event.pic_url} height='50px' /> {event.name} {event.description} {event.location} {event.special_inst}
-                            <button>Join</button>
-                            <button>Can't make it</button>
+                            <button onClick={() => dispatch({type: 'ATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Join</button>
+                            <button onClick={() => dispatch({type: 'UNATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Can't make it</button>
                             {(user.access_level >= 2) && <button onClick={() => goToDetails(event.id)}>Details</button>}
                         </div>)}
                 </div>

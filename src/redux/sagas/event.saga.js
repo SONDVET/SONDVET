@@ -14,7 +14,7 @@ function* fetchEvent() {
 
 function* attendEvent(action) {
     try{
-        yield axios.post('/attending', action.payload)
+        yield axios.post('/api/event/attending', action.payload)
     } catch (error) {
         console.log(`error POSTING for attending event`);
     }
@@ -22,7 +22,7 @@ function* attendEvent(action) {
 
 function* unattendEvent(action) {
     try{
-        yield axios.delete('/attending', action.payload)
+        yield axios.delete(`/api/event/attending/${action.payload.userId}/${action.payload.eventId}`)
     } catch (error) {
         console.log(`error DELETING for unattending event`);
     }
