@@ -18,6 +18,19 @@ router.get('/', (req, res) => {
         })
 });
 
+//GET rout for retrieving all user_events
+router.get('/aue', (req, res) => {
+    console.log('getting all userevents');
+    const queryText = `SELECT * FROM "user_event";`;
+    pool.query(queryText)
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
+
 // POST route for adding new event.
 // reqs: name, description, special_inst, location, date, pic_url
 // SERVER SIDE DONE, but untested.
