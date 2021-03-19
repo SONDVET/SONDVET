@@ -16,6 +16,7 @@ function* fetchEvent() {
 function* attendEvent(action) {
     try{
         yield axios.post('/api/event/attending', action.payload)
+        yield put({type: 'FETCH_ALL_USER_EVENT'})
     } catch (error) {
         console.log(`error POSTING for attending event`);
     }
@@ -25,6 +26,7 @@ function* attendEvent(action) {
 function* unattendEvent(action) {
     try{
         yield axios.delete(`/api/event/attending/${action.payload.userId}/${action.payload.eventId}`)
+        yield put({type: 'FETCH_ALL_USER_EVENT'})
     } catch (error) {
         console.log(`error DELETING for unattending event`);
     }
