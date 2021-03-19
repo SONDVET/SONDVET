@@ -65,6 +65,11 @@ router.put('/', (req,res) => {
     })
 });
 
+// DELETE route deletes event if user is officer or above
+
+
+
+
 //PUT route to insert timestamp into check_in for a user
 //reqs: user_id, event_id
 router.put('/checkin', (req,res) => {
