@@ -1,6 +1,9 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const {
+    rejectUnauthenticated,
+  } = require('../modules/authentication-middleware');
 
 //GET route for retrieving all events
 router.get('/', (req, res) => {
@@ -66,7 +69,16 @@ router.put('/', (req,res) => {
 });
 
 // DELETE route deletes event if user is officer or above
-
+router.delete(`/:id`,  rejectUnauthenticated, (req, res) => {
+    console.log('Deleting event:', req.params.name);
+    const queryText = `DELETE FROM "event" WHERE "id"=$1;`
+    pool.query(queryText, [req.params.id])
+    .then((result) => {
+      res.sendStatus(204)
+    }).catch ((err) => {
+      console.log('Error deleting event', err);
+    })
+  }); // END DELETE EVENT ROUTER
 
 
 
