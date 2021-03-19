@@ -161,8 +161,8 @@ router.get('/details/:id', (req, res) => {
     const queryText = `SELECT u."id","category" , "first_name" , "last_name" , "email" , "phone_number" , "address" , "city" , "state" , "zip" , "dob" , "involved_w_sond_since" , "college_id" , "access_level" , "check_in" , "check_out" , "total_time"
     FROM "user" as u
     JOIN "user_event" AS ue ON u."id" = ue."user_id"
-    WHERE ue."event_id" = ${eventId};`
-    pool.query(queryText)
+    WHERE ue."event_id" = $1;`
+    pool.query(queryText, [eventId])
         .then((result) => {
             console.log(`getting info on event with id ${eventId}`);
             res.send(result.rows)
