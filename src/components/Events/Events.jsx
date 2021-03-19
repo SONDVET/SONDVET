@@ -21,7 +21,7 @@ function Events() {
       //button which will take a user to that event's details page
       const goToDetails = (eventId) => {
           //TODO: this route may need to be updated 
-          history.push(`/eventdetail/${eventId}`)
+          history.push(`/details/${eventId}`)
       }
 
       const checkForAttend = (userId, eventId) => {

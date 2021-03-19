@@ -1,21 +1,32 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-//import InfoIcon from '@material-ui/icons/Info';
+import {useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useHistory } from 'react-router-dom';
 
 //  This page lists the details for a specific event
 function EventDetail() {
     
-
+    const params = useParams()
+    const dispatch = useDispatch()
     const user = useSelector((store) => store.user);
-    // const user = useSelector((store) => store.event);
-
+    const event = useSelector((store) => store.event);
+    useEffect(() => {
+        dispatch({ type: 'FETCH_EVENT_DETAILS', payload: params.id });
+    }, []);
 
     return (
-        <>
-        <h1>This is the Event Details Page</h1>
+        <>    
             {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
         <div className="eventDetailContainer">
-          
+          {event[0] &&
+          <>
+          <h1>{event[0].name}</h1>
+          <img src = {event[0].pic_url}/>
+          <p>{event[0].date}</p>
+          <p>{event[0].description}</p>
+          <p>{event[0].special_inst}</p>
+          </>
+        }
          
         </div>
         </>
