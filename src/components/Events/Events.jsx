@@ -15,6 +15,7 @@ function Events() {
 
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT' });
+        dispatch({type: 'FETCH_ALL_USER_EVENT'});
       }, [])
 
       //button which will take a user to that event's details page
