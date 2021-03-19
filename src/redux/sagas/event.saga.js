@@ -12,8 +12,26 @@ function* fetchEvent() {
     }
 }
 
+function* attendEvent(action) {
+    try{
+        yield axios.post('/attending', action.payload)
+    } catch (error) {
+        console.log(`error POSTING for attending event`);
+    }
+}
+
+function* unattendEvent(action) {
+    try{
+        yield axios.delete('/attending', action.payload)
+    } catch (error) {
+        console.log(`error DELETING for unattending event`);
+    }
+}
+
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
+    yield takeLatest('ATTEND_EVENT', attendEvent);
+    yield takeLatest('UNATTEND_EVENT', unattendEvent);
   }
   
   export default eventSaga;
