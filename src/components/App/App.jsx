@@ -18,6 +18,10 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AddEvent from '../AddEvent/AddEvent';
+import EventDetail from '../EventDetail/EventDetail';
+import Events from '../Events/Events';
+import GroupView from '../GroupView/GroupView';
 
 import './App.css';
 
@@ -90,6 +94,46 @@ function App() {
             authRedirect="/user"
           >
             <LandingPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in,  and authorized, redirects to AddEvent page
+            // - else shows LandingPage at "/home"
+            exact
+            path="/addevent"
+          >
+            <AddEvent />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in, and authorized, redirects to GroupView
+            // - else shows LandingPage at "/home"
+            exact
+            path="/group_view"
+          >
+            <GroupView />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in redirects to EventDetail
+            // - else shows LandingPage at "/home"
+            exact
+            path="/event_detail"
+          >
+            <EventDetail />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in redirects to Events
+            // - else shows LandingPage at "/home"
+            exact
+            path="/events"
+          >
+            <Events />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
