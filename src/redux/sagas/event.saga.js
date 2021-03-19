@@ -16,6 +16,7 @@ function* fetchEvent() {
 function* attendEvent(action) {
     try{
         yield axios.post('/api/event/attending', action.payload)
+        yield put({type: 'FETCH_ALL_USER_EVENT'})
     } catch (error) {
         console.log(`error POSTING for attending event`);
     }
@@ -25,6 +26,7 @@ function* attendEvent(action) {
 function* unattendEvent(action) {
     try{
         yield axios.delete(`/api/event/attending/${action.payload.userId}/${action.payload.eventId}`)
+        yield put({type: 'FETCH_ALL_USER_EVENT'})
     } catch (error) {
         console.log(`error DELETING for unattending event`);
     }
@@ -47,6 +49,7 @@ function* fetchAffiliateUser(action) {
         console.log(`error GETING affiliate users, ${error}`);
     }
 }
+
 function* fetchEventDetails(action) {
     try { 
         const response = yield axios.get(`api/event/eventdetails/${action.payload}`)
@@ -56,9 +59,20 @@ function* fetchEventDetails(action) {
     }
     
 }
+
+function* fetchAllUserEvent() {
+    try{
+        const response = yield axios.get('api/event/aue')
+        yield put({type: 'SET_ALL_USER_EVENT', payload: response.data})
+    } catch (error) {
+        console.log(`error GETTING all user events, ${error}`);
+    }
+}
+
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
     yield takeLatest('FETCH_USER_EVENT', fetchUserEvent);
+    yield takeLatest('FETCH_ALL_USER_EVENT', fetchAllUserEvent);
     yield takeLatest('FETCH_AFFILIATE_USER', fetchAffiliateUser);
     yield takeLatest('ATTEND_EVENT', attendEvent);
     yield takeLatest('UNATTEND_EVENT', unattendEvent);
