@@ -41,7 +41,7 @@ function Nav() {
           View Groups
         </Link> 
 
-        <Link className="navLink" to="/event_detail">
+        <Link className="navLink" to="/details">
           Event Details
         </Link> 
 
