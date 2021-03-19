@@ -13,12 +13,15 @@ import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
-import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AddEvent from '../AddEvent/AddEvent';
+import EventDetail from '../EventDetail/EventDetail';
+import Events from '../Events/Events';
+import GroupView from '../GroupView/GroupView';
 
 import './App.css';
 
@@ -37,14 +40,7 @@ function App() {
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
 
-          {/* Visiting localhost:3000/about will show the about page. */}
-          <Route
-            // shows AboutPage at all times (logged in or not)
-            exact
-            path="/about"
-          >
-            <AboutPage />
-          </Route>
+     
 
           {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
@@ -100,6 +96,46 @@ function App() {
             authRedirect="/user"
           >
             <LandingPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in,  and authorized, redirects to AddEvent page
+            // - else shows LandingPage at "/home"
+            exact
+            path="/addevent"
+          >
+            <AddEvent />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in, and authorized, redirects to GroupView
+            // - else shows LandingPage at "/home"
+            exact
+            path="/group_view"
+          >
+            <GroupView />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in redirects to EventDetail
+            // - else shows LandingPage at "/home"
+            exact
+            path="/event_detail"
+          >
+            <EventDetail />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in redirects to Events
+            // - else shows LandingPage at "/home"
+            exact
+            path="/events"
+          >
+            <Events />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
