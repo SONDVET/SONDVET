@@ -15,12 +15,18 @@ function EventDetail() {
     }, []);
 
     return (
-        <>
-        {console.log(params)}
-        <h1>This is the Event Details Page</h1>
+        <>    
             {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
         <div className="eventDetailContainer">
-          
+          {event[0] &&
+          <>
+          <h1>{event[0].name}</h1>
+          <img src = {event[0].pic_url}/>
+          <p>{event[0].date}</p>
+          <p>{event[0].description}</p>
+          <p>{event[0].special_inst}</p>
+          </>
+        }
          
         </div>
         </>
