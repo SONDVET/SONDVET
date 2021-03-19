@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     const queryText = `SELECT * FROM "event";`;
     pool.query(queryText)
         .then(result => {
-            res.sendStatus(200);
+            res.send(response.rows);
         }).catch(err => {
             console.log(err);
             res.sendStatus(500);
