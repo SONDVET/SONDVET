@@ -1,5 +1,4 @@
 import React from 'react';
-import LogOutButton from '../LogOutButton/LogOutButton';
 import { useSelector } from 'react-redux';
 import InfoIcon from '@material-ui/icons/Info';
 
@@ -13,6 +12,7 @@ function EventDetail() {
 
     return (
         <>
+        <h1>This is the Event Details Page</h1>
         <button ><img src={InfoIcon}/></button> {/* onClick should toggle a modal to desribe use of check-in */}
         <div className="eventDetailContainer">
           
