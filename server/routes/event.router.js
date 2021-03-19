@@ -136,9 +136,9 @@ router.post('/attending', (req, res) => {
 // To be used with "cant make it" button on event cards
 //Deletes from "user_event Table"
 
-router.delete('/attending', (req, res) => {
-    const userId = req.body.userId
-    const eventId = req.body.eventId
+router.delete('/attending/:userId/:eventId', (req, res) => {
+    const userId = req.params.userId
+    const eventId = req.params.eventId
     const queryText = ` 
     DELETE FROM "user_event" 
     WHERE "user_id" = $1 
