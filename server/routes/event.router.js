@@ -185,7 +185,18 @@ router.delete(`/details/:id`, rejectUnauthenticated, (req, res) => {
         })
 }); // END DELETE EVENT ROUTER
 
-
+// GET request to select single event 
+// used for event details page
+router.get('/eventdetails/:id', (req, res) => {
+    const queryText = `SELECT * FROM "event" WHERE "id" = ${req.params.id};`;
+    pool.query(queryText)
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
 
 
 module.exports = router;

@@ -7,7 +7,7 @@ function EventDetail() {
     
     const params = useParams()
     const user = useSelector((store) => store.user);
-    // const user = useSelector((store) => store.event);
+    const event = useSelector((store) => store.event);
 
 
     return (
