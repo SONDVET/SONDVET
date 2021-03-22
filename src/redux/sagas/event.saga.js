@@ -60,6 +60,24 @@ function* fetchAllUserEvent() {
     }
 }
 
+function* checkIn(action) {
+    try{
+        yield axios.put('/api/event/checkin', action.payload)
+        yield put({ type: 'FETCH_USER_EVENT', payload: action.payload.params})
+    }catch (error){
+        console.log(`error checking in user, ${error}`);
+    }
+}
+function* checkOut(action) {
+    try{
+        yield axios.put('/api/event/checkout', action.payload)
+        yield axios.put('/api/event/addtotal', action.payload)
+       yield put({ type: 'FETCH_USER_EVENT', payload: action.payload.params})
+    } catch (error) {
+        console.log(`error checking out user, ${error}`);
+    }
+}
+
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
     yield takeLatest('FETCH_USER_EVENT', fetchUserEvent);
@@ -67,6 +85,8 @@ function* eventSaga() {
     yield takeLatest('ATTEND_EVENT', attendEvent);
     yield takeLatest('UNATTEND_EVENT', unattendEvent);
     yield takeLatest('FETCH_EVENT_DETAILS', fetchEventDetails);
+    yield takeLatest('CHECK_IN', checkIn);
+    yield takeLatest('CHECK_OUT', checkOut);
   }
   
   export default eventSaga;
