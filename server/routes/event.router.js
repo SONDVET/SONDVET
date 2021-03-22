@@ -202,7 +202,7 @@ router.get('/eventdetails/:id', (req, res) => {
 // Event Id Will Need to be passed in the params
 router.get('/details/:id', (req, res) => {
     console.log('ingetallusers')
-    const queryText = `SELECT u."id", "category" ,"first_name" , "last_name" , "email" , "phone_number" ,  "college_id", "college_name"  FROM "user_event" as ue
+    const queryText = `SELECT u."id", "category" ,"first_name" , "last_name" , "email" , "phone_number" ,  "college_id", "college_name", ue."check_in", ue."check_out", ue."total_time"  FROM "user_event" as ue
     JOIN "user" AS u ON ue."user_id" = u."id"
     JOIN "affiliation" as a ON u."college_id" = a."id"
     WHERE ue."event_id" = ${req.params.id}`;

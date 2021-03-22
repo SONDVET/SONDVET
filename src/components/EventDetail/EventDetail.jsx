@@ -20,9 +20,12 @@ function EventDetail() {
 
     const checkIn = (userId, eventId) => {
         axios.put('/api/event/checkin', {user_id: userId, event_id: eventId})
+        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
+
     }
     const checkOut = (userId, eventId) => {
         axios.put('/api/event/checkout', {user_id: userId, event_id: eventId})
+        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
     }
 
     return (
@@ -61,8 +64,8 @@ function EventDetail() {
                 <td>{user.college_name}</td>
                 <td>{user.email}</td>
                 <td>{user.phone_number}</td>
-                <td><button onClick={() => checkIn(user.id, event[0].id)}>Check In</button></td>
-                <td><button onClick={() => checkOut(user.id, event[0].id)}>Check Out</button></td>
+                <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => checkIn(user.id, event[0].id)}>Check In</button></td>
+                <td><button disabled={(user.check_in < user.check_out) ? true : false} onClick={() => checkOut(user.id, event[0].id)}>Check Out</button></td>
                 <td><button>Remove</button></td>
                 </tr>
             )
