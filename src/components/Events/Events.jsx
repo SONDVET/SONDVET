@@ -15,6 +15,7 @@ function Events() {
 
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT' });
+        dispatch({type: 'FETCH_AFFILIATE'});
         dispatch({type: 'FETCH_ALL_USER_EVENT'});
       }, [])
 
@@ -22,6 +23,11 @@ function Events() {
       const goToDetails = (eventId) => {
           //TODO: this route may need to be updated 
           history.push(`/details/${eventId}`)
+      }
+
+      const goToGroup = (groupId) => {
+            //TODO: this route may need to be updated 
+          history.push(`/group_view/${groupId}`)
       }
 
       const checkForAttend = (userId, eventId) => {
@@ -46,6 +52,23 @@ function Events() {
                         </div>)}
                 </div>
             </div>
+            {(user.access_level >1) && <div className="groupListContainer">
+                        <h1>Hello privileged user!</h1>
+                        <table>
+                            <tr>
+                                <th>Group</th>
+                                <th>Total Members</th>
+                                <th></th>
+                            </tr>
+                            {(store.affiliate[0]) && store.affiliate.map((affiliate) => 
+                            <tr>
+                                <td>{affiliate.college_name}</td>
+                                <td>placeholder</td>
+                                <td><button onClick={() => goToGroup(affiliate.id)}>View</button></td>
+                            </tr>
+                            )}
+                        </table>
+            </div>}
         </>
     );
 }
