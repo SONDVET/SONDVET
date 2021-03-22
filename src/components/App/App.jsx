@@ -111,7 +111,7 @@ function App() {
             // - if logged in, and authorized, redirects to GroupView
             // - else shows LandingPage at "/home"
             exact
-            path="/group_view"
+            path="/group_view/:id"
           >
             <GroupView />
           </ProtectedRoute>
