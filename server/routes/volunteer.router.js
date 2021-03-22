@@ -48,15 +48,15 @@ router.get('/affiliation/:id' , (req, res) => {
         })
 });
 
-router.put('/:id', rejectUnauthenticated,   (req, res) => {
-    console.log(req.body, req.params)
+router.put('/access_level/:id', rejectUnauthenticated,   (req, res) => {
+    console.log(req.body)
     let id = req.params.id;
     const query = `
     UPDATE "user" 
-    SET "access_level" = $1 
-    WHERE "id"=$2;`
+    SET "access_level" = ${req.body.access_level} 
+    WHERE "id"= $1;`
     pool.query(query, [id]).then(() => {
-      console.log(`User ${req.body.first_name} access level set to ${req.body.access_level}`);
+      console.log(`User ${req.params.id} access level set to ${req.body.access_level}`);
       res.sendStatus(200);
     }).catch(error => {
       console.log('Error updating user access level', error);
