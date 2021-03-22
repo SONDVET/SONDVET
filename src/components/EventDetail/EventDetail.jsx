@@ -23,9 +23,14 @@ function EventDetail() {
         dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
 
     }
-    const checkOut = (userId, eventId) => {
-        axios.put('/api/event/checkout', {user_id: userId, event_id: eventId})
+    const checkOut = async (userId, eventId) => {
+        try{
+         await axios.put('/api/event/checkout', {user_id: userId, event_id: eventId})
+         await axios.put('/api/event/addtotal', {user_id: userId, event_id: eventId})
         dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const removeVolunteer = (eventId, userId) => {
