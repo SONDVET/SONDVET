@@ -28,6 +28,11 @@ function EventDetail() {
         dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
     }
 
+    const removeVolunteer = (eventId, userId) => {
+        dispatch({type: 'UNATTEND_EVENT', payload: {eventId: eventId, userId: userId}});
+        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id});
+    }
+
     return (
         <>    
             {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
@@ -66,7 +71,7 @@ function EventDetail() {
                 <td>{user.phone_number}</td>
                 <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => checkIn(user.id, user.event_id)}>Check In</button></td>
                 <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => checkOut(user.id, user.event_id)}>Check Out</button></td>
-                <td><button>Remove</button></td>
+                <td><button onClick={() => removeVolunteer(user.event_id, user.id)}>Remove</button></td>
                 </tr>
             )
         } )}
