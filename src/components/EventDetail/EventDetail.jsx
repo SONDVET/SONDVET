@@ -65,7 +65,7 @@ function EventDetail() {
                 <td>{user.email}</td>
                 <td>{user.phone_number}</td>
                 <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => checkIn(user.id, event[0].id)}>Check In</button></td>
-                <td><button disabled={(user.check_in < user.check_out) ? true : false} onClick={() => checkOut(user.id, event[0].id)}>Check Out</button></td>
+                <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => checkOut(user.id, event[0].id)}>Check Out</button></td>
                 <td><button>Remove</button></td>
                 </tr>
             )
