@@ -19,6 +19,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
+// GETS all affiliations
 router.get('/affiliation', (req, res) => {
     const queryText = `SELECT * FROM "affiliation"`
     pool.query(queryText)
@@ -35,9 +36,11 @@ router.get('/affiliation', (req, res) => {
 // that is passed into the params
 router.get('/affiliation/:id', (req, res) => {
     const id = req.params.id
-    const queryText = `SELECT "user"."id","category" , "first_name" , "last_name" , "email" , "phone_number" , "address" , "city" , "state" , "zip" , "dob" , "involved_w_sond_since" , "college_id" , "access_level" 
-    FROM "user" 
-    WHERE "college_id" = ${id};`
+    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level",
+        "college_name"
+    FROM "user"
+    FUll JOIN "affiliation" ON "user"."college_id" = "affiliation"."id"
+    WHERE "college_id" = ${id};`;
     pool.query(queryText)
         .then(result => {
             res.send(result.rows);
@@ -63,6 +66,21 @@ router.put('/access_level/:id', rejectUnauthenticated, (req, res) => {
         console.log('Error updating user access level', error);
         res.sendStatus(500);
     });
+});
+
+
+//  GET a specific affiliation by id
+router.get('/organization/:id', (req, res) => {
+    const id = req.params.id
+    const queryText = `SELECT "college_name" FROM "affiliation" WHERE "id" = ${id}`
+    pool.query(queryText)
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error getting affiliations, ${err}`);
+            res.sendStatus(500);
+        })
 });
 
 
