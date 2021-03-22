@@ -1,3 +1,9 @@
+@font-face {
+    font-family: ubuntu;
+    src: url('../Font/Ubuntu-R.ttf');
+}
+
+
 .nav {
   /* flex box layout */
   display: flex;
@@ -28,6 +34,7 @@
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;
+  font-family: ubuntu;
   font-size: 15px;
 
   /* these last two make the logout button in

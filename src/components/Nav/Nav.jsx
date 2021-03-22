@@ -22,7 +22,7 @@ function Nav() {
   return (
     <div className="nav">
       <Link to="/home">
-        <h2 className="nav-title">Prime Solo Project</h2>
+        <h2 className="nav-title">Special Olympics North Dakota Event Tracker</h2>
       </Link>
       <div>
         <Link className="navLink" to={loginLinkData.path}>
@@ -41,7 +41,7 @@ function Nav() {
           View Groups
         </Link> 
 
-        <Link className="navLink" to="/event_detail">
+        <Link className="navLink" to="/details">
           Event Details
         </Link> 
 

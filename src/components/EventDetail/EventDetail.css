@@ -1,0 +1,9 @@
+.eventUser{
+    margin: 10px auto 10px auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.eventUser td{
+    border:1px solid black;
+    padding: 5px;
+}

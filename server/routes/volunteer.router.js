@@ -19,6 +19,18 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
+router.get('/affiliation', (req, res) => {
+    const queryText = `SELECT * FROM "affiliation"`
+    pool.query(queryText)
+    .then (result => {
+        res.send(result.rows)
+    })
+    .catch ((err) => {
+        console.log(`Error getting affiliations, ${err}`);
+        res.sendStatus(500);
+    })
+});
+
 // Selects All Users Who are in the affiliaton with the id
 // that is passed into the params
 router.get('/affiliation/:id' , (req, res) => {

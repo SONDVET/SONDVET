@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import './Events.css';
+
 
 //  This page lists all posted events
 function Events() {
@@ -15,12 +17,27 @@ function Events() {
 
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT' });
+        dispatch({type: 'FETCH_AFFILIATE'});
+        dispatch({type: 'FETCH_ALL_USER_EVENT'});
       }, [])
 
       //button which will take a user to that event's details page
       const goToDetails = (eventId) => {
           //TODO: this route may need to be updated 
-          history.push(`/eventdetail/${eventId}`)
+          history.push(`/details/${eventId}`)
+      }
+
+      const goToGroup = (groupId) => {
+            //TODO: this route may need to be updated 
+          history.push(`/group_view/${groupId}`)
+      }
+
+      const checkForAttend = (userId, eventId) => {
+          for (let item of store.allUserEvent){
+              if (item.user_id === userId && item.event_id === eventId)
+              return false;
+          }
+          return true;
       }
 
     return (
@@ -29,14 +46,31 @@ function Events() {
             <div className="eventListContainer">
                 <div>
                     {/* loops over every event in the event store and displays them in a div */}
-                    {store.event[0] && store.event.map((event) =>
+                    {(store.event[0]) && store.event.map((event) =>
                         <div key={event.id}> <img src={event.pic_url} height='50px' /> {event.name} {event.description} {event.location} {event.special_inst}
-                            <button onClick={() => dispatch({type: 'ATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Join</button>
-                            <button onClick={() => dispatch({type: 'UNATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Can't make it</button>
+                           {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <button onClick={() => dispatch({type: 'ATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Join</button>}
+                           {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <button onClick={() => dispatch({type: 'UNATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Can't make it</button>: ''}
                             {(user.access_level >= 2) && <button onClick={() => goToDetails(event.id)}>Details</button>}
                         </div>)}
                 </div>
             </div>
+            {(user.access_level >1) && <div className="groupListContainer">
+                        <h1>Hello privileged user!</h1>
+                        <table>
+                            <tr>
+                                <th>Group</th>
+                                <th>Total Members</th>
+                                <th></th>
+                            </tr>
+                            {(store.affiliate[0]) && store.affiliate.map((affiliate) => 
+                            <tr>
+                                <td>{affiliate.college_name}</td>
+                                <td>placeholder</td>
+                                <td><button onClick={() => goToGroup(affiliate.id)}>View</button></td>
+                            </tr>
+                            )}
+                        </table>
+            </div>}
         </>
     );
 }

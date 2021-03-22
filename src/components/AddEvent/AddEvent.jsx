@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import './AddEvent.css';
+
 
 //  This page is for officers and admins to create new events
 function AddEvent() {

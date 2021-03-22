@@ -18,6 +18,19 @@ router.get('/', (req, res) => {
         })
 });
 
+//GET rout for retrieving all user_events
+router.get('/aue', (req, res) => {
+    console.log('getting all userevents');
+    const queryText = `SELECT * FROM "user_event";`;
+    pool.query(queryText)
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
+
 // POST route for adding new event.
 // reqs: name, description, special_inst, location, date, pic_url
 // SERVER SIDE DONE, but untested.
@@ -156,21 +169,7 @@ router.delete('/attending/:userId/:eventId', (req, res) => {
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
-router.get('/details/:id', (req, res) => {
-    const eventId = req.params.id
-    const queryText = `SELECT u."id","category" , "first_name" , "last_name" , "email" , "phone_number" , "address" , "city" , "state" , "zip" , "dob" , "involved_w_sond_since" , "college_id" , "access_level" , "check_in" , "check_out" , "total_time"
-    FROM "user" as u
-    JOIN "user_event" AS ue ON u."id" = ue."user_id"
-    WHERE ue."event_id" = ${eventId};`
-    pool.query(queryText)
-        .then((result) => {
-            console.log(`getting info on event with id ${eventId}`);
-            res.send(result.rows)
-        }).catch((err) => {
-            console.log(err);
-            res.sendStatus(500);
-        })
-})
+
 
 // DELETE route deletes event
 // Used on Event Details page
@@ -185,7 +184,35 @@ router.delete(`/details/:id`, rejectUnauthenticated, (req, res) => {
         })
 }); // END DELETE EVENT ROUTER
 
+// GET request to select single event 
+// used for event details page
+router.get('/eventdetails/:id', (req, res) => {
+    const queryText = `SELECT * FROM "event" WHERE "id" = ${req.params.id};`;
+    pool.query(queryText)
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
 
-
-
+// Get Request for Selection All users from Specified Event
+// To be used on Event Details Page
+// Event Id Will Need to be passed in the params
+router.get('/details/:id', (req, res) => {
+    console.log('ingetallusers')
+    const queryText = `SELECT u."id", "category" ,"first_name" , "last_name" , "email" , "phone_number" ,  "college_id", "college_name"  FROM "user_event" as ue
+    JOIN "user" AS u ON ue."user_id" = u."id"
+    JOIN "affiliation" as a ON u."college_id" = a."id"
+    WHERE ue."event_id" = ${req.params.id}`;
+    pool.query(queryText)
+        .then(result => {
+            console.log(result.rows)
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
 module.exports = router;

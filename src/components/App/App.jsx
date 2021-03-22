@@ -121,7 +121,7 @@ function App() {
             // - if logged in redirects to EventDetail
             // - else shows LandingPage at "/home"
             exact
-            path="/event_detail"
+            path="/details/:id"
           >
             <EventDetail />
           </ProtectedRoute>
