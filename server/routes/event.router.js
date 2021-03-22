@@ -169,21 +169,7 @@ router.delete('/attending/:userId/:eventId', (req, res) => {
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
-router.get('/details/:id', (req, res) => {
-    const eventId = req.params.id
-    const queryText = `SELECT u."id","category" , "first_name" , "last_name" , "email" , "phone_number" , "address" , "city" , "state" , "zip" , "dob" , "involved_w_sond_since" , "college_id" , "access_level" , "check_in" , "check_out" , "total_time"
-    FROM "user" as u
-    JOIN "user_event" AS ue ON u."id" = ue."user_id"
-    WHERE ue."event_id" = $1;`
-    pool.query(queryText, [eventId])
-        .then((result) => {
-            console.log(`getting info on event with id ${eventId}`);
-            res.send(result.rows)
-        }).catch((err) => {
-            console.log(err);
-            res.sendStatus(500);
-        })
-})
+
 
 // DELETE route deletes event
 // Used on Event Details page
@@ -211,5 +197,22 @@ router.get('/eventdetails/:id', (req, res) => {
         })
 });
 
-
+// Get Request for Selection All users from Specified Event
+// To be used on Event Details Page
+// Event Id Will Need to be passed in the params
+router.get('/details/:id', (req, res) => {
+    console.log('ingetallusers')
+    const queryText = `SELECT u."id", "category" ,"first_name" , "last_name" , "email" , "phone_number" ,  "college_id", "college_name"  FROM "user_event" as ue
+    JOIN "user" AS u ON ue."user_id" = u."id"
+    JOIN "affiliation" as a ON u."college_id" = a."id"
+    WHERE ue."event_id" = ${req.params.id}`;
+    pool.query(queryText)
+        .then(result => {
+            console.log(result.rows)
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
 module.exports = router;
