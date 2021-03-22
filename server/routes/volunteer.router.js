@@ -48,9 +48,10 @@ router.get('/affiliation/:id' , (req, res) => {
         })
 });
 
+// ADMIN PUT request to modify user access level
+// available at /api/volunteer/access_level/:id
 router.put('/access_level/:id', rejectUnauthenticated,   (req, res) => {
-    console.log(req.body)
-    let id = req.params.id;
+    const id = req.params.id;
     const query = `
     UPDATE "user" 
     SET "access_level" = ${req.body.access_level} 
