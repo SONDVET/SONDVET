@@ -10,10 +10,11 @@ function EventDetail() {
     
     const params = useParams()
     const dispatch = useDispatch()
-    const user = useSelector((store) => store.user);
+    const userEvent = useSelector((store) => store.userEvent);
     const event = useSelector((store) => store.event);
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT_DETAILS', payload: params.id });
+        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
     }, []);
 
     return (
@@ -29,7 +30,39 @@ function EventDetail() {
           <p>{event[0].special_inst}</p>
           </>
         }
-         
+        {userEvent[0] && 
+        <>
+        <table className = "eventUser">
+            <thead>
+            <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Orginization</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th colSpan="2">Check In / Out</th>
+            <th>Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+        {userEvent.map(user => {
+            return(
+                <tr>
+                <td>{user.first_name} {user.last_name}</td>
+                <td>{user.category}</td>
+                <td>{user.college_name}</td>
+                <td>{user.email}</td>
+                <td>{user.phone_number}</td>
+                <td><button>Check In</button></td>
+                <td><button>Check Out</button></td>
+                <td><button>Remove</button></td>
+                </tr>
+            )
+        } )}
+        </tbody>
+        </table>
+        </>
+        } 
         </div>
         </>
     );

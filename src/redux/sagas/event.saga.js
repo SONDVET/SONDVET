@@ -34,7 +34,7 @@ function* unattendEvent(action) {
 
 function* fetchUserEvent(action) {
     try {
-        const response = yield axios.get(`/api/event/details/${action.payload.eventId}`)
+        const response = yield axios.get(`/api/event/details/${action.payload}`)
         yield put({type: 'SET_USER_EVENT', payload: response.data })
     } catch (error) {
         console.log(`error GETING user events, ${error}`);
