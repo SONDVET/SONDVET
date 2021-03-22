@@ -37,7 +37,7 @@ function EventDetail() {
             <tr>
             <th>Name</th>
             <th>Role</th>
-            <th>Orginization</th>
+            <th>Organization</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th colSpan="2">Check In / Out</th>

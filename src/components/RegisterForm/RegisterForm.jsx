@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 function RegisterForm() {
@@ -20,13 +20,17 @@ function RegisterForm() {
   })
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
-
+  const affiliates = useSelector((store) => store.affiliate);
   const registerUser = (event) => {
     event.preventDefault();
     console.log(user)
     dispatch({type: 'REGISTER', payload: user });
   }; // end registerUser
-
+  useEffect(() => {
+    
+    dispatch({type: 'FETCH_AFFILIATE'});
+   
+  }, [])
   return (
     <form className="formPanel" onSubmit={registerUser}>
       <h2>Register User</h2>
@@ -47,12 +51,10 @@ function RegisterForm() {
       <input placeholder = "Date Of Birth"onChange={(e) => setUser({ ...user, dob: e.target.value })} type = "date" required />
       <input placeholder = "Involved With SOND Since" onChange={(e) => setUser({ ...user, involved_w_sond_since: e.target.value })} type= "date" required/>
       <select defaultValue="none" onChange={(e) => setUser({ ...user, college_id: e.target.value })}>
-        <option value="none" disabled hidden>Select Your School</option>
-        <option value="1">NDSU</option>
-        <option value="2">MSU</option>
-        <option value="3">U Mary</option>
-        <option value="4">UND</option>
-        <option value="5">VCSU</option>
+      <option value="none" disabled hidden>Select Your School</option>
+        {(affiliates[0]) && affiliates.map((school) => 
+        <option key={school.id} value={school.id}>{school.college_name}</option>
+        )}
       </select>
       <input placeholder = "New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type = "password"/>
       <input placeholder = "Access_Level" onChange={(e) => setUser({ ...user, access_level: e.target.value })} />
