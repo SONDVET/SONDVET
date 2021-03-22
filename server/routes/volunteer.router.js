@@ -52,8 +52,8 @@ router.get('/affiliation/:id', (req, res) => {
 });
 
 // ADMIN PUT request to modify user access level
-// available at /api/volunteer/access_level/:id
-router.put('/access_level/:id', rejectUnauthenticated, (req, res) => {
+// available at /api/volunteer/:id/access_level
+router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
     const query = `
     UPDATE "user" 
@@ -62,12 +62,26 @@ router.put('/access_level/:id', rejectUnauthenticated, (req, res) => {
     pool.query(query, [id]).then(() => {
         console.log(`User ${req.params.id} access level set to ${req.body.access_level}`);
         res.sendStatus(200);
-    }).catch(error => {
-        console.log('Error updating user access level', error);
+    }).catch(err => {
+        console.log('Error updating user access level', err);
         res.sendStatus(500);
     });
 });
 
+// ADMIN DELETE user 
+// available at /api/volunteer/:id 
+router.delete('/:id', rejectUnauthenticated, (req, res) =>  {
+    console.log('Deleting user id', req.params.id);
+    const id = req.params.id;
+    const query = `DELETE FROM "user" WHERE "id" = $1;`
+    pool.query(query, [id])
+    .then((result) => {
+        res.sendStatus(204)
+    }).catch((err) => {
+        console.log(`Error deleting user with an id of ${id}`)
+        res.sendStatus(500);
+    });
+});
 
 //  GET a specific affiliation by id
 router.get('/organization/:id', (req, res) => {
