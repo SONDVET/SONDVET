@@ -86,6 +86,7 @@ router.put('/', (req, res) => {
 router.put('/checkin', (req, res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
+    console.log('hello,', userId, eventId);
     const queryText = `
     UPDATE "user_event"
     SET "check_in" = CURRENT_TIMESTAMP
