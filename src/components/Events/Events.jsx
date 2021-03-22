@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
+import './Events.css';
+
 
 //  This page lists all posted events
 function Events() {
