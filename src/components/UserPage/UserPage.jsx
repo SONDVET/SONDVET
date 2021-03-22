@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector} from 'react-redux';
+import "./UserPage.css";
 
 //  This page is for users to view all events they subscribed to and edit their profile info.
 function UserPage() {

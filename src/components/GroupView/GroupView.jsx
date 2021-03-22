@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import './GroupView.css';
+
 
 //  This page is for officers and admins to view users by aflliliation
 function GroupView() {

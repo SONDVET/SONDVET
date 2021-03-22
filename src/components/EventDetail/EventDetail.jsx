@@ -2,6 +2,8 @@ import React from 'react';
 import {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
+import './EventDetail.css';
+
 
 //  This page lists the details for a specific event
 function EventDetail() {
