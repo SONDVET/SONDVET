@@ -41,15 +41,6 @@ function* fetchUserEvent(action) {
     }
 }
 
-function* fetchAffiliateUser(action) {
-    try {
-        const response = yield axios.get(`api/volunteer/affiliation/${action.payload.affiliateId}`)
-        yield put({type: 'SET_AFFILIATE_USER', payload: response.data })
-    } catch (error) {
-        console.log(`error GETING affiliate users, ${error}`);
-    }
-}
-
 function* fetchEventDetails(action) {
     try { 
         const response = yield axios.get(`api/event/eventdetails/${action.payload}`)
@@ -73,7 +64,6 @@ function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
     yield takeLatest('FETCH_USER_EVENT', fetchUserEvent);
     yield takeLatest('FETCH_ALL_USER_EVENT', fetchAllUserEvent);
-    yield takeLatest('FETCH_AFFILIATE_USER', fetchAffiliateUser);
     yield takeLatest('ATTEND_EVENT', attendEvent);
     yield takeLatest('UNATTEND_EVENT', unattendEvent);
     yield takeLatest('FETCH_EVENT_DETAILS', fetchEventDetails);
