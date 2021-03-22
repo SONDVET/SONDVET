@@ -18,21 +18,6 @@ function EventDetail() {
         dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
     }, []);
 
-    const checkIn = (userId, eventId) => {
-        axios.put('/api/event/checkin', {user_id: userId, event_id: eventId})
-        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
-
-    }
-    const checkOut = async (userId, eventId) => {
-        try{
-         await axios.put('/api/event/checkout', {user_id: userId, event_id: eventId})
-         await axios.put('/api/event/addtotal', {user_id: userId, event_id: eventId})
-        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id})
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
     const removeVolunteer = (eventId, userId) => {
         dispatch({type: 'UNATTEND_EVENT', payload: {eventId: eventId, userId: userId}});
         dispatch({ type: 'FETCH_USER_EVENT', payload: params.id});
@@ -74,8 +59,8 @@ function EventDetail() {
                 <td>{user.college_name}</td>
                 <td>{user.email}</td>
                 <td>{user.phone_number}</td>
-                <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => checkIn(user.id, user.event_id)}>Check In</button></td>
-                <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => checkOut(user.id, user.event_id)}>Check Out</button></td>
+                <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => dispatch({type: 'CHECK_IN', payload: {user_id: user.id, event_id: user.event_id, params: params.id}})}>Check In</button></td>
+                <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({type: 'CHECK_OUT', payload: {user_id: user.id, event_id: user.event_id, params: params.id}})}>Check Out</button></td>
                 <td><button onClick={() => removeVolunteer(user.event_id, user.id)}>Remove</button></td>
                 </tr>
             )
