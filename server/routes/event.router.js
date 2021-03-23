@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     }
     else{
         queryText =`SELECT * FROM "event"
-        WHERE "name" ILIKE '${req.query.search}%'`
+        WHERE "name" ILIKE '%${req.query.search}%'`
     }
     pool.query(queryText)
         .then(result => {
