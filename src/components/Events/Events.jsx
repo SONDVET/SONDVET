@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import './Events.css';
-
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardActionsArea from '@material-ui/core/CardActionArea';
+import Pagination from'@material-ui/lab/Pagination';
 
 //  This page lists all posted events
 function Events() {
@@ -40,18 +46,33 @@ function Events() {
           return true;
       }
 
+      const [page, setPage] = useState(1);
+      const itemsPerPage = 1;
+      const [noOfPages] = useState(Math.ceil(store.event.length / itemsPerPage))
+
+      const handleChange = (event, value) => {
+          setPage(value);
+      }
+
     return (
         <>
             <h1>This is the Event List Page</h1>
             <div className="eventListContainer">
                 <div>
                     {/* loops over every event in the event store and displays them in a div */}
-                    {(store.event[0]) && store.event.map((event) =>
-                        <div key={event.id}> <img src={event.pic_url} height='50px' /> {event.name} {event.description} {event.location} {event.special_inst}
+                    {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) =>
+                        <Card key={event.id}> <CardMedia image={event.pic_url} height='50px' /> <CardHeader title={event.name}/> <CardContent> {event.description} {event.location} {event.special_inst} </CardContent>
                            {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <button onClick={() => dispatch({type: 'ATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Join</button>}
                            {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <button onClick={() => dispatch({type: 'UNATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Can't make it</button>: ''}
                             {(user.access_level >= 2) && <button onClick={() => goToDetails(event.id)}>Details</button>}
-                        </div>)}
+                        </Card>)}
+                        <Pagination
+                            count={noOfPages}
+                            shape="rounded"
+                            onChange={handleChange}
+                            defaultPage={1}
+                            showFirstButton
+                            showLastButton />
                 </div>
             </div>
             {(user.access_level >1) && <div className="groupListContainer">
