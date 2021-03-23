@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import './Events.css';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionsArea from '@material-ui/core/CardActionArea';
+import {Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea } from '@material-ui/core';
 import Pagination from'@material-ui/lab/Pagination';
 
 //  This page lists all posted events
