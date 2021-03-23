@@ -88,7 +88,7 @@ function Events() {
                                 <th></th>
                             </tr>
                             {(store.affiliate[0]) && store.affiliate.map((affiliate) => 
-                            <tr>
+                            <tr key= {affiliate.id}>
                                 <td>{affiliate.college_name}</td>
                                 <td>placeholder</td>
                                 <td><button onClick={() => goToGroup(affiliate.id)}>View</button></td>
