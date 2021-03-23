@@ -3,9 +3,9 @@ import axios from 'axios';
 
 
 // Retrieves every event from the database and places them into the event reducer
-function* fetchEvent() {
+function* fetchEvent(action) {
     try{
-        const response = yield axios.get('/api/event')
+        const response = yield axios.get(`/api/event?search=${action.payload}`)
         yield put({type: 'SET_EVENT', payload: response.data})
     } catch (error) {
         console.log(`error GETTING events, ${error}`);

@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {useHistory} from 'react-router-dom';
 import './Events.css';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionsArea from '@material-ui/core/CardActionArea';
+import {Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField} from '@material-ui/core';
 import Pagination from'@material-ui/lab/Pagination';
 
 //  This page lists all posted events
@@ -18,14 +13,15 @@ function Events() {
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
+    const [search, setSearch] = useState('')
     // const user = useSelector((store) => store.event);
 
-
+    
     useEffect(() => {
-        dispatch({ type: 'FETCH_EVENT' });
+        dispatch({ type: 'FETCH_EVENT', payload: search});
         dispatch({type: 'FETCH_AFFILIATE'});
         dispatch({type: 'FETCH_ALL_USER_EVENT'});
-      }, [])
+    }, [search]);
 
       //updates pagination list whenever event list is changed
       useEffect(() => {
@@ -53,6 +49,7 @@ function Events() {
 
       //for use of event list pagination
       const [page, setPage] = useState(1);
+     
       const itemsPerPage = 6;
       const [noOfPages, setNoOfPages] = useState(Math.ceil(store.event.length / itemsPerPage))
 
@@ -62,7 +59,7 @@ function Events() {
 
     return (
         <>
-            <h1>This is the Event List Page</h1>
+            <TextField className = "eventSearch" label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)}/>
             <div className="eventListContainer">
                 <div>
                     {/* loops over every event in the event store and displays them in a div */}
@@ -91,7 +88,7 @@ function Events() {
                                 <th></th>
                             </tr>
                             {(store.affiliate[0]) && store.affiliate.map((affiliate) => 
-                            <tr>
+                            <tr key= {affiliate.id}>
                                 <td>{affiliate.college_name}</td>
                                 <td>placeholder</td>
                                 <td><button onClick={() => goToGroup(affiliate.id)}>View</button></td>
