@@ -4,6 +4,7 @@ import {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './EventDetail.css';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 
 //  This page lists the details for a specific event
@@ -41,7 +42,14 @@ function EventDetail() {
         }
         {userEvent[0] && user.access_level >= 2 && 
         <>
-        <table className = "eventUser">
+        <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button"
+                    table="eventUser"
+                    filename="tablexls"
+                    sheet="tablexls"
+                    buttonText="Download as XLS"/>
+        <table id="eventUser" className = "eventUser">
             <thead>
             <tr>
             <th>Name</th>
