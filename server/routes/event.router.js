@@ -8,7 +8,7 @@ const {
 //GET route for retrieving all events
 router.get('/', (req, res) => {
     console.log('getting all events');
-    if (!req.query) {
+    if (req.query.search.length === 0) {
      queryText = `SELECT * FROM "event";`;
     }
     else{

@@ -13,14 +13,15 @@ function Events() {
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
+    const [search, setSearch] = useState('')
     // const user = useSelector((store) => store.event);
 
-
+    
     useEffect(() => {
-        dispatch({ type: 'FETCH_EVENT' });
+        dispatch({ type: 'FETCH_EVENT', payload: search});
         dispatch({type: 'FETCH_AFFILIATE'});
         dispatch({type: 'FETCH_ALL_USER_EVENT'});
-      }, [])
+    }, [search]);
 
       //updates pagination list whenever event list is changed
       useEffect(() => {
@@ -48,6 +49,7 @@ function Events() {
 
       //for use of event list pagination
       const [page, setPage] = useState(1);
+     
       const itemsPerPage = 6;
       const [noOfPages, setNoOfPages] = useState(Math.ceil(store.event.length / itemsPerPage))
 
@@ -57,7 +59,7 @@ function Events() {
 
     return (
         <>
-            <TextField className = "eventSearch" label="Search Events"/>
+            <TextField className = "eventSearch" label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)}/>
             <div className="eventListContainer">
                 <div>
                     {/* loops over every event in the event store and displays them in a div */}
