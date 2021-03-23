@@ -77,7 +77,7 @@ router.post('/register', (req, res, next) => {
       console.log('User registration failed: ', err);
       res.sendStatus(500);
     });
-  console.log(`User ${username} created`);
+  console.log(`User ${req.body.college_id} created`);
 });
 
 // Handles login form authenticate/login POST
