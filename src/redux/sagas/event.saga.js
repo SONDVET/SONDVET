@@ -3,9 +3,9 @@ import axios from 'axios';
 
 
 // Retrieves every event from the database and places them into the event reducer
-function* fetchEvent() {
+function* fetchEvent(action) {
     try{
-        const response = yield axios.get('/api/event')
+        const response = yield axios.get(`/api/event?search=${action.payload}`)
         yield put({type: 'SET_EVENT', payload: response.data})
     } catch (error) {
         console.log(`error GETTING events, ${error}`);
@@ -26,6 +26,9 @@ function* attendEvent(action) {
 function* unattendEvent(action) {
     try{
         yield axios.delete(`/api/event/attending/${action.payload.userId}/${action.payload.eventId}`)
+        if (action.payload.params){
+            yield put({ type: 'FETCH_USER_EVENT', payload: action.payload.params});
+        }
         yield put({type: 'FETCH_ALL_USER_EVENT'})
     } catch (error) {
         console.log(`error DELETING for unattending event`);
@@ -78,6 +81,14 @@ function* checkOut(action) {
     }
 }
 
+function* addNewEvent(action) {
+    try{
+        yield axios.post('/api/event/', action.payload);
+    } catch (error) {
+        console.log(`error adding new Event, ${error}`);
+    }
+}
+
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
     yield takeLatest('FETCH_USER_EVENT', fetchUserEvent);
@@ -87,6 +98,7 @@ function* eventSaga() {
     yield takeLatest('FETCH_EVENT_DETAILS', fetchEventDetails);
     yield takeLatest('CHECK_IN', checkIn);
     yield takeLatest('CHECK_OUT', checkOut);
+    yield takeLatest('ADD_NEW_EVENT', addNewEvent);
   }
   
   export default eventSaga;

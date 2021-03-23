@@ -8,7 +8,13 @@ const {
 //GET route for retrieving all events
 router.get('/', (req, res) => {
     console.log('getting all events');
-    const queryText = `SELECT * FROM "event";`;
+    if (req.query.search.length === 0) {
+     queryText = `SELECT * FROM "event";`;
+    }
+    else{
+        queryText =`SELECT * FROM "event"
+        WHERE "name" ILIKE '%${req.query.search}%'`
+    }
     pool.query(queryText)
         .then(result => {
             res.send(result.rows);
