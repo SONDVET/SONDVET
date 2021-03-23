@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './AddEvent.css';
 import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, MenuItem, makeStyles } from "@material-ui/core"
 
@@ -7,6 +8,8 @@ import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, Men
 //  This page is for officers and admins to create new events
 function AddEvent() {
 
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const user = useSelector((store) => store.user);
     // const user = useSelector((store) => store.event);
@@ -35,8 +38,9 @@ function AddEvent() {
     const addNewEvent = (event) => {
         event.preventDefault();
         console.log(newEvent)
-        dispatch({type: 'ADD_NEW_EVENT', payload: newEvent });
-      };
+        dispatch({ type: 'ADD_NEW_EVENT', payload: newEvent });
+        history.push('/events')
+    };
 
     const useStyles = makeStyles({ // set stying for card and paper
         input: {
@@ -112,7 +116,7 @@ function AddEvent() {
                         variant="outlined"
                         type="time"
                         rowsMax={4}
-                        required
+                        //required
                         onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
                     />
                     <TextField

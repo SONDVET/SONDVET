@@ -81,6 +81,14 @@ function* checkOut(action) {
     }
 }
 
+function* addNewEvent(action) {
+    try{
+        yield axios.post('/api/event/', action.payload);
+    } catch (error) {
+        console.log(`error adding new Event, ${error}`);
+    }
+}
+
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
     yield takeLatest('FETCH_USER_EVENT', fetchUserEvent);
@@ -90,6 +98,7 @@ function* eventSaga() {
     yield takeLatest('FETCH_EVENT_DETAILS', fetchEventDetails);
     yield takeLatest('CHECK_IN', checkIn);
     yield takeLatest('CHECK_OUT', checkOut);
+    yield takeLatest('ADD_NEW_EVENT', addNewEvent);
   }
   
   export default eventSaga;
