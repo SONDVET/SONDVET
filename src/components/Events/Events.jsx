@@ -27,6 +27,11 @@ function Events() {
         dispatch({type: 'FETCH_ALL_USER_EVENT'});
       }, [])
 
+      //updates pagination list whenever event list is changed
+      useEffect(() => {
+        setNoOfPages(Math.ceil(store.event.length / itemsPerPage));
+      }, [store.event])
+
       //button which will take a user to that event's details page
       const goToDetails = (eventId) => {
           //TODO: this route may need to be updated 
@@ -46,9 +51,10 @@ function Events() {
           return true;
       }
 
+      //for use of event list pagination
       const [page, setPage] = useState(1);
-      const itemsPerPage = 1;
-      const [noOfPages] = useState(Math.ceil(store.event.length / itemsPerPage))
+      const itemsPerPage = 6;
+      const [noOfPages, setNoOfPages] = useState(Math.ceil(store.event.length / itemsPerPage))
 
       const handleChange = (event, value) => {
           setPage(value);
@@ -61,7 +67,7 @@ function Events() {
                 <div>
                     {/* loops over every event in the event store and displays them in a div */}
                     {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) =>
-                        <Card key={event.id}> <CardMedia image={event.pic_url} height='50px' /> <CardHeader title={event.name}/> <CardContent> {event.description} {event.location} {event.special_inst} </CardContent>
+                        <Card key={event.id}> <CardHeader title={event.name}/> <img src={event.pic_url} height='50px'/> <CardContent> {event.description} {event.location} {event.special_inst} </CardContent>
                            {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <button onClick={() => dispatch({type: 'ATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Join</button>}
                            {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <button onClick={() => dispatch({type: 'UNATTEND_EVENT', payload: {eventId: event.id, userId: user.id}})}>Can't make it</button>: ''}
                             {(user.access_level >= 2) && <button onClick={() => goToDetails(event.id)}>Details</button>}
@@ -69,6 +75,7 @@ function Events() {
                         <Pagination
                             count={noOfPages}
                             shape="rounded"
+                            variant="outlined"
                             onChange={handleChange}
                             defaultPage={1}
                             showFirstButton
