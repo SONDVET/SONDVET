@@ -26,6 +26,9 @@ function* attendEvent(action) {
 function* unattendEvent(action) {
     try{
         yield axios.delete(`/api/event/attending/${action.payload.userId}/${action.payload.eventId}`)
+        if (action.payload.params){
+            yield put({ type: 'FETCH_USER_EVENT', payload: action.payload.params});
+        }
         yield put({type: 'FETCH_ALL_USER_EVENT'})
     } catch (error) {
         console.log(`error DELETING for unattending event`);
