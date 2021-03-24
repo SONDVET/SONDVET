@@ -68,9 +68,9 @@ function Events() {
                             <Card key={event.id} className={classes.eventCard}>
                                 <CardHeader title={event.name} /> <img src={event.pic_url} height='50px' />
                                 <CardContent> {event.description} {event.location} {event.special_inst} </CardContent>
-                                {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
-                                {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
-                                {(user.access_level >= 2) && <Button onClick={() => goToDetails(event.id)}>Details</Button>}
+                                {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
+                                {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
+                                {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>)}
                     </div>
                     <div className="pageWrap">
