@@ -9,6 +9,7 @@ function GroupView() {
 
     const params = useParams()
     const dispatch = useDispatch();
+    const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const orgName = useSelector((store) => store.affiliate);
@@ -23,7 +24,8 @@ function GroupView() {
 
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = () => {
-
+        dispatch({ type: 'FETCH_USER', payload: user.id });
+        history.push('/user')
     }
 
 
