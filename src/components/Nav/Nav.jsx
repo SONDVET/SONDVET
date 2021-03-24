@@ -22,9 +22,8 @@ function Nav() {
 
   return (
     <div className="nav">
-      <img className="mainLogo" src={Logo}/>
       <Link to="/home">
-        <h2 className="nav-title">Special Olympics North Dakota Event Tracker</h2>
+        <img className="mainLogo" src={Logo} />
       </Link>
       <div>
         <Link className="navLink" to={loginLinkData.path}>
