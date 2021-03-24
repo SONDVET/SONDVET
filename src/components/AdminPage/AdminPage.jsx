@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./AdminPage.css";
+import { useParams, useHistory } from 'react-router-dom';
 
 //  This page is for users to view all events they subscribed to and edit their profile info.
 function AdminPage() {
 
   const dispatch = useDispatch();
+  const params = useParams()
+  const history = useHistory();
 
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
