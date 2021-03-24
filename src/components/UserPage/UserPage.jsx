@@ -14,11 +14,8 @@ function UserPage() {
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
-    grandTotalTime();
+    // grandTotalTime();
   }, [])
-
-
-  // const [userEvent, setUserEvent] = useState([]);
 
   const [edit, setEdit] = useState(true);
   const [person, setPerson] = useState({
@@ -59,23 +56,23 @@ function UserPage() {
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
-  const grandTotalTime = (time) => {
-    let hours = 0
-    let minutes = 0
-    for (let item of store.oneUserEvent) {
-      if (item.total_time.days) {
-        hours += item.total_time.days * 24
-      }
-      if (item.total_time.hours) {
-        hours += item.total_time.hours
-      }
-      if (item.total_time.minutes) {
-        minutes += item.total_time.minutes
-      }
-    }
-    setGrandTotalHours(hours);
-    setGrandTotalMinutes(minutes);
-  }
+  // const grandTotalTime = (time) => {
+  //   let hours = 0
+  //   let minutes = 0
+  //   for (let item of store.oneUserEvent) {
+  //     if (item.total_time.days) {
+  //       hours += item.total_time.days * 24
+  //     }
+  //     if (item.total_time.hours) {
+  //       hours += item.total_time.hours
+  //     }
+  //     if (item.total_time.minutes) {
+  //       minutes += item.total_time.minutes
+  //     }
+  //   }
+  //   setGrandTotalHours(hours);
+  //   setGrandTotalMinutes(minutes);
+  // }
 
   return (
     <>
@@ -118,7 +115,7 @@ function UserPage() {
               {/* purposefully empty*/}
             </th>
           </tr>
-          {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <tr key={item.id}>
+          {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <tr key={item.id}>
             <td>
               {item.name}
             </td>
