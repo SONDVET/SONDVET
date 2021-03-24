@@ -1,3 +1,14 @@
 .eventSearch{
     width: 65%;
 }
+.cardWrap{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.pageWrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
