@@ -17,38 +17,34 @@ function GroupView() {
 
     useEffect(() => {
         dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
-        dispatch({ type: 'GET_AFFILIATION', payload: params.id});
-    }, [])
-
-
-
+        dispatch({ type: 'GET_AFFILIATION', payload: params.id });
+    }, []);
 
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (affiliates) => {
         console.log(`You want to view details for ${affiliates}`)
         dispatch({ type: 'SET_USER', payload: affiliates });
         history.push('/user/:id')
-    }
-
+    };
 
     //  Click to remove a volunteer from that affiliation.    
     const removeUser = () => {
 
-    }
+    };
 
 
     return (
         <>
             {store.affiliate[0] &&
-            <h1>{store.affiliate[0].college_name}</h1>
+                <h1>{store.affiliate[0].college_name}</h1>
             }
             <ReactHTMLTableToExcel
-                            id="test-table-xls-button"
-                            className="download-table-xls-button"
-                            table="groupView"
-                            filename="Group Members"
-                            sheet="GroupMembers.xls"
-                            buttonText="Download Group Members" />
+                id="test-table-xls-button"
+                className="download-table-xls-button"
+                table="groupView"
+                filename="Group Members"
+                sheet="GroupMembers.xls"
+                buttonText="Download Group Members" />
             <table id="groupView" className="groupViewContainer">
                 <thead>
                     <tr>
