@@ -8,9 +8,11 @@ const {
 //GET route for retrieving all events
 router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all events');
+    // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
      queryText = `SELECT * FROM "event";`;
     }
+    //if there is a search query, only search matches are selected
     else{
         queryText =`SELECT * FROM "event"
         WHERE "name" ILIKE '%${req.query.search}%'`
@@ -126,6 +128,8 @@ router.put('/checkout', rejectUnauthenticated, (req, res) => {
         })
 });
 
+// updtates the total time column by calculating the difference
+// bewtween the check in and check out columns
 router.put('/addtotal', rejectUnauthenticated, (req,res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
@@ -147,7 +151,6 @@ router.put('/addtotal', rejectUnauthenticated, (req,res) => {
 //Post Request For Adding User To Event
 //To be used with "join" button on event cards
 //Posts To user_event Table
-
 router.post('/attending', rejectUnauthenticated, (req, res) => {
     const userId = req.body.userId
     const eventId = req.body.eventId
@@ -184,11 +187,6 @@ router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) =
             res.sendStatus(500);
         })
 })
-
-// Get Request for Selection All users from Specified Event
-// To be used on Event Details Page
-// Event Id Will Need to be passed in the params
-
 
 // DELETE route deletes event
 // Used on Event Details page
