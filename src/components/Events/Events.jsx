@@ -90,6 +90,7 @@ function Events() {
                     sheet="eventUser.xls"
                     buttonText="Download SO College Members"/>
                 <table id="SO College Members">
+                    <tbody>
                     <tr>
                         <th>Group</th>
                         <th>Total Members</th>
@@ -102,6 +103,7 @@ function Events() {
                             <td><button onClick={() => goToGroup(affiliate.id)}>View</button></td>
                         </tr>
                     )}
+                    </tbody>
                 </table>
             </div>}
         </>
