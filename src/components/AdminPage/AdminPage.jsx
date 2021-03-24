@@ -54,13 +54,14 @@ function AdminPage() {
 
   return (
     <>
-      <h1>User Page</h1>
+      <h1>Admin Page</h1>
       <div className="container">
-        <h2>{user.last_name}, {user.first_name}</h2>
-        <p>{user.email}</p>
+        <h2>User: {user.last_name}, {user.first_name}</h2>
+        <p>Email: {user.email}</p>
       </div>
 
-      <h3>Personal Information:</h3>
+      <h2>Volunteer Information</h2>
+      <p>Click edit below to update</p>
       <div className='personalInfoContainer'>
         <div className="personInfoItem">Category</div>                 <div className="personInfoItem">{edit ? <div>{user.category}</div> : <input defaultValue={user.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</div>
         <div className="personInfoItem">First Name</div>               <div className="personInfoItem">{edit ? <div>{user.first_name}</div> : <input defaultValue={user.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</div>
