@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './EventDetail.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import moment from 'moment';
 
 
 //  This page lists the details for a specific event
@@ -20,6 +21,10 @@ function EventDetail() {
         dispatch({ type: 'FETCH_USER_EVENT', payload: params.id })
     }, []);
 
+
+    // let time = moment(event[0].time).format('h: mm: ss a');
+
+
     return (
 
         <>
@@ -31,6 +36,8 @@ function EventDetail() {
                         <h1>{event[0].name}</h1>
                         <img src={event[0].pic_url} />
                         <p>{event[0].date}</p>
+                        <p>{event[0].time}</p>
+                        {/* <p>{time}</p> */}
                         <p>{event[0].description}</p>
                         <p>{event[0].special_inst}</p>
                     </>
