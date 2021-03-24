@@ -22,8 +22,19 @@ function* registerUser(action) {
   }
 }
 
+
+function* reRegisterUser (action) {
+  try{
+    yield axios.put('/api/user/', action.payload);
+  } catch (error) {
+    console.log('Error with user update:', error);
+    yield put({ type: 'REGISTRATION_FAILED' });
+}
+}
+
 function* registrationSaga() {
   yield takeLatest('REGISTER', registerUser);
+  yield takeLatest('RE_REGISTER', reRegisterUser);
 }
 
 export default registrationSaga;

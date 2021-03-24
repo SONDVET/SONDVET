@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TextField, FormControl, InputLabel, Select, MenuItem, makeStyles } from "@material-ui/core"
 import "./RegisterForm.css"
 function RegisterForm() {
+
   const [user, setUser] = useState ({
     category: "",
     first_name: "",
@@ -19,14 +20,18 @@ function RegisterForm() {
     password:"",
     access_level:""
   })
+
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
   const affiliates = useSelector((store) => store.affiliate);
+  
   const registerUser = (event) => {
     event.preventDefault();
     console.log(user)
     dispatch({type: 'REGISTER', payload: user });
   }; // end registerUser
+
+
   useEffect(() => {
     dispatch({type: 'FETCH_AFFILIATE'});
   }, [])
