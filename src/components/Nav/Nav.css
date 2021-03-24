@@ -3,6 +3,12 @@
     src: url('../Font/Ubuntu-R.ttf');
 }
 
+.mainLogo {
+  width: 24em;
+  height: 6em;
+  display: flex;
+  align-self: center;
+}
 
 .nav {
   /* flex box layout */

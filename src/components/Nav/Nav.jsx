@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import {useSelector} from 'react-redux';
+import Logo from '../Images/SONDLogo.png';  //src/components/Images/SONDLogo.png
 
 
 function Nav() {
@@ -21,6 +22,7 @@ function Nav() {
 
   return (
     <div className="nav">
+      <img className="mainLogo" src={Logo}/>
       <Link to="/home">
         <h2 className="nav-title">Special Olympics North Dakota Event Tracker</h2>
       </Link>
