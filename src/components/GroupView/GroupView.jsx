@@ -9,6 +9,7 @@ function GroupView() {
 
     const params = useParams()
     const dispatch = useDispatch();
+    const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const orgName = useSelector((store) => store.affiliate);
@@ -22,8 +23,10 @@ function GroupView() {
 
 
     //  Clicking on a volunteer will history/push you to their user page.
-    const goToUser = () => {
-
+    const goToUser = (affiliates) => {
+        console.log(`You want to view details for ${affiliates}`)
+        dispatch({ type: 'SET_USER', payload: affiliates });
+        history.push('/user/:id')
     }
 
 
@@ -53,7 +56,7 @@ function GroupView() {
                             <td>{affiliates.email}</td>
                             <td>{affiliates.phone_number}</td>
                             <td>placeholder</td>
-                            <td><button onClick={() => goToUser(affiliates.id)}>View</button></td>
+                            <td><button onClick={() => goToUser(affiliates)}>View</button></td>
                             <td><button onClick={() => removeUser(affiliates.id)}>Remove</button></td>
                         </tr>
                     </tbody>
