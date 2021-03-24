@@ -9,15 +9,14 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 //  This page lists all posted events
 function Events() {
 
-
     const dispatch = useDispatch();
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('')
-    // const user = useSelector((store) => store.event);
 
-
+    // updates whenever a search paramater is given,
+    // this allows for live updates as you type a search query
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT', payload: search });
         dispatch({ type: 'FETCH_AFFILIATE' });
