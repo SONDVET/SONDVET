@@ -14,7 +14,7 @@ function UserPage() {
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
-    // grandTotalTime();
+    grandTotalTime();
   }, [])
 
   const [edit, setEdit] = useState(true);
@@ -56,22 +56,26 @@ function UserPage() {
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
-  // const grandTotalTime = (time) => {
-  //   let hours = 0
-  //   let minutes = 0
-  //   for (let item of store.oneUserEvent) {
-  //     if (item.total_time.days) {
-  //       hours += item.total_time.days * 24
-  //     }
-  //     if (item.total_time.hours) {
-  //       hours += item.total_time.hours
-  //     }
-  //     if (item.total_time.minutes) {
-  //       minutes += item.total_time.minutes
-  //     }
-  //   }
-  //   setGrandTotalHours(hours);
-  //   setGrandTotalMinutes(minutes);
+  const grandTotalTime = (time) => {
+    let hours = 0
+    let minutes = 0
+    for (let item of store.oneUserEvent) {
+      if (item.total_time.days) {
+        hours += item.total_time.days * 24
+      }
+      if (item.total_time.hours) {
+        hours += item.total_time.hours
+      }
+      if (item.total_time.minutes) {
+        minutes += item.total_time.minutes
+      }
+    }
+    setGrandTotalHours(hours);
+    setGrandTotalMinutes(minutes);
+  }
+
+  // dispatch({ type: 'FETCH_USER' });
+  //   setEditMode();
   // }
 
   return (
@@ -88,7 +92,7 @@ function UserPage() {
         <div className="personInfoItem">First Name</div>               <div className="personInfoItem">{edit ? <div>{user.first_name}</div> : <input defaultValue={user.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</div>
         <div className="personInfoItem">Last Name</div>                <div className="personInfoItem">{edit ? <div>{user.last_name}</div> : <input defaultValue={user.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</div>
         <div className="personInfoItem">Email</div>                    <div className="personInfoItem">{edit ? <div>{user.email}</div> : <input defaultValue={user.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</div>
-        <div className="personInfoItem">Phone</div>                    <div className="personInfoItem">{edit ? <div>{user.phone_number}</div> : <input value={user.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</div>
+        <div className="personInfoItem">Phone</div>                    <div className="personInfoItem">{edit ? <div>{user.phone_number}</div> : <input defaultValue={user.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</div>
         <div className="personInfoItem">Address</div>                  <div className="personInfoItem">{edit ? <div>{user.address}</div> : <input defaultValue={user.address} onChange={(e) => setPerson({ ...person, address: e.target.value })} />}</div>
         <div className="personInfoItem">City</div>                     <div className="personInfoItem">{edit ? <div>{user.city}</div> : <input defaultValue={user.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</div>
         <div className="personInfoItem">State</div>                    <div className="personInfoItem">{edit ? <div>{user.state}</div> : <input defaultValue={user.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</div>
@@ -149,6 +153,7 @@ function UserPage() {
     </>
   );
 }
+
 
 // this allows us to use <App /> in index.js
 export default UserPage;

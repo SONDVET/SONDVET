@@ -64,7 +64,7 @@ function EventDetail() {
                             <tbody>
                                 {userEvent.map(user => {
                                     return (
-                                        <tr>
+                                        <tr key={user.id}>
                                             <td>{user.first_name} {user.last_name}</td>
                                             <td>{user.category}</td>
                                             <td>{user.college_name}</td>
