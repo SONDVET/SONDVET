@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserPage.css";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 //  This page is for users to view all events they subscribed to and edit their profile info.
 function UserPage() {
@@ -56,29 +56,20 @@ function UserPage() {
     setEdit(false);
   }
 
-  // useEffect(() => {
-  //   filterUserEvents();
-  // }, [store.allUserEvent])
-
-  // const filterUserEvents = () => {
-  //   for (let item of store.allUserEvent) {
-  //     if (item.user_id === user.id) {
-  //         setUserEvent([userEvent.push(item)])
-  //     }
-  //   }
-  //   console.log(userEvent);
-  // }
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
   const grandTotalTime = (time) => {
     let hours = 0
     let minutes = 0
-    for (let item of store.oneUserEvent){
-      if(item.total_time.hours){
-      hours += item.total_time.hours
+    for (let item of store.oneUserEvent) {
+      if (item.total_time.days) {
+        hours += item.total_time.days * 24
       }
-      if (item.total_time.minutes){
+      if (item.total_time.hours) {
+        hours += item.total_time.hours
+      }
+      if (item.total_time.minutes) {
         minutes += item.total_time.minutes
       }
     }
@@ -127,7 +118,7 @@ function UserPage() {
               {/* purposefully empty*/}
             </th>
           </tr>
-          {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) =>  <tr key={item.id}> 
+          {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <tr key={item.id}>
             <td>
               {item.name}
             </td>
@@ -142,6 +133,11 @@ function UserPage() {
               <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
             </td>
           </tr>)}
+          <tr>
+            <td colspan="4">
+              {/*intentionally blank buffer column */}
+            </td>
+          </tr>
           <tr>
             <td>
               Total Volunteer Time:
