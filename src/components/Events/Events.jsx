@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './Events.css';
-import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button } from '@material-ui/core';
+import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
@@ -59,17 +59,26 @@ function Events() {
     const classes = useStyles()
     return (
         <>
-            <TextField className="eventSearch" label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
+            <div className='searchWrap'>
+            <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
+            </div>
             <div className="eventListContainer">
                 <div>
                     <div className="cardWrap">
                         {/* loops over every event in the event store and displays them in a div */}
                         {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) =>
                             <Card key={event.id} className={classes.eventCard}>
-                                <CardHeader title={event.name} /> <img src={event.pic_url} height='50px' />
-                                <CardContent> {event.description} {event.location} {event.special_inst} </CardContent>
+                                <CardHeader title={event.name} />
+                                <CardContent>
+                                <img src={event.pic_url} height='50px' />
+                                </CardContent>
+                                {/* {/* <Accordion>
+                                    <AccordionSummary><p>Details</p></AccordionSummary> */}
+                                <CardContent> {event.description} <br/> {event.location} <br/> {event.special_inst} </CardContent>
+                                {/* </Accordion>  */}
                                 {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
                                 {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
+                                
                                 {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>)}
                     </div>

@@ -8,7 +8,7 @@ import './Footer.css';
 
 
 function Footer() {
-  return <footer>&copy;  Special Olympics North Dakota 2021 </footer>;
+  return <footer>&copy; Special Olympics North Dakota {new Date().getFullYear()} </footer>;
 }
 
 export default Footer;
