@@ -6,11 +6,13 @@ const {
 } = require('../modules/authentication-middleware');
 
 //GET route for retrieving all events
-router.get('/', (req, res) => {
+router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all events');
+    // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
      queryText = `SELECT * FROM "event";`;
     }
+    //if there is a search query, only search matches are selected
     else{
         queryText =`SELECT * FROM "event"
         WHERE "name" ILIKE '%${req.query.search}%'`
@@ -25,7 +27,7 @@ router.get('/', (req, res) => {
 });
 
 //GET rout for retrieving all user_events
-router.get('/aue', (req, res) => {
+router.get('/aue', rejectUnauthenticated, (req, res) => {
     console.log('getting all userevents');
     const queryText = `SELECT * FROM "user_event";`;
     pool.query(queryText)
@@ -55,7 +57,7 @@ router.get('/oneuserevent/:id', (req, res) => {
 // POST route for adding new event.
 // reqs: name, description, special_inst, location, date, pic_url
 // SERVER SIDE DONE, but untested.
-router.post('/', (req, res) => {
+router.post('/', rejectUnauthenticated, (req, res) => {
     console.log('router posting new event');
     const newEvent = req.body.name;
     const newDesc = req.body.description;
@@ -78,7 +80,7 @@ router.post('/', (req, res) => {
 
 //PUT route for editing a specific event 
 // reqs: id, name, description, special_inst, location, date, pic_url
-router.put('/', (req, res) => {
+router.put('/', rejectUnauthenticated, (req, res) => {
     const eventEdit = {
         id: req.body.id,
         name: req.body.name,
@@ -104,7 +106,7 @@ router.put('/', (req, res) => {
 
 //PUT route to insert timestamp into check_in for a user
 //reqs: user_id, event_id
-router.put('/checkin', (req, res) => {
+router.put('/checkin', rejectUnauthenticated, (req, res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
     console.log('hello,', userId, eventId);
@@ -124,7 +126,7 @@ router.put('/checkin', (req, res) => {
 
 //PUT route to insert timestamp into check_out for a user and update total time
 //reqs: user_id, event_id
-router.put('/checkout', (req, res) => {
+router.put('/checkout', rejectUnauthenticated, (req, res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
     const queryText = `
@@ -141,7 +143,9 @@ router.put('/checkout', (req, res) => {
         })
 });
 
-router.put('/addtotal', (req,res) => {
+// updtates the total time column by calculating the difference
+// bewtween the check in and check out columns
+router.put('/addtotal', rejectUnauthenticated, (req,res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
     const differenceQuery = `
@@ -162,8 +166,7 @@ router.put('/addtotal', (req,res) => {
 //Post Request For Adding User To Event
 //To be used with "join" button on event cards
 //Posts To user_event Table
-
-router.post('/attending', (req, res) => {
+router.post('/attending', rejectUnauthenticated, (req, res) => {
     const userId = req.body.userId
     const eventId = req.body.eventId
     const queryText = `
@@ -183,7 +186,7 @@ router.post('/attending', (req, res) => {
 // To be used with "cant make it" button on event cards
 //Deletes from "user_event Table"
 
-router.delete('/attending/:userId/:eventId', (req, res) => {
+router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) => {
     const userId = req.params.userId
     const eventId = req.params.eventId
     const queryText = ` 
@@ -200,11 +203,6 @@ router.delete('/attending/:userId/:eventId', (req, res) => {
         })
 })
 
-// Get Request for Selection All users from Specified Event
-// To be used on Event Details Page
-// Event Id Will Need to be passed in the params
-
-
 // DELETE route deletes event
 // Used on Event Details page
 router.delete(`/details/:id`, rejectUnauthenticated, (req, res) => {
@@ -220,7 +218,7 @@ router.delete(`/details/:id`, rejectUnauthenticated, (req, res) => {
 
 // GET request to select single event 
 // used for event details page
-router.get('/eventdetails/:id', (req, res) => {
+router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT * FROM "event" WHERE "id" = ${req.params.id};`;
     pool.query(queryText)
         .then(result => {
@@ -234,7 +232,7 @@ router.get('/eventdetails/:id', (req, res) => {
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
-router.get('/details/:id', (req, res) => {
+router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     console.log('ingetallusers')
     const queryText = `SELECT u."id", "category" ,"first_name" , "last_name" , "email" , "phone_number" ,  "college_id", "college_name", ue."check_in", ue."check_out", ue."total_time", ue."event_id"  FROM "user_event" as ue
     JOIN "user" AS u ON ue."user_id" = u."id"

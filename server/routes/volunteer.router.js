@@ -6,8 +6,10 @@ const pool = require('../modules/pool');
 
 const router = express.Router();
 
+// GETS all users
 router.get('/', rejectUnauthenticated, (req, res) => {
     // Send back user object from the session (previously queried from the database)
+    // ¡¡ MODIFY TO SELECT EVERYTING BUT PASSWORD !!
     const query = `SELECT * FROM "user" ORDER BY "last_name" ASC`;
     pool.query(query)
         .then(result => {
@@ -20,7 +22,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 });
 
 // GETS all affiliations
-router.get('/affiliation', (req, res) => {
+router.get('/affiliation', rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT * FROM "affiliation"`
     pool.query(queryText)
         .then(result => {
@@ -34,10 +36,9 @@ router.get('/affiliation', (req, res) => {
 
 // Selects All Users Who are in the affiliaton with the id
 // that is passed into the params
-router.get('/affiliation/:id', (req, res) => {
+router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id
-    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level",
-        "college_name"
+    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level", "college_name"
     FROM "user"
     FUll JOIN "affiliation" ON "user"."college_id" = "affiliation"."id"
     WHERE "college_id" = ${id};`;
@@ -84,7 +85,7 @@ router.delete('/:id', rejectUnauthenticated, (req, res) =>  {
 });
 
 //  GET a specific affiliation by id
-router.get('/organization/:id', (req, res) => {
+router.get('/organization/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id
     const queryText = `SELECT "college_name" FROM "affiliation" WHERE "id" = ${id}`
     pool.query(queryText)
