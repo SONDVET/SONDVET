@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './GroupView.css';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 
 //  This page is for officers and admins to view users by aflliliation
@@ -41,8 +42,14 @@ function GroupView() {
             {store.affiliate[0] &&
             <h1>{store.affiliate[0].college_name}</h1>
             }
-
-            <table className="groupViewContainer">
+            <ReactHTMLTableToExcel
+                            id="test-table-xls-button"
+                            className="download-table-xls-button"
+                            table="groupView"
+                            filename="Group Members"
+                            sheet="GroupMembers.xls"
+                            buttonText="Download Group Members" />
+            <table id="groupView" className="groupViewContainer">
                 <thead>
                     <tr>
                         <th>Last Name</th><th>First Name</th><th>Email</th><th>Phone Number</th><th>Placeholder</th><th colSpan="2">Actions</th>
