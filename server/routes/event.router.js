@@ -37,6 +37,21 @@ router.get('/aue', (req, res) => {
         })
 });
 
+//GET rout for retrieving one user_events
+router.get('/oneuserevent/:id', (req, res) => {
+    console.log('getting one userevents, id of', req.body);
+    const queryText = `SELECT * FROM "user_event"
+    JOIN "event" ON "user_event"."event_id" = "event"."id"
+    WHERE "user_event"."user_id" = $1;`;
+    pool.query(queryText, [req.params.id])
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
+
 // POST route for adding new event.
 // reqs: name, description, special_inst, location, date, pic_url
 // SERVER SIDE DONE, but untested.
