@@ -22,7 +22,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 });
 
 // GETS all affiliations
-router.get('/affiliation', rejectUnauthenticated, (req, res) => {
+router.get('/affiliation', (req, res) => {
     const queryText = `SELECT * FROM "affiliation"`
     pool.query(queryText)
         .then(result => {

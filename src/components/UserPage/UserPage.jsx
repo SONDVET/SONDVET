@@ -14,11 +14,8 @@ function UserPage() {
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
-
+    grandTotalTime();
   }, [])
-
-
-  // const [userEvent, setUserEvent] = useState([]);
 
   const [edit, setEdit] = useState(true);
   const [person, setPerson] = useState({
@@ -77,9 +74,9 @@ function UserPage() {
     setGrandTotalMinutes(minutes);
   }
 
-  dispatch({ type: 'FETCH_USER' });
-    setEditMode();
-  }
+  // dispatch({ type: 'FETCH_USER' });
+  //   setEditMode();
+  // }
 
   return (
     <>
@@ -122,7 +119,7 @@ function UserPage() {
               {/* purposefully empty*/}
             </th>
           </tr>
-          {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <tr key={item.id}>
+          {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <tr key={item.id}>
             <td>
               {item.name}
             </td>
@@ -155,6 +152,7 @@ function UserPage() {
 
     </>
   );
+}
 
 
 // this allows us to use <App /> in index.js
