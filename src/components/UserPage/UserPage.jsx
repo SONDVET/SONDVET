@@ -14,7 +14,7 @@ function UserPage() {
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
-    grandTotalTime();
+    // grandTotalTime();
   }, [])
 
   const [edit, setEdit] = useState(true);
@@ -56,23 +56,23 @@ function UserPage() {
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
-  const grandTotalTime = (time) => {
-    let hours = 0
-    let minutes = 0
-    for (let item of store.oneUserEvent) {
-      if (item.total_time.days) {
-        hours += item.total_time.days * 24
-      }
-      if (item.total_time.hours) {
-        hours += item.total_time.hours
-      }
-      if (item.total_time.minutes) {
-        minutes += item.total_time.minutes
-      }
-    }
-    setGrandTotalHours(hours);
-    setGrandTotalMinutes(minutes);
-  }
+  // const grandTotalTime = (time) => {
+  //   let hours = 0
+  //   let minutes = 0
+  //   for (let item of store.oneUserEvent) {
+  //     if (item.total_time.days) {
+  //       hours += item.total_time.days * 24
+  //     }
+  //     if (item.total_time.hours) {
+  //       hours += item.total_time.hours
+  //     }
+  //     if (item.total_time.minutes) {
+  //       minutes += item.total_time.minutes
+  //     }
+  //   }
+  //   setGrandTotalHours(hours);
+  //   setGrandTotalMinutes(minutes);
+  // }
 
   // dispatch({ type: 'FETCH_USER' });
   //   setEditMode();
