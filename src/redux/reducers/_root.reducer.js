@@ -5,7 +5,9 @@ import event from './event.reducer';
 import userEvent from './userEvent.reducer';
 import affiliateUser from './affiliateUser.reducer';
 import allUserEvent from './allUserEvent.reducer';
+import oneUserEvent from './oneUserEvent.reducer';
 import affiliate from './affiliate.reducer';
+
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   event,
   userEvent,
   allUserEvent,
+  oneUserEvent,
   affiliate,
   affiliateUser,
 });
