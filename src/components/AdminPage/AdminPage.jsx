@@ -58,6 +58,7 @@ function AdminPage() {
       <div className="container">
         <h2>User: {user.last_name}, {user.first_name}</h2>
         <p>Email: {user.email}</p>
+        <p>Access Level: {user.access_level}</p>
       </div>
 
       <h2>Volunteer Information</h2>
