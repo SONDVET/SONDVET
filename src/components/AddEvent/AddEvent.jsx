@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './AddEvent.css';
-import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, MenuItem, makeStyles } from "@material-ui/core"
+import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, MenuItem, makeStyles } from "@material-ui/core";
+import moment from 'moment';
 
 
 //  This page is for officers and admins to create new events
@@ -25,13 +26,14 @@ function AddEvent() {
         "pic_url" varchar(2550),
     */
 
+
     const [newEvent, setNewEvent] = useState({
         name: "",
         description: "",
         special_inst: "",
         location: "",
         date: "",
-        // time: "", --ommitted until database adjusted to accept this
+        time: "",
         pic_url: "https://news.prairiepublic.org/sites/ndpr/files/201906/NDSO.jpg", // default SOND logo
     })
 
@@ -116,7 +118,7 @@ function AddEvent() {
                         variant="outlined"
                         type="time"
                         rowsMax={4}
-                        //required
+                        required
                         onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
                     />
                     <TextField

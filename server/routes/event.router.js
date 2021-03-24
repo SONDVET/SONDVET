@@ -65,9 +65,10 @@ router.post('/', rejectUnauthenticated, (req, res) => {
     const newLoc = req.body.location;
     const newDate = req.body.date;
     const newPic = req.body.pic_url;
-    const queryText = `INSERT INTO "event" ("name", "description", "special_inst", "location", "date", "pic_url")
-     VALUES ($1, $2, $3, $4, $5, $6);`;
-    pool.query(queryText, [newEvent, newDesc, newSpec, newLoc, newDate, newPic])
+    const newTime = req.body.time
+    const queryText = `INSERT INTO "event" ("name", "description", "special_inst", "location", "date", "pic_url", "time")
+     VALUES ($1, $2, $3, $4, $5, $6, $7);`;
+    pool.query(queryText, [newEvent, newDesc, newSpec, newLoc, newDate, newPic, newTime])
         .then(async result => {
             console.log('new event made', result);
             res.sendStatus(201);
@@ -89,7 +90,7 @@ router.put('/', rejectUnauthenticated, (req, res) => {
         location: req.body.location,
         date: req.body.date,
         image: req.body.pic_url,
-    }
+    }    
     const queryText = `
     UPDATE "event"
     SET "name" = $1, "description" = $2, "special_inst" = $3, location = $4, "date" = $5, "pic_url" = $6

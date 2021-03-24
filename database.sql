@@ -8,7 +8,6 @@
 --     "username" VARCHAR (80) UNIQUE NOT NULL,
 --     "password" VARCHAR (1000) NOT NULL
 -- );
-
 CREATE TABLE "user_event" (
 	"id" serial NOT NULL,
 	"user_id" int NOT NULL,
@@ -25,7 +24,7 @@ CREATE TABLE "user_event" (
 
 CREATE TABLE "user" (
 	"id" serial NOT NULL,
-	"category" varchar(255) NOT NULL,
+	"category" varchar(255) NOT NULL DEFAULT 'SO College',
 	"first_name" varchar(255) NOT NULL,
 	"last_name" varchar(255) NOT NULL,
 	"email" varchar(255) NOT NULL UNIQUE,
@@ -38,7 +37,7 @@ CREATE TABLE "user" (
 	"involved_w_sond_since" DATE,
 	"college_id" int NOT NULL,
 	"password" varchar(255),
-	"access_level" int NOT NULL,
+	"access_level" int NOT NULL DEFAULT '1',
 	CONSTRAINT "user_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -54,6 +53,7 @@ CREATE TABLE "event" (
 	"location" varchar(255) NOT NULL,
 	"date" DATE,
 	"pic_url" varchar(2550),
+	"time" varchar(255),
 	CONSTRAINT "event_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -71,10 +71,13 @@ CREATE TABLE "affiliation" (
 
 
 
-
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk1" FOREIGN KEY ("event_id") REFERENCES "event"("id");
 ALTER TABLE "user" ADD CONSTRAINT "user_fk0" FOREIGN KEY ("college_id") REFERENCES "affiliation"("id");
+
+
+
+
 
 -- Create Starting Affiliatons
 INSERT INTO "affiliation" ("college_name") VALUES ('NDSU');

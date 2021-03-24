@@ -4,3 +4,6 @@
     FROM "user"
     FUll JOIN "affiliation" ON "user"."college_id" = "affiliation"."id"
     WHERE "college_id" = ${req.params.id}`;
+
+
+    
