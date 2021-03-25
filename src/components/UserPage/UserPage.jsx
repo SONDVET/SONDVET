@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserPage.css";
 import { useHistory } from 'react-router-dom'
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+
 
 //  This page is for users to view all events they subscribed to and edit their profile info.
 function UserPage() {
@@ -13,6 +16,7 @@ function UserPage() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
+    dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
   }, [])
 
   useEffect(() => {
@@ -78,7 +82,7 @@ function UserPage() {
   }
 
   //used to convert access level number to readable title
-  const accessRanks = ["Volunteer","Officer","Admin"]
+  const accessRanks = ["Volunteer", "Officer", "Admin"]
 
   const phoneFormater = (phoneNumb) => {
     let format = ('' + phoneNumb).replace(/\D/g, '');
@@ -98,9 +102,9 @@ function UserPage() {
         <p>{user.email}</p>
       </div>
       {(user.access_level > 2) &&
-      <div className="rankContainer">
-      <div>Rank:</div> <div>{edit ? <div>{accessRanks[user.access_level-1]}</div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
-      </div>}
+        <div className="rankContainer">
+          <div>Rank:</div> <div>{edit ? <div>{accessRanks[user.access_level - 1]}</div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
+        </div>}
 
       <h3>Personal Information:</h3>
       <div className='personalInfoContainer'>
@@ -119,54 +123,48 @@ function UserPage() {
         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
         <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
       </div>
-      <div className="userEventsContainer">
-        <table>
-          <tbody>
-            <tr>
-              <th>
-                Event
-            </th>
-              <th>
-                Event Date
-            </th>
-              <th>
-                Attendance
-            </th>
-              <th>
-                {/* purposefully empty*/}
-              </th>
-            </tr>
-            {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <tr key={item.id}>
-              <td>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Event</TableCell>
+              <TableCell align="center">Event Date</TableCell>
+              <TableCell align="center">Attendance</TableCell>
+              <TableCell align="center">View</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <TableRow key={item.id}>
+              <TableCell align="left">
                 {item.name}
-              </td>
-              <td>
+              </TableCell>
+              <TableCell align="center">
                 {item.date.substring(0, 10)}
-              </td>
-              <td>
-                {(item.total_time.hours) ? (`${item.total_time.hours} hours`) : ''}
+              </TableCell>
+              <TableCell align="center">
+                {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
                 {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
-              </td>
-              <td>
+              </TableCell >
+              <TableCell align="center">
                 <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
-              </td>
-            </tr>)}
-            <tr>
-              <td colSpan="4">
+              </TableCell>
+            </TableRow>)}
+            <TableRow>
+              <TableCell colSpan="4">
                 {/*intentionally blank buffer column */}
-              </td>
-            </tr>
-            <tr>
-              <td>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
                 Total Volunteer Time:
-            </td>
-              <td colSpan="3">
+            </TableCell>
+              <TableCell colSpan="3" align="center">
                 {grandTotalHours} hours {grandTotalMinutes} minutes
-            </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
 
     </>
   );
