@@ -21,10 +21,9 @@ function GroupView() {
     }, []);
 
     //  Clicking on a volunteer will history/push you to their user page.
-    const goToUser = (affiliates) => {
-        console.log(`You want to view details for ${affiliates}`)
-        dispatch({ type: 'SET_USER', payload: affiliates });
-        history.push('/user/:id')
+    const goToUser = (user) => {
+        console.log(`You want to view details for person with id of ${user}`)
+        history.push(`/userdetails/${user}`)
     };
 
     //  Click to remove a volunteer from that affiliation.    
@@ -59,7 +58,7 @@ function GroupView() {
                             <td>{affiliates.email}</td>
                             <td>{affiliates.phone_number}</td>
                             <td>placeholder</td>
-                            <td><button onClick={() => goToUser(affiliates)}>View</button></td>
+                            <td><button onClick={() => goToUser(affiliates.id)}>View</button></td>
                             <td><button onClick={() => removeUser(affiliates.id)}>Remove</button></td>
                         </tr>
                     </tbody>
