@@ -142,15 +142,6 @@ function App() {
           >
             <Events />
           </ProtectedRoute>
-          <ProtectedRoute
-            // with authRedirect:
-            // - if logged in redirects to EventDetail
-            // - else shows LandingPage at "/home"
-            exact
-            path="/user/:id"
-          >
-            <AdminPage />
-          </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
