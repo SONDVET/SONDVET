@@ -22,7 +22,6 @@ import AddEvent from '../AddEvent/AddEvent';
 import EventDetail from '../EventDetail/EventDetail';
 import Events from '../Events/Events';
 import GroupView from '../GroupView/GroupView';
-import AdminPage from '../AdminPage/AdminPage';
 import UserAdminView from '../UserAdminView/UserAdminView';
 
 import './App.css';
