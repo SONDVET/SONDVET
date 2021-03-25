@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Logo from '../Images/SONDLogo.png';  //src/components/Images/SONDLogo.png
 
 
@@ -32,15 +32,15 @@ function Nav() {
 
         {user.id && (
           <>
-        <Link className="navLink" to="/addevent">
-          Add Event
+            <Link className="navLink" to="/addevent">
+              Add Event
         </Link>
           </>
         )}
-        
+
         <Link className="navLink" to="/events">
           Events
-        </Link> 
+        </Link>
 
         {user.id && (
           <>
