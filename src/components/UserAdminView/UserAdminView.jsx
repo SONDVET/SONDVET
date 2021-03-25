@@ -37,6 +37,7 @@ function UserAdminView() {
 
 
   const updateInfo = () => {
+    console.log(person)
     dispatch({ type: 'RE_REGISTER', payload: person })
 
     setEdit(false);
@@ -62,10 +63,11 @@ function UserAdminView() {
     setGrandTotalHours(hours);
     setGrandTotalMinutes(minutes);
   }
-   const declare = () => {
+   
        
    
-    const [person, setPerson] = useState({
+    const [person, setPerson] = (store.oneUser[0]) ? 
+    useState({
     id: store.oneUser[0].id,
     category: store.oneUser[0].category,
     first_name: store.oneUser[0].first_name,
@@ -82,7 +84,25 @@ function UserAdminView() {
     password: store.oneUser[0].password,
     access_level: store.oneUser[0].access_level
   })
-   }
+   :
+   useState({
+    id: 0,
+    category: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: 0,
+    address: "",
+    city: "",
+    state:"",
+    zip: "",
+    dob: "",
+    involved_w_sond_since: "",
+    college_id: 1,
+    password: "",
+    access_level: 1
+   })
+   
 
 
   return (
@@ -160,12 +180,13 @@ function UserAdminView() {
           </tr>
         </table>
       </div>
-</>:
-<> 
-<h1>404</h1>
-<h1>Not Found</h1>
-</>
-}
+    </>
+    :
+    <> 
+        <h1>404</h1>
+        <h1>Not Found</h1>
+    </>
+    }
     </>
   );
 }
