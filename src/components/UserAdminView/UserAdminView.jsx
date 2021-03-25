@@ -65,7 +65,7 @@ function UserAdminView() {
         access_level: 1,
         archived: false
     })
-    
+
     const grandTotalTime = (time) => {
         let hours = 0
         let minutes = 0
@@ -117,7 +117,7 @@ function UserAdminView() {
 
             {store.oneUser[0] && store.user.access_level === 3 ?
                 <>
-                    <h1>User Page</h1>
+                    <h1>Admin Page</h1>
                     <div className="container">
                         <h2>{user.last_name}, {user.first_name}</h2>
                         <p>{user.email}</p>
@@ -150,7 +150,7 @@ function UserAdminView() {
                         <div className="personInfoItem">Date of Birth</div>            <div className="personInfoItem">{edit ? <div>{user.dob.substring(0, 10)}</div> : <input value={user.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</div>
                         <div className="personInfoItem">Involved with SOND Since</div> <div className="personInfoItem">{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input value={user.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</div>
                         <div className="personInfoItem">Affiliation/College</div>      <div className="personInfoItem">{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</div>
-                        <div className="personInfoItem">Archived</div>                <div className="personInfoItem">{edit ? <div>{user.archived.toString()}</div> : <input defaultValue={user.archived.toString()} onChange={(e) => setPerson({ ...person, archived: e.target.value })} type="boolean" />}</div>
+                        <div className="personInfoItem">Archived</div>                <div className="personInfoItem">{edit ? <div>{user.archived}</div> : <input defaultValue={user.archived} onChange={(e) => setPerson({ ...person, archived: e.target.value })}/>}</div>
                         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
                         <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
                     </div>

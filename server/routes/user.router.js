@@ -33,19 +33,20 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     involved_w_sond_since: req.body.involved_w_sond_since,
     college_id: req.body.college_id,
     //password: encryptLib.encryptPassword(req.body.password),
-    access_level: req.body.access_level
+    access_level: req.body.access_level,
+    archived: req.body.archived
   }
   const query = `
   UPDATE "user"
   SET "category" = $1, "first_name" = $2, "last_name" = $3, "email" = $4, 
   "phone_number" = $5, "address" = $6, "city" = $7, "state" = $8, 
   "zip" = $9, "dob" = $10, "involved_w_sond_since" = $11,
-  "college_id" = $12, "access_level" = $13
-  WHERE "id" = $14`;
+  "college_id" = $12, "access_level" = $13, "archived" = $14,
+  WHERE "id" = $15`;
   pool.query(query, [userEdit.category, userEdit.first_name, userEdit.last_name,
   userEdit.email, userEdit.phone_number, userEdit.address, userEdit.city,
   userEdit.state, userEdit.zip, userEdit.dob, userEdit.involved_w_sond_since,
-  userEdit.college_id, userEdit.access_level, userEdit.id])
+  userEdit.college_id, userEdit.access_level, userEdit.id, userEdit.archived])
     .then((result) => {
       console.log(`Updated user information for ${userEdit.email}`);
       res.sendStatus(200);
@@ -72,7 +73,7 @@ router.put('/', rejectUnauthenticated, (req, res) =>  {
   .then((result) => {
       res.sendStatus(204)
   }).catch((err) => {
-      console.log(`Error deleting user with an id of ${id}`)
+      console.log(`Error archiving user with an id of ${id}`)
       res.sendStatus(500);
   });
 });
