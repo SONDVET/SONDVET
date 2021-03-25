@@ -1,47 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import "./UserPage.css";
-import { useHistory } from 'react-router-dom'
+import "./UserAdminView.css";
+import { useHistory, useParams } from 'react-router-dom'
 
 //  This page is for users to view all events they subscribed to and edit their profile info.
-function UserPage() {
+function UserAdminView() {
 
   const dispatch = useDispatch();
   const history = useHistory();
   const store = useSelector(store => store);
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.oneUser[0]);
+  const params = useParams()
 
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
-    dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
+    dispatch({ type: 'FETCH_ONE_USER', payload: params.id})
+    dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: params.id });
   }, [])
-
   useEffect(() => {
     grandTotalTime();
   }, [store.oneUserEvent])
 
   const [edit, setEdit] = useState(true);
-  const [person, setPerson] = useState({
-    id: user.id,
-    category: user.category,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    phone_number: user.phone_number,
-    address: user.address,
-    city: user.city,
-    state: user.state,
-    zip: user.zip,
-    dob: user.dob,
-    involved_w_sond_since: user.involved_w_sond_since,
-    college_id: user.college_id,
-    password: user.password,
-    access_level: user.access_level
-  })
+  
+
 
   const setEditMode = () => {
     console.log('clicked edit mode', edit);
     if (edit === true) {
+        declare()
       return setEdit(false);
     }
     else if (!edit === true) {
@@ -51,6 +38,7 @@ function UserPage() {
 
 
   const updateInfo = () => {
+    console.log(person)
     dispatch({ type: 'RE_REGISTER', payload: person })
 
     setEdit(false);
@@ -58,7 +46,27 @@ function UserPage() {
 
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
-
+  
+  // defines person with empty values to avoid 
+  // error caused by setting it to a redux value
+  // before the redux store is defined 
+  const [person, setPerson] = useState({
+    id: 0,
+    category: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: 0,
+    address: "",
+    city: "",
+    state:"",
+    zip: "",
+    dob: "",
+    involved_w_sond_since: "",
+    college_id: 1,
+    password: "",
+    access_level: 1
+   })
   const grandTotalTime = (time) => {
     let hours = 0
     let minutes = 0
@@ -76,9 +84,38 @@ function UserPage() {
     setGrandTotalHours(hours);
     setGrandTotalMinutes(minutes);
   }
+   
+    //get run when the edit button is pushed
+    //to ensure oneUser store is populated before values are assinged       
+    const declare = () => {
+    setPerson({
+        id: store.oneUser[0].id,
+        category: store.oneUser[0].category,
+        first_name: store.oneUser[0].first_name,
+        last_name: store.oneUser[0].last_name,
+        email: store.oneUser[0].email,
+        phone_number: store.oneUser[0].phone_number,
+        address: store.oneUser[0].address,
+        city: store.oneUser[0].city,
+        state: store.oneUser[0].state,
+        zip: store.oneUser[0].zip,
+        dob: store.oneUser[0].dob,
+        involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
+        college_id: store.oneUser[0].college_id,
+        password: store.oneUser[0].password,
+        access_level: store.oneUser[0].access_level
+  })
+}
+ 
+   
+
 
   return (
     <>
+        
+    
+       {store.oneUser[0] && store.user.access_level === 3 ?
+        <>
       <h1>User Page</h1>
       <div className="container">
         <h2>{user.last_name}, {user.first_name}</h2>
@@ -104,7 +141,7 @@ function UserPage() {
       </div>
       <div className="userEventsContainer">
         <table>
-          <tbody>
+            <tbody>
           <tr>
             <th>
               Event
@@ -150,11 +187,17 @@ function UserPage() {
           </tbody>
         </table>
       </div>
-
+    </>
+    :
+    <> 
+        <h1>404</h1>
+        <h1>Not Found</h1>
+    </>
+    }
     </>
   );
 }
 
 
 // this allows us to use <App /> in index.js
-export default UserPage;
+export default UserAdminView;
