@@ -136,6 +136,7 @@ function UserAdminView() {
       </div>
       <div className="userEventsContainer">
         <table>
+            <tbody>
           <tr>
             <th>
               Event
@@ -166,7 +167,7 @@ function UserAdminView() {
             </td>
           </tr>)}
           <tr>
-            <td colspan="4">
+            <td colSpan="4">
               {/*intentionally blank buffer column */}
             </td>
           </tr>
@@ -174,10 +175,11 @@ function UserAdminView() {
             <td>
               Total Volunteer Time:
             </td>
-            <td colspan="3">
+            <td colSpan="3">
               {grandTotalHours} hours {grandTotalMinutes} minutes
             </td>
           </tr>
+          </tbody>
         </table>
       </div>
     </>

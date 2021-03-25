@@ -104,6 +104,7 @@ function UserPage() {
       </div>
       <div className="userEventsContainer">
         <table>
+          <tbody>
           <tr>
             <th>
               Event
@@ -134,7 +135,7 @@ function UserPage() {
             </td>
           </tr>)}
           <tr>
-            <td colspan="4">
+            <td colSpan="4">
               {/*intentionally blank buffer column */}
             </td>
           </tr>
@@ -142,10 +143,11 @@ function UserPage() {
             <td>
               Total Volunteer Time:
             </td>
-            <td colspan="3">
+            <td colSpan="3">
               {grandTotalHours} hours {grandTotalMinutes} minutes
             </td>
           </tr>
+          </tbody>
         </table>
       </div>
 
