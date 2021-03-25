@@ -28,6 +28,7 @@ function UserAdminView() {
   const setEditMode = () => {
     console.log('clicked edit mode', edit);
     if (edit === true) {
+        declare()
       return setEdit(false);
     }
     else if (!edit === true) {
@@ -45,7 +46,27 @@ function UserAdminView() {
 
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
-
+  
+  // defines person with empty values to avoid 
+  // error caused by setting it to a redux value
+  // before the redux store is defined 
+  const [person, setPerson] = useState({
+    id: 0,
+    category: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: 0,
+    address: "",
+    city: "",
+    state:"",
+    zip: "",
+    dob: "",
+    involved_w_sond_since: "",
+    college_id: 1,
+    password: "",
+    access_level: 1
+   })
   const grandTotalTime = (time) => {
     let hours = 0
     let minutes = 0
@@ -64,44 +85,28 @@ function UserAdminView() {
     setGrandTotalMinutes(minutes);
   }
    
-       
-   
-    const [person, setPerson] = (store.oneUser[0]) ? 
-    useState({
-    id: store.oneUser[0].id,
-    category: store.oneUser[0].category,
-    first_name: store.oneUser[0].first_name,
-    last_name: store.oneUser[0].last_name,
-    email: store.oneUser[0].email,
-    phone_number: store.oneUser[0].phone_number,
-    address: store.oneUser[0].address,
-    city: store.oneUser[0].city,
-    state: store.oneUser[0].state,
-    zip: store.oneUser[0].zip,
-    dob: store.oneUser[0].dob,
-    involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
-    college_id: store.oneUser[0].college_id,
-    password: store.oneUser[0].password,
-    access_level: store.oneUser[0].access_level
+    //get run when the edit button is pushed
+    //to ensure oneUser store is populated before values are assinged       
+    const declare = () => {
+    setPerson({
+        id: store.oneUser[0].id,
+        category: store.oneUser[0].category,
+        first_name: store.oneUser[0].first_name,
+        last_name: store.oneUser[0].last_name,
+        email: store.oneUser[0].email,
+        phone_number: store.oneUser[0].phone_number,
+        address: store.oneUser[0].address,
+        city: store.oneUser[0].city,
+        state: store.oneUser[0].state,
+        zip: store.oneUser[0].zip,
+        dob: store.oneUser[0].dob,
+        involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
+        college_id: store.oneUser[0].college_id,
+        password: store.oneUser[0].password,
+        access_level: store.oneUser[0].access_level
   })
-   :
-   useState({
-    id: 0,
-    category: "",
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone_number: 0,
-    address: "",
-    city: "",
-    state:"",
-    zip: "",
-    dob: "",
-    involved_w_sond_since: "",
-    college_id: 1,
-    password: "",
-    access_level: 1
-   })
+}
+ 
    
 
 
