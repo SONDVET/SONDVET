@@ -9,7 +9,6 @@ function UserAdminView() {
   const dispatch = useDispatch();
   const history = useHistory();
   const store = useSelector(store => store);
-  const user = useSelector((store) => store.user);
   const params = useParams()
 
   useEffect(() => {
@@ -17,29 +16,13 @@ function UserAdminView() {
     dispatch({ type: 'FETCH_ONE_USER', payload: params.id})
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: params.id });
   }, [])
-
   useEffect(() => {
     grandTotalTime();
   }, [store.oneUserEvent])
 
   const [edit, setEdit] = useState(true);
-  const [person, setPerson] = useState({
-    id: user.id,
-    category: user.category,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    phone_number: user.phone_number,
-    address: user.address,
-    city: user.city,
-    state: user.state,
-    zip: user.zip,
-    dob: user.dob,
-    involved_w_sond_since: user.involved_w_sond_since,
-    college_id: user.college_id,
-    password: user.password,
-    access_level: user.access_level
-  })
+  
+
 
   const setEditMode = () => {
     console.log('clicked edit mode', edit);
@@ -78,9 +61,32 @@ function UserAdminView() {
     setGrandTotalHours(hours);
     setGrandTotalMinutes(minutes);
   }
+  
+    const [person, setPerson] = useState({
+    id: store.oneUser.id,
+    category: store.oneUser.category,
+    first_name: store.oneUser.first_name,
+    last_name: store.oneUser.last_name,
+    email: store.oneUser.email,
+    phone_number: store.oneUser.phone_number,
+    address: store.oneUser.address,
+    city: store.oneUser.city,
+    state: store.oneUser.state,
+    zip: store.oneUser.zip,
+    dob: store.oneUser.dob,
+    involved_w_sond_since: store.oneUser.involved_w_sond_since,
+    college_id: store.oneUser.college_id,
+    password: store.oneUser.password,
+    access_level: store.oneUser.access_level
+  })
+  const user = useSelector((store) => store.oneUser[0]);
 
   return (
     <>
+        
+    
+       {store.oneUser[0] && store.user.access_level === 3 ?
+        <>
       <h1>User Page</h1>
       <div className="container">
         <h2>{user.last_name}, {user.first_name}</h2>
@@ -150,7 +156,12 @@ function UserAdminView() {
           </tr>
         </table>
       </div>
-
+</>:
+<> 
+<h1>404</h1>
+<h1>Not Found</h1>
+</>
+}
     </>
   );
 }

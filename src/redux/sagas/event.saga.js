@@ -98,9 +98,7 @@ function* fetchOneUserEvent(action) {
     }
 }
 function* fetchOneUser(action) {
-    console.log('payload sdafis', action.payload);
     try{
-        console.log(`action is ${action.payload}`)
         const response = yield axios.get(`/api/event/oneuser/${action.payload}`);
         yield put({type: 'SET_ONE_USER', payload: response.data})
     }catch (error) {
