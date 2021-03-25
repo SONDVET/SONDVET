@@ -23,8 +23,6 @@ function UserAdminView() {
 
     const [edit, setEdit] = useState(true);
 
-
-
     const setEditMode = () => {
         console.log('clicked edit mode', edit);
         if (edit === true) {
@@ -35,7 +33,6 @@ function UserAdminView() {
             return setEdit(true);
         }
     };
-
 
     const updateInfo = () => {
         console.log(person)

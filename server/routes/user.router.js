@@ -55,6 +55,23 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
+// ADMIN PUT user to archived 
+// available at /api/user/
+router.put('/', rejectUnauthenticated, (req, res) =>  {
+  console.log('Archiving user id', req.params.id);
+  const id = req.params.id;
+  const query = `
+  UPDATE "user"
+  SET "archived" = $1
+  WHERE "id" = $2;`
+  pool.query(query, [id])
+  .then((result) => {
+      res.sendStatus(204)
+  }).catch((err) => {
+      console.log(`Error deleting user with an id of ${id}`)
+      res.sendStatus(500);
+  });
+});
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
