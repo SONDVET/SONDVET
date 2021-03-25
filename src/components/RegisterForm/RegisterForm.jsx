@@ -76,8 +76,8 @@ function RegisterForm() {
         )}
       </select> */}
       <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
-      <input placeholder="Access_Level" onChange={(e) => setUser({ ...user, access_level: e.target.value })} />
-      <input placeholder="Category" onChange={(e) => setUser({ ...user, category: e.target.value })} required />
+      {/* <input placeholder="Access_Level" onChange={(e) => setUser({ ...user, access_level: e.target.value })} />
+      <input placeholder="Category" onChange={(e) => setUser({ ...user, category: e.target.value })} required /> */}
 
       <div>
         <input className="btn" type="submit" name="submit" value="Register" />
