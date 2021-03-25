@@ -92,7 +92,9 @@ function* addNewEvent(action) {
 function* fetchOneUserEvent(action) {
     console.log('payload is', action.payload);
     try{
+        console.log(`action is ${action.payload}`)
         const response = yield axios.get(`/api/event/oneuserevent/${action.payload}`);
+        console.log(`data is ${response.data}`)
         yield put({type: 'SET_ONE_USER_EVENT', payload: response.data})
     }catch (error) {
         console.log(`error getting userevents for user, ${error}`);

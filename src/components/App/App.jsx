@@ -23,6 +23,7 @@ import EventDetail from '../EventDetail/EventDetail';
 import Events from '../Events/Events';
 import GroupView from '../GroupView/GroupView';
 import AdminPage from '../AdminPage/AdminPage';
+import UserAdminView from'../UserAdminView/UserAdminView';
 
 import './App.css';
 
@@ -51,6 +52,12 @@ function App() {
             path="/user"
           >
             <UserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact path ="/userdetails/:id"
+          >
+            <UserAdminView/>
           </ProtectedRoute>
 
           <ProtectedRoute
