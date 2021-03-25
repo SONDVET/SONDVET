@@ -20,8 +20,6 @@ CREATE TABLE "user_event" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "user" (
 	"id" serial NOT NULL,
 	"category" varchar(255) NOT NULL DEFAULT 'SO College',
@@ -38,12 +36,11 @@ CREATE TABLE "user" (
 	"college_id" int NOT NULL,
 	"password" varchar(255),
 	"access_level" int NOT NULL DEFAULT '1',
+	"archived" boolean DEFAULT FALSE,
 	CONSTRAINT "user_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE "event" (
 	"id" serial NOT NULL,
@@ -59,8 +56,6 @@ CREATE TABLE "event" (
   OIDS=FALSE
 );
 
-
-
 CREATE TABLE "affiliation" (
 	"id" serial NOT NULL,
 	"college_name" varchar(255) NOT NULL,
@@ -69,15 +64,9 @@ CREATE TABLE "affiliation" (
   OIDS=FALSE
 );
 
-
-
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk1" FOREIGN KEY ("event_id") REFERENCES "event"("id");
 ALTER TABLE "user" ADD CONSTRAINT "user_fk0" FOREIGN KEY ("college_id") REFERENCES "affiliation"("id");
-
-
-
-
 
 -- Create Starting Affiliatons
 INSERT INTO "affiliation" ("college_name") VALUES ('NDSU');
