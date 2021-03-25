@@ -122,7 +122,15 @@ function UserAdminView() {
 
                     {(store.user.access_level > 2) &&
                         <div className="rankContainer">
-                            <div>Rank:</div> <div>{edit ? <div>{accessRanks[user.access_level - 1]}</div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
+                            <div>Rank:</div>
+                            <div><i>{edit ? <div>{accessRanks[user.access_level - 1]}</div>
+                                : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}>
+                                    <option value="1">Volunteer</option>
+                                    <option value="2">Officer</option>
+                                    <option value="3">Admin</option>
+                                </select>}
+                            </i>
+                            </div>
                         </div>}
 
                     <h3>Personal Information:</h3>
@@ -139,6 +147,7 @@ function UserAdminView() {
                         <div className="personInfoItem">Date of Birth</div>            <div className="personInfoItem">{edit ? <div>{user.dob.substring(0, 10)}</div> : <input value={user.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</div>
                         <div className="personInfoItem">Involved with SOND Since</div> <div className="personInfoItem">{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input value={user.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</div>
                         <div className="personInfoItem">Affiliation/College</div>      <div className="personInfoItem">{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</div>
+                        <div className="personInfoItem">Archived?</div>                <div className="personInfoItem">{edit ? <div>{user.archived}</div> : <input defaultValue={user.archived} onChange={(e) => setPerson({ ...person, archived: e.target.value })} type="boolean" />}</div>
                         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
                         <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
                     </div>
@@ -148,13 +157,13 @@ function UserAdminView() {
                                 <tr>
                                     <th>
                                         Event
-            </th>
+                                    </th>
                                     <th>
                                         Event Date
-            </th>
+                                    </th>
                                     <th>
                                         Attendance
-            </th>
+                                    </th>
                                     <th>
                                         {/* purposefully empty*/}
                                     </th>
@@ -182,10 +191,10 @@ function UserAdminView() {
                                 <tr>
                                     <td>
                                         Total Volunteer Time:
-            </td>
+                                    </td>
                                     <td colSpan="3">
                                         {grandTotalHours} hours {grandTotalMinutes} minutes
-            </td>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
