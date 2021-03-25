@@ -108,7 +108,8 @@ function UserAdminView() {
     }
 
 
-
+    //used to convert access level number to readable title
+    const accessRanks = ["Volunteer", "Officer", "Admin"]
 
     return (
         <>
@@ -121,6 +122,11 @@ function UserAdminView() {
                         <h2>{user.last_name}, {user.first_name}</h2>
                         <p>{user.email}</p>
                     </div>
+
+                    {(user.access_level > 2) &&
+                        <div className="rankContainer">
+                            <div>Rank:</div> <div>{edit ? <div>{accessRanks[user.access_level - 1]}</div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
+                        </div>}
 
                     <h3>Personal Information:</h3>
                     <div className='personalInfoContainer'>
