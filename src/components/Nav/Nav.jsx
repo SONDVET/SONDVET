@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import {useSelector} from 'react-redux';
-import Logo from '../Images/SONDLogo.png';  //src/components/Images/SONDLogo.png
+import Logo from '../Images/WhiteLogo.png';  //src/components/Images/SONDLogo.png
 
 
 function Nav() {
