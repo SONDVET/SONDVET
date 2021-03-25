@@ -14,8 +14,11 @@ function UserPage() {
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
-    // grandTotalTime();
   }, [])
+
+  useEffect(() => {
+    grandTotalTime();
+  }, [store.oneUserEvent])
 
   const [edit, setEdit] = useState(true);
   const [person, setPerson] = useState({
@@ -56,27 +59,23 @@ function UserPage() {
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
-  // const grandTotalTime = (time) => {
-  //   let hours = 0
-  //   let minutes = 0
-  //   for (let item of store.oneUserEvent) {
-  //     if (item.total_time.days) {
-  //       hours += item.total_time.days * 24
-  //     }
-  //     if (item.total_time.hours) {
-  //       hours += item.total_time.hours
-  //     }
-  //     if (item.total_time.minutes) {
-  //       minutes += item.total_time.minutes
-  //     }
-  //   }
-  //   setGrandTotalHours(hours);
-  //   setGrandTotalMinutes(minutes);
-  // }
-
-  // dispatch({ type: 'FETCH_USER' });
-  //   setEditMode();
-  // }
+  const grandTotalTime = (time) => {
+    let hours = 0
+    let minutes = 0
+    for (let item of store.oneUserEvent) {
+      if (item.total_time.days) {
+        hours += item.total_time.days * 24
+      }
+      if (item.total_time.hours) {
+        hours += item.total_time.hours
+      }
+      if (item.total_time.minutes) {
+        minutes += item.total_time.minutes
+      }
+    }
+    setGrandTotalHours(hours);
+    setGrandTotalMinutes(minutes);
+  }
 
   return (
     <>
@@ -105,48 +104,50 @@ function UserPage() {
       </div>
       <div className="userEventsContainer">
         <table>
-          <tr>
-            <th>
-              Event
+          <tbody>
+            <tr>
+              <th>
+                Event
             </th>
-            <th>
-              Event Date
+              <th>
+                Event Date
             </th>
-            <th>
-              Attendance
+              <th>
+                Attendance
             </th>
-            <th>
-              {/* purposefully empty*/}
-            </th>
-          </tr>
-          {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <tr key={item.id}>
-            <td>
-              {item.name}
+              <th>
+                {/* purposefully empty*/}
+              </th>
+            </tr>
+            {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <tr key={item.id}>
+              <td>
+                {item.name}
+              </td>
+              <td>
+                {item.date.substring(0, 10)}
+              </td>
+              <td>
+                {(item.total_time.hours) ? (`${item.total_time.hours} hours`) : ''}
+                {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
+              </td>
+              <td>
+                <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
+              </td>
+            </tr>)}
+            <tr>
+              <td colSpan="4">
+                {/*intentionally blank buffer column */}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Total Volunteer Time:
             </td>
-            <td>
-              {item.date.substring(0, 10)}
+              <td colSpan="3">
+                {grandTotalHours} hours {grandTotalMinutes} minutes
             </td>
-            <td>
-              {(item.total_time.hours) ? (`${item.total_time.hours} hours`) : ''}
-              {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
-            </td>
-            <td>
-              <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
-            </td>
-          </tr>)}
-          <tr>
-            <td colspan="4">
-              {/*intentionally blank buffer column */}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Total Volunteer Time:
-            </td>
-            <td colspan="3">
-              {grandTotalHours} hours {grandTotalMinutes} minutes
-            </td>
-          </tr>
+            </tr>
+          </tbody>
         </table>
       </div>
 
@@ -157,3 +158,18 @@ function UserPage() {
 
 // this allows us to use <App /> in index.js
 export default UserPage;
+
+
+
+ // let phoneNumb = user.phone_number;
+
+  // const phoneFormater = (phoneNumb) => {
+  //   let format = ('' + phoneNumb).replace(/\D/g,'');
+  //   let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+  //   if (match){
+  //     return '('+match[1]+')'+match[2]+'-'+match[3];
+  //   }
+  //   return null;
+  // }
+
+{/* <div className="personInfoItem">Phone</div>                    <div className="personInfoItem">{edit ? <div>{phoneFormater()}</div> : <input defaultValue={user.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</div> */ }
