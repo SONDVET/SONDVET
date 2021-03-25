@@ -40,8 +40,8 @@ function UserAdminView() {
     const updateInfo = () => {
         console.log(person)
         dispatch({ type: 'RE_REGISTER', payload: person })
-
-        setEdit(false);
+        setEdit(true);
+        window.location.reload();
     }
 
     const [grandTotalHours, setGrandTotalHours] = useState(0)
