@@ -105,48 +105,48 @@ function UserPage() {
       <div className="userEventsContainer">
         <table>
           <tbody>
-          <tr>
-            <th>
-              Event
+            <tr>
+              <th>
+                Event
             </th>
-            <th>
-              Event Date
+              <th>
+                Event Date
             </th>
-            <th>
-              Attendance
+              <th>
+                Attendance
             </th>
-            <th>
-              {/* purposefully empty*/}
-            </th>
-          </tr>
-          {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <tr key={item.id}>
-            <td>
-              {item.name}
+              <th>
+                {/* purposefully empty*/}
+              </th>
+            </tr>
+            {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <tr key={item.id}>
+              <td>
+                {item.name}
+              </td>
+              <td>
+                {item.date.substring(0, 10)}
+              </td>
+              <td>
+                {(item.total_time.hours) ? (`${item.total_time.hours} hours`) : ''}
+                {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
+              </td>
+              <td>
+                <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
+              </td>
+            </tr>)}
+            <tr>
+              <td colSpan="4">
+                {/*intentionally blank buffer column */}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Total Volunteer Time:
             </td>
-            <td>
-              {item.date.substring(0, 10)}
+              <td colSpan="3">
+                {grandTotalHours} hours {grandTotalMinutes} minutes
             </td>
-            <td>
-              {(item.total_time.hours) ? (`${item.total_time.hours} hours`) : ''}
-              {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
-            </td>
-            <td>
-              <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
-            </td>
-          </tr>)}
-          <tr>
-            <td colSpan="4">
-              {/*intentionally blank buffer column */}
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Total Volunteer Time:
-            </td>
-            <td colSpan="3">
-              {grandTotalHours} hours {grandTotalMinutes} minutes
-            </td>
-          </tr>
+            </tr>
           </tbody>
         </table>
       </div>
