@@ -105,6 +105,15 @@ function* fetchOneUser(action) {
         console.log(`error getting userevents for user, ${error}`);
     }
 }
+
+function* deleteEvent(action) {
+    try {
+        yield axios.delete(`/api/event/details/${action.payload}`);
+    } catch (error) {
+        console.log(`error Deleting event, ${error}`);
+    }
+}
+
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
     yield takeLatest('FETCH_USER_EVENT', fetchUserEvent);
@@ -117,6 +126,7 @@ function* eventSaga() {
     yield takeLatest('CHECK_IN', checkIn);
     yield takeLatest('CHECK_OUT', checkOut);
     yield takeLatest('ADD_NEW_EVENT', addNewEvent);
+    yield takeLatest('DELETE_EVENT', deleteEvent);
 }
 
 export default eventSaga;

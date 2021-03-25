@@ -7,13 +7,13 @@ import './EventDetail.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import moment from 'moment';
 
-
 //  This page lists the details for a specific event
 function EventDetail() {
 
-    const params = useParams()
-    const dispatch = useDispatch()
-    const user = useSelector((store) => store.user)
+    const params = useParams();
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const user = useSelector((store) => store.user);
     const userEvent = useSelector((store) => store.userEvent);
     const event = useSelector((store) => store.event);
     useEffect(() => {
@@ -24,6 +24,11 @@ function EventDetail() {
 
     // let time = moment(event[0].time).format('h: mm: ss a');
 
+    const deleteEvent = (eventId) => {
+        console.log('deleting event with id:', eventId);
+        dispatch({type: 'DELETE_EVENT', payload: eventId})
+        history.push('/events');
+    }
 
     return (
 
@@ -85,6 +90,9 @@ function EventDetail() {
                                 })}
                             </tbody>
                         </table>
+                        <div>
+                            {(user.access_level > 2) && <button onClick={() => deleteEvent(event[0].id)}>Delete Event</button>}
+                        </div>
                     </>
                 }
             </div>
