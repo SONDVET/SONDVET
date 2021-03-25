@@ -9,6 +9,7 @@ function UserAdminView() {
   const dispatch = useDispatch();
   const history = useHistory();
   const store = useSelector(store => store);
+  const user = useSelector((store) => store.oneUser[0]);
   const params = useParams()
 
   useEffect(() => {
@@ -61,25 +62,28 @@ function UserAdminView() {
     setGrandTotalHours(hours);
     setGrandTotalMinutes(minutes);
   }
-  
+   const declare = () => {
+       
+   
     const [person, setPerson] = useState({
-    id: store.oneUser.id,
-    category: store.oneUser.category,
-    first_name: store.oneUser.first_name,
-    last_name: store.oneUser.last_name,
-    email: store.oneUser.email,
-    phone_number: store.oneUser.phone_number,
-    address: store.oneUser.address,
-    city: store.oneUser.city,
-    state: store.oneUser.state,
-    zip: store.oneUser.zip,
-    dob: store.oneUser.dob,
-    involved_w_sond_since: store.oneUser.involved_w_sond_since,
-    college_id: store.oneUser.college_id,
-    password: store.oneUser.password,
-    access_level: store.oneUser.access_level
+    id: store.oneUser[0].id,
+    category: store.oneUser[0].category,
+    first_name: store.oneUser[0].first_name,
+    last_name: store.oneUser[0].last_name,
+    email: store.oneUser[0].email,
+    phone_number: store.oneUser[0].phone_number,
+    address: store.oneUser[0].address,
+    city: store.oneUser[0].city,
+    state: store.oneUser[0].state,
+    zip: store.oneUser[0].zip,
+    dob: store.oneUser[0].dob,
+    involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
+    college_id: store.oneUser[0].college_id,
+    password: store.oneUser[0].password,
+    access_level: store.oneUser[0].access_level
   })
-  const user = useSelector((store) => store.oneUser[0]);
+   }
+
 
   return (
     <>
