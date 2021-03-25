@@ -14,6 +14,7 @@ function UserAdminView() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
+    dispatch({ type: 'FETCH_ONE_USER', payload: params.id})
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: params.id });
   }, [])
 
@@ -80,7 +81,6 @@ function UserAdminView() {
 
   return (
     <>
-    {console.log(params.id)}
       <h1>User Page</h1>
       <div className="container">
         <h2>{user.last_name}, {user.first_name}</h2>

@@ -41,10 +41,26 @@ router.get('/aue', rejectUnauthenticated, (req, res) => {
 
 //GET rout for retrieving one user_events
 router.get('/oneuserevent/:id', (req, res) => {
-    console.log('getting one userevents, id of', req.body);
+    console.log('getting one userevents, id of', req.params.id);
     const queryText = `SELECT * FROM "user_event"
     JOIN "event" ON "user_event"."event_id" = "event"."id"
     WHERE "user_event"."user_id" = $1;`;
+    pool.query(queryText, [req.params.id])
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
+
+//GET route for one user
+//Used on /userdetails for admins to edit user info
+router.get('/oneuser/:id', (req, res) => {
+    console.log('getting one user, id of', req.params.id);
+    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level"
+    FROM "user"
+    WHERE "id" = $1;`
     pool.query(queryText, [req.params.id])
         .then(result => {
             res.send(result.rows);

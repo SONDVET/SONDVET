@@ -90,22 +90,29 @@ function* addNewEvent(action) {
 }
 
 function* fetchOneUserEvent(action) {
-    console.log('payload is', action.payload);
     try{
-        console.log(`action is ${action.payload}`)
         const response = yield axios.get(`/api/event/oneuserevent/${action.payload}`);
-        console.log(`data is ${response.data}`)
         yield put({type: 'SET_ONE_USER_EVENT', payload: response.data})
     }catch (error) {
         console.log(`error getting userevents for user, ${error}`);
     }
 }
-
+function* fetchOneUser(action) {
+    console.log('payload sdafis', action.payload);
+    try{
+        console.log(`action is ${action.payload}`)
+        const response = yield axios.get(`/api/event/oneuser/${action.payload}`);
+        yield put({type: 'SET_ONE_USER', payload: response.data})
+    }catch (error) {
+        console.log(`error getting userevents for user, ${error}`);
+    }
+}
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
     yield takeLatest('FETCH_USER_EVENT', fetchUserEvent);
     yield takeLatest('FETCH_ALL_USER_EVENT', fetchAllUserEvent);
     yield takeLatest('FETCH_ONE_USER_EVENT', fetchOneUserEvent);
+    yield takeLatest('FETCH_ONE_USER', fetchOneUser)
     yield takeLatest('ATTEND_EVENT', attendEvent);
     yield takeLatest('UNATTEND_EVENT', unattendEvent);
     yield takeLatest('FETCH_EVENT_DETAILS', fetchEventDetails);
