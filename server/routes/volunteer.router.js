@@ -71,17 +71,17 @@ router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
 
 // ADMIN DELETE user 
 // available at /api/volunteer/:id 
-router.delete('/:id', rejectUnauthenticated, (req, res) =>  {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
     console.log('Deleting user id', req.params.id);
     const id = req.params.id;
     const query = `DELETE FROM "user" WHERE "id" = $1;`
     pool.query(query, [id])
-    .then((result) => {
-        res.sendStatus(204)
-    }).catch((err) => {
-        console.log(`Error deleting user with an id of ${id}`)
-        res.sendStatus(500);
-    });
+        .then((result) => {
+            res.sendStatus(204)
+        }).catch((err) => {
+            console.log(`Error deleting user with an id of ${id}`)
+            res.sendStatus(500);
+        });
 });
 
 //  GET a specific affiliation by id

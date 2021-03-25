@@ -1,5 +1,8 @@
-.eventSearch{
-    width: 65%;
+.searchWrap{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 .cardWrap{
     display: flex;

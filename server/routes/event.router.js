@@ -10,11 +10,11 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all events');
     // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
-     queryText = `SELECT * FROM "event";`;
+        queryText = `SELECT * FROM "event";`;
     }
     //if there is a search query, only search matches are selected
-    else{
-        queryText =`SELECT * FROM "event"
+    else {
+        queryText = `SELECT * FROM "event"
         WHERE "name" ILIKE '%${req.query.search}%'`
     }
     pool.query(queryText)
@@ -41,10 +41,26 @@ router.get('/aue', rejectUnauthenticated, (req, res) => {
 
 //GET rout for retrieving one user_events
 router.get('/oneuserevent/:id', (req, res) => {
-    console.log('getting one userevents, id of', req.body);
+    console.log('getting one userevents, id of', req.params.id);
     const queryText = `SELECT * FROM "user_event"
     JOIN "event" ON "user_event"."event_id" = "event"."id"
     WHERE "user_event"."user_id" = $1;`;
+    pool.query(queryText, [req.params.id])
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
+
+//GET route for one user
+//Used on /userdetails for admins to edit user info
+router.get('/oneuser/:id', (req, res) => {
+    console.log('getting one user, id of', req.params.id);
+    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level"
+    FROM "user"
+    WHERE "id" = $1;`
     pool.query(queryText, [req.params.id])
         .then(result => {
             res.send(result.rows);
@@ -90,7 +106,7 @@ router.put('/', rejectUnauthenticated, (req, res) => {
         location: req.body.location,
         date: req.body.date,
         image: req.body.pic_url,
-    }    
+    }
     const queryText = `
     UPDATE "event"
     SET "name" = $1, "description" = $2, "special_inst" = $3, location = $4, "date" = $5, "pic_url" = $6
@@ -146,7 +162,7 @@ router.put('/checkout', rejectUnauthenticated, (req, res) => {
 
 // updtates the total time column by calculating the difference
 // bewtween the check in and check out columns
-router.put('/addtotal', rejectUnauthenticated, (req,res) => {
+router.put('/addtotal', rejectUnauthenticated, (req, res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
     const differenceQuery = `
@@ -155,13 +171,13 @@ router.put('/addtotal', rejectUnauthenticated, (req,res) => {
     WHERE "user_id" = $1 AND "event_id" = $2;`
     //After a checkout has been submitted, a second query is sent to update the total time for that user
     pool.query(differenceQuery, [userId, eventId])
-    .then((result) => {
-        console.log(`user with id: ${userId} has had their total updated for event with id ${eventId}`);
-        res.sendStatus(200);
-    }).catch((err) => {
-        console.log(err);
-        res.sendStatus(500);
-    })
+        .then((result) => {
+            console.log(`user with id: ${userId} has had their total updated for event with id ${eventId}`);
+            res.sendStatus(200);
+        }).catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        })
 })
 
 //Post Request For Adding User To Event

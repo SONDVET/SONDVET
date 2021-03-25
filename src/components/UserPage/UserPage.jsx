@@ -13,11 +13,11 @@ function UserPage() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
-    dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
   }, [])
 
   useEffect(() => {
     grandTotalTime();
+    // phoneFormater(user.phone_number);
   }, [store.oneUserEvent])
 
   const [edit, setEdit] = useState(true);
@@ -51,9 +51,9 @@ function UserPage() {
 
 
   const updateInfo = () => {
-    dispatch({ type: 'RE_REGISTER', payload: person })
-
-    setEdit(false);
+    dispatch({ type: 'RE_REGISTER', payload: person });
+    setEdit(true);
+    window.location.reload();
   }
 
   const [grandTotalHours, setGrandTotalHours] = useState(0)
@@ -77,6 +77,17 @@ function UserPage() {
     setGrandTotalMinutes(minutes);
   }
 
+
+  const phoneFormater = (phoneNumb) => {
+    let format = ('' + phoneNumb).replace(/\D/g, '');
+    let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return '(' + match[1] + ')' + match[2] + '-' + match[3];
+    }
+    return null;
+  }
+
+
   return (
     <>
       <h1>User Page</h1>
@@ -96,8 +107,8 @@ function UserPage() {
         <div className="personInfoItem">City</div>                     <div className="personInfoItem">{edit ? <div>{user.city}</div> : <input defaultValue={user.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</div>
         <div className="personInfoItem">State</div>                    <div className="personInfoItem">{edit ? <div>{user.state}</div> : <input defaultValue={user.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</div>
         <div className="personInfoItem">Zip</div>                      <div className="personInfoItem">{edit ? <div>{user.zip}</div> : <input defaultValue={user.zip} onChange={(e) => setPerson({ ...person, zip: e.target.value })} type="number" />}</div>
-        <div className="personInfoItem">Date of Birth</div>            <div className="personInfoItem">{edit ? <div>{user.dob.substring(0, 10)}</div> : <input value={user.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</div>
-        <div className="personInfoItem">Involved with SOND Since</div> <div className="personInfoItem">{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input value={user.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</div>
+        <div className="personInfoItem">Date of Birth</div>            <div className="personInfoItem">{edit ? <div>{user.dob.substring(0, 10)}</div> : <input defaultValue={user.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</div>
+        <div className="personInfoItem">Involved with SOND Since</div> <div className="personInfoItem">{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={user.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</div>
         <div className="personInfoItem">Affiliation/College</div>      <div className="personInfoItem">{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</div>
         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
         <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
@@ -161,15 +172,15 @@ export default UserPage;
 
 
 
- // let phoneNumb = user.phone_number;
+// let phoneNumb = user.phone_number;
 
-  // const phoneFormater = (phoneNumb) => {
-  //   let format = ('' + phoneNumb).replace(/\D/g,'');
-  //   let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
-  //   if (match){
-  //     return '('+match[1]+')'+match[2]+'-'+match[3];
-  //   }
-  //   return null;
-  // }
+// const phoneFormater = (phoneNumb) => {
+//   let format = ('' + phoneNumb).replace(/\D/g,'');
+//   let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+//   if (match){
+//     return '('+match[1]+')'+match[2]+'-'+match[3];
+//   }
+//   return null;
+// }
 
 {/* <div className="personInfoItem">Phone</div>                    <div className="personInfoItem">{edit ? <div>{phoneFormater()}</div> : <input defaultValue={user.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</div> */ }

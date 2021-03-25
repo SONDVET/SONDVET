@@ -23,13 +23,14 @@ function* registerUser(action) {
 }
 
 
-function* reRegisterUser (action) {
-  try{
+function* reRegisterUser(action) {
+  try {
     yield axios.put('/api/user/', action.payload);
+    // yield put({ type: 'SET_ONE_USER', payload: response.data })
   } catch (error) {
     console.log('Error with user update:', error);
     yield put({ type: 'REGISTRATION_FAILED' });
-}
+  }
 }
 
 function* registrationSaga() {

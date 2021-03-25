@@ -22,6 +22,8 @@ import AddEvent from '../AddEvent/AddEvent';
 import EventDetail from '../EventDetail/EventDetail';
 import Events from '../Events/Events';
 import GroupView from '../GroupView/GroupView';
+import AdminPage from '../AdminPage/AdminPage';
+import UserAdminView from '../UserAdminView/UserAdminView';
 
 import './App.css';
 
@@ -50,6 +52,12 @@ function App() {
             path="/user"
           >
             <UserPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact path="/userdetails/:id"
+          >
+            <UserAdminView />
           </ProtectedRoute>
 
           <ProtectedRoute
@@ -134,6 +142,15 @@ function App() {
             path="/events"
           >
             <Events />
+          </ProtectedRoute>
+          <ProtectedRoute
+            // with authRedirect:
+            // - if logged in redirects to EventDetail
+            // - else shows LandingPage at "/home"
+            exact
+            path="/user/:id"
+          >
+            <AdminPage />
           </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
