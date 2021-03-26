@@ -149,7 +149,7 @@ function Events() {
                         {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
                             <StyledTableRow key={affiliate.id}>
                                 <StyledTableCell>{affiliate.college_name}</StyledTableCell>
-                                <StyledTableCell>{memberCount(affiliate.id)}</StyledTableCell>
+                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
                                 <StyledTableCell><button onClick={() => goToGroup(affiliate.id)}>View</button></StyledTableCell>
                             </StyledTableRow>
                         )}
