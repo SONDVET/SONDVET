@@ -81,24 +81,33 @@ router.put('/', rejectUnauthenticated, (req, res) => {
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
-router.post('/register', (req, res, next) => {
+router.post('/register', async (req, res, next) => {
   const username = req.body.username;
   const password = encryptLib.encryptPassword(req.body.password);
+  const client = await pool.connect();
+  try{
 
-  const queryText = `INSERT INTO "user" ( first_name, last_name, email,
+  const queryText = await client.query(`INSERT INTO "user" ( first_name, last_name, email,
     phone_number, address, city, state, zip, dob, involved_w_sond_since, college_id,
     password)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`;
-  pool
-    .query(queryText, [ req.body.first_name, req.body.last_name, username,
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`, [ req.body.first_name, req.body.last_name, username,
     req.body.phone_number, req.body.address, req.body.city, req.body.state, req.body.zip,
     req.body.dob, req.body.involved_w_sond_since,
-    req.body.college_id, password])
-    .then(() => res.sendStatus(201))
-    .catch((err) => {
+    req.body.college_id, password]);
+    const newUserId = queryText.rows[0].id;
+
+    const insertUserGroupText = `INSERT INTO "user_group" ("user_id", "group_id")
+    VALUES ($1,$2)`;
+    await client.query(insertUserGroupText, [newUserId, req.body.college_id]);
+    await client.query('COMMIT')
+    res.sendStatus(201);
+  } catch (err) {
+      await client.query('ROLLBACK')
       console.log('User registration failed: ', err);
       res.sendStatus(500);
-    });
+    } finally {
+      client.release()
+    }
   console.log(`User ${req.body.college_id} created`);
 });
 

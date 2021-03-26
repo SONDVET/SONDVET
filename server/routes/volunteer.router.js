@@ -98,5 +98,18 @@ router.get('/organization/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
+//GET everything in user_group
+router.get('/usergroup', rejectUnauthenticated, (req, res) => {
+    const queryText = `SELECT * FROM "user_group";`
+    pool.query(queryText)
+    .then(result => {
+        res.send(result.rows)
+    })
+    .catch((err) => {
+        console.log(`Error getting user_group, ${err}`);
+        res.sendStatus(500);
+    })
+});
+
 
 module.exports = router;

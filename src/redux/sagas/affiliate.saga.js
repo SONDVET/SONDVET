@@ -30,10 +30,20 @@ function* fetchAffiliation(action) {
     }
 }
 
+function* fetchUserGroup() {
+    try {
+        const response = yield axios.get('/api/volunteer/usergroup')
+        yield put({ type: 'SET_USER_GROUP', payload: response.data })
+    } catch (error) {
+        console.log(`error GETTING userGroup, ${error}`);
+    }
+}
+
 function* affiliateSaga() {
     yield takeLatest('FETCH_AFFILIATE', fetchAffiliate);
     yield takeLatest('FETCH_AFFILIATE_USER', fetchAffiliateUser);
     yield takeLatest('GET_AFFILIATION', fetchAffiliation);
+    yield takeLatest('FETCH_USER_GROUP', fetchUserGroup);
 }
 
 export default affiliateSaga;
