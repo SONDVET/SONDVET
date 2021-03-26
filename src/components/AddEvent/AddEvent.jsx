@@ -15,17 +15,6 @@ function AddEvent() {
     const user = useSelector((store) => store.user);
     // const user = useSelector((store) => store.event);
 
-    /*  Event table takes following data
-
-        "id" serial NOT NULL,
-        "name" varchar(255) NOT NULL,
-        "description" varchar(255) NOT NULL,
-        "special_inst" varchar(255),
-        "location" varchar(255) NOT NULL,
-        "date" DATE,
-        "pic_url" varchar(2550),
-    */
-
 
     const [newEvent, setNewEvent] = useState({
         name: "",
@@ -43,6 +32,7 @@ function AddEvent() {
         dispatch({ type: 'ADD_NEW_EVENT', payload: newEvent });
         history.push('/events')
     };
+
 
     const useStyles = makeStyles({ // set stying for card and paper
         input: {
@@ -131,6 +121,7 @@ function AddEvent() {
                         onChange={(e) => setNewEvent({ ...newEvent, pic_url: e.target.value })}
                     />
                     <Button type="submit" variant="contained" color="primary">Submit</Button>
+                    <Button type="reset" variant="contained" color="secondary">Clear Fields</Button>
                     <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>
                 </form>
             </div>
