@@ -87,7 +87,7 @@ INSERT INTO "affiliation" ("college_name") VALUES ('UND');
 INSERT INTO "affiliation" ("college_name") VALUES ('VSCU');
 
 -- Create Starting Events
-INSERT INTO "event" ("name" , "description" , "special_inst" , "location" , "date" , "pic_url")
-VALUES ('Fargo Polar Plunge' , 'Jump in some cold cold water for a good good cause' , 'BYOT (Bring Your Own Towel)' , 'Delta Hotels Fargo' , '20210410' , 'https://cdn.firespring.com/images/078a2188-221f-4876-8a49-eaea25b20932.png');
-INSERT INTO "event" ("name" , "description" , "special_inst" , "location" , "date" , "pic_url")
-VALUES ('NDSU Bi - Weekly Meeting' , 'We will be meeting to discuss things and such' , 'Bring Snacks to Share' , 'Bergum Hall' , '20210823' , 'https://news.prairiepublic.org/sites/ndpr/files/201906/NDSO.jpg');
+INSERT INTO "event" ("name" , "description" , "special_inst" , "location" , "date" , "pic_url", "time")
+VALUES ('Fargo Polar Plunge' , 'Jump in some cold cold water for a good good cause' , 'BYOT (Bring Your Own Towel)' , 'Delta Hotels Fargo' , '20210410' , 'https://cdn.firespring.com/images/078a2188-221f-4876-8a49-eaea25b20932.png', '9:00');
+INSERT INTO "event" ("name" , "description" , "special_inst" , "location" , "date" , "pic_url", "time")
+VALUES ('NDSU Bi - Weekly Meeting' , 'We will be meeting to discuss things and such' , 'Bring Snacks to Share' , 'Bergum Hall' , '20210823' , 'https://news.prairiepublic.org/sites/ndpr/files/201906/NDSO.jpg', '16:00');
