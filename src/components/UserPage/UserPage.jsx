@@ -36,7 +36,8 @@ function UserPage() {
     involved_w_sond_since: user.involved_w_sond_since,
     college_id: user.college_id,
     password: user.password,
-    access_level: user.access_level
+    access_level: user.access_level,
+    archived: user.archived
   })
 
   const setEditMode = () => {
@@ -118,6 +119,7 @@ function UserPage() {
         <div className="personInfoItem">Date of Birth</div>            <div className="personInfoItem">{edit ? <div>{user.dob.substring(0, 10)}</div> : <input defaultValue={user.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</div>
         <div className="personInfoItem">Involved with SOND Since</div> <div className="personInfoItem">{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={user.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</div>
         <div className="personInfoItem">Affiliation/College</div>      <div className="personInfoItem">{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</div>
+        <div className="personInfoItem">Archived</div>                <div className="personInfoItem">{edit ? <div>{user.archived.toString()}</div> : <input defaultValue={user.archived.toString()} onChange={(e) => setPerson({ ...person, archived: e.target.value })}/>}</div>
         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
         <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
       </div>
