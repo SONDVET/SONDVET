@@ -55,6 +55,7 @@ CREATE TABLE "event" (
 	"date" DATE,
 	"pic_url" varchar(2550),
 	"time" varchar(255),
+	"archived" BOOLEAN NOT NULL DEFAULT 'FALSE',
 	CONSTRAINT "event_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
