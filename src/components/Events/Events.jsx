@@ -7,23 +7,49 @@ import Pagination from '@material-ui/lab/Pagination';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 import moment from 'moment';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 //  This page lists all posted events
 function Events() {
+
+    //Styling for material tables
+    const StyledTableCell = withStyles((theme) => ({
+        head: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        body: {
+            fontSize: 14,
+        },
+    }))(TableCell);
+
+    const StyledTableRow = withStyles((theme) => ({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        },
+    }))(TableRow);
 
     const dispatch = useDispatch();
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState('');
 
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT', payload: search });
+    }, [search]);
+
+    useEffect(() => {
         dispatch({ type: 'FETCH_AFFILIATE' });
         dispatch({ type: 'FETCH_ALL_USER_EVENT' });
-    }, [search]);
+        dispatch({ type: 'FETCH_ALL_USER_EVENT' });
+        dispatch({ type: 'FETCH_USER_GROUP' });
+    }, [])
 
     //updates pagination list whenever event list is changed
     useEffect(() => {
@@ -59,6 +85,17 @@ function Events() {
         setPage(value);
     }
     const classes = useStyles()
+
+    const memberCount = (groupId) => {
+        let count = 0;
+        for (let item of store.userGroup) {
+            if (groupId === item.group_id) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     return (
         <>
             <div className='searchWrap'>
@@ -76,7 +113,7 @@ function Events() {
                                 </CardContent>
                                 {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
-                                <CardContent>{moment(event.date).format("dddd, MMMM Do YYYY")} <br/> {moment(event.time, "HH:mm").format('hh:mm A')}</CardContent>
+                                <CardContent>{moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}</CardContent>
                                 <CardContent> {event.description} <br /> {event.location} <br /> {event.special_inst} </CardContent>
                                 {/* </Accordion>  */}
                                 {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
@@ -99,7 +136,25 @@ function Events() {
                 </div>
             </div>
             {(user.access_level > 1) && <div className="groupListContainer">
-                <h1>Hello privileged user!</h1>
+
+                <Table id="SO College Members">
+                    <TableHead>
+                        <StyledTableRow>
+                            <StyledTableCell>Group</StyledTableCell>
+                            <StyledTableCell>Total Members</StyledTableCell>
+                            <StyledTableCell></StyledTableCell>
+                        </StyledTableRow>
+                    </TableHead>
+                    <TableBody>
+                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
+                            <StyledTableRow key={affiliate.id}>
+                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
+                                <StyledTableCell>{memberCount(affiliate.id)}</StyledTableCell>
+                                <StyledTableCell><button onClick={() => goToGroup(affiliate.id)}>View</button></StyledTableCell>
+                            </StyledTableRow>
+                        )}
+                    </TableBody>
+                </Table>
                 <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="download-table-xls-button"
@@ -107,22 +162,6 @@ function Events() {
                     filename="SO College Members"
                     sheet="eventUser.xls"
                     buttonText="Download SO College Members" />
-                <table id="SO College Members">
-                    <tbody>
-                        <tr>
-                            <th>Group</th>
-                            <th>Total Members</th>
-                            <th></th>
-                        </tr>
-                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
-                            <tr key={affiliate.id}>
-                                <td>{affiliate.college_name}</td>
-                                <td>placeholder</td>
-                                <td><button onClick={() => goToGroup(affiliate.id)}>View</button></td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
             </div>}
         </>
     );
