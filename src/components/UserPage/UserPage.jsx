@@ -148,7 +148,9 @@ function UserPage() {
         <div className="rankContainer">
           <div>Rank:</div> <div>{edit ? <div>{accessRanks[user.access_level - 1]}</div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
         </div>}
-
+        <div>
+        <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
+        </div>
         {/* Personal Information Table */}
       <TableContainer className='personalInfoContainer' component={Paper} >
         <Table size="small">
@@ -207,9 +209,8 @@ function UserPage() {
               <StyledTableCell>{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</StyledTableCell>
             </StyledTableRow>
           </TableBody>
-          {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
-          <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
         </Table>
+    
       </TableContainer>
 
         {/* Group Table */}
