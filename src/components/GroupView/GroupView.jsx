@@ -3,10 +3,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './GroupView.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 
 //  This page is for officers and admins to view users by aflliliation
 function GroupView() {
+
+    //Styling for material tables
+    const StyledTableCell = withStyles((theme) => ({
+        head: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        body: {
+            fontSize: 14,
+        },
+    }))(TableCell);
+
+    const StyledTableRow = withStyles((theme) => ({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        },
+    }))(TableRow);
 
     const params = useParams()
     const dispatch = useDispatch();
@@ -37,6 +58,27 @@ function GroupView() {
             {store.affiliate[0] &&
                 <h1>{store.affiliate[0].college_name}</h1>
             }
+            <Table id="groupView" className="groupViewContainer">
+                <TableHead>
+                    <StyledTableCell>Last Name</StyledTableCell>
+                    <StyledTableCell>First Name</StyledTableCell>
+                    <StyledTableCell>Email</StyledTableCell>
+                    <StyledTableCell>Phone Number</StyledTableCell>
+                    <StyledTableCell align="center" colSpan="2">Actions</StyledTableCell>
+                </TableHead>
+                {(store.affiliateUser[0]) && store.affiliateUser.map((affiliates) =>
+                    <TableBody>
+                        <StyledTableRow key={affiliates.id}>
+                            <StyledTableCell>{affiliates.last_name}</StyledTableCell>
+                            <StyledTableCell>{affiliates.first_name}</StyledTableCell>
+                            <StyledTableCell>{affiliates.email}</StyledTableCell>
+                            <StyledTableCell>{affiliates.phone_number}</StyledTableCell>
+                            <StyledTableCell align="center"><button onClick={() => goToUser(affiliates.id)}>View</button></StyledTableCell>
+                            <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell>
+                        </StyledTableRow>
+                    </TableBody>
+                )}
+            </Table>
             <ReactHTMLTableToExcel
                 id="test-table-xls-button"
                 className="download-table-xls-button"
@@ -44,26 +86,6 @@ function GroupView() {
                 filename="Group Members"
                 sheet="GroupMembers.xls"
                 buttonText="Download Group Members" />
-            <table id="groupView" className="groupViewContainer">
-                <thead>
-                    <tr>
-                        <th>Last Name</th><th>First Name</th><th>Email</th><th>Phone Number</th><th>Placeholder</th><th colSpan="2">Actions</th>
-                    </tr>
-                </thead>
-                {(store.affiliateUser[0]) && store.affiliateUser.map((affiliates) =>
-                    <tbody>
-                        <tr key={affiliates.id}>
-                            <td>{affiliates.last_name}</td>
-                            <td>{affiliates.first_name}</td>
-                            <td>{affiliates.email}</td>
-                            <td>{affiliates.phone_number}</td>
-                            <td>placeholder</td>
-                            <td><button onClick={() => goToUser(affiliates.id)}>View</button></td>
-                            <td><button onClick={() => dispatch({type: 'REMOVE_USER_GROUP', payload: {user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id}})}>Remove</button></td>
-                        </tr>
-                    </tbody>
-                )}
-            </table>
         </>
     );
 }
