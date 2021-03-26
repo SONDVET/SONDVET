@@ -92,9 +92,6 @@ function UserPage() {
     let hours = 0
     let minutes = 0
     for (let item of store.oneUserEvent) {
-      if (item.total_time.days) {
-        hours += item.total_time.days * 24
-      }
       if (item.total_time.hours) {
         hours += item.total_time.hours
       }
