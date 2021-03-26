@@ -18,7 +18,7 @@ function RegisterPage() {
             history.push("/events");
           }}
         >
-          Login
+          Already Have An Account?
         </button>
       </center>
     </div>

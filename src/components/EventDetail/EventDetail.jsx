@@ -11,6 +11,8 @@ import moment from 'moment';
 //  This page lists the details for a specific event
 function EventDetail() {
 
+    const history = useHistory();
+
     const params = useParams()
     const dispatch = useDispatch()
     const user = useSelector((store) => store.user)
@@ -22,7 +24,10 @@ function EventDetail() {
     }, []);
 
 
-    // let time = moment(event[0].time).format('h: mm: ss a');
+    const archiveEvent = () => {
+        dispatch({ type: 'ARCHIVE_EVENT', payload: params.id });
+        history.push("/events");
+    }
 
 
     return (
@@ -85,6 +90,9 @@ function EventDetail() {
                                 })}
                             </tbody>
                         </table>
+                    {event[0] && user.access_level >= 2 &&
+                        <button onClick={() => archiveEvent()}>Delete Event</button>
+                        }
                     </>
                 }
             </div>

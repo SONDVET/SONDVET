@@ -10,12 +10,12 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all events');
     // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
-        queryText = `SELECT * FROM "event";`;
+        queryText = `SELECT * FROM "event" WHERE "archived"='FALSE';`;
     }
     //if there is a search query, only search matches are selected
     else {
         queryText = `SELECT * FROM "event"
-        WHERE "name" ILIKE '%${req.query.search}%'`
+        WHERE "name" ILIKE '%${req.query.search}%' AND "archived"='FALSE';`
     }
     pool.query(queryText)
         .then(result => {
@@ -29,7 +29,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 //GET rout for retrieving all user_events
 router.get('/aue', rejectUnauthenticated, (req, res) => {
     console.log('getting all userevents');
-    const queryText = `SELECT * FROM "user_event";`;
+    const queryText = `SELECT * FROM "user_event" JOIN "event" ON "user_event"."event_id"="event"."id" WHERE "archived"='FALSE';`;
     pool.query(queryText)
         .then(result => {
             res.send(result.rows);
@@ -44,7 +44,7 @@ router.get('/oneuserevent/:id', (req, res) => {
     console.log('getting one userevents, id of', req.params.id);
     const queryText = `SELECT * FROM "user_event"
     JOIN "event" ON "user_event"."event_id" = "event"."id"
-    WHERE "user_event"."user_id" = $1;`;
+    WHERE "user_event"."user_id" = $1 AND "archived"='FALSE';`;
     pool.query(queryText, [req.params.id])
         .then(result => {
             res.send(result.rows);
@@ -58,7 +58,10 @@ router.get('/oneuserevent/:id', (req, res) => {
 //Used on /userdetails for admins to edit user info
 router.get('/oneuser/:id', (req, res) => {
     console.log('getting one user, id of', req.params.id);
-    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level"
+    const queryText = `
+    SELECT "user"."id", "category", "first_name", "last_name", "email",
+    "phone_number", "address", "city", "state", "zip", "dob",
+    "involved_w_sond_since", "college_id", "access_level", "archived"
     FROM "user"
     WHERE "id" = $1;`
     pool.query(queryText, [req.params.id])
@@ -111,7 +114,8 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     UPDATE "event"
     SET "name" = $1, "description" = $2, "special_inst" = $3, location = $4, "date" = $5, "pic_url" = $6
     WHERE "id" = $7`;
-    pool.query(queryText, [eventEdit.name, eventEdit.description, eventEdit.special_inst, eventEdit.location, eventEdit.date, eventEdit.image, eventEdit.id])
+    pool.query(queryText, [eventEdit.name, eventEdit.description, eventEdit.special_inst, eventEdit.location, 
+        eventEdit.date, eventEdit.image, eventEdit.id])
         .then((result) => {
             console.log(`Updated information for event with id: ${eventEdit.id}`);
             res.sendStatus(200);
@@ -220,18 +224,20 @@ router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) =
         })
 })
 
-// DELETE route deletes event
+
+// PUT route archives event
 // Used on Event Details page
-router.delete(`/details/:id`, rejectUnauthenticated, (req, res) => {
-    console.log('Deleting event with an id of:', req.params.id);
-    const queryText = `DELETE FROM "event" WHERE "id"=$1;`
+router.put(`/details/:id`, rejectUnauthenticated, (req, res) => {
+    console.log('Archiving event with an id of:', req.params.id);
+    const queryText = `UPDATE "event" SET "archived" = 'TRUE' WHERE "id"=$1;`
     pool.query(queryText, [req.params.id])
         .then((result) => {
             res.sendStatus(204)
         }).catch((err) => {
             console.log('Error deleting event', err);
         })
-}); // END DELETE EVENT ROUTER
+}); // END ARCHIVE EVENT ROUTER
+
 
 // GET request to select single event 
 // used for event details page
@@ -246,12 +252,15 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
+
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
 router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     console.log('ingetallusers')
-    const queryText = `SELECT u."id", "category" ,"first_name" , "last_name" , "email" , "phone_number" ,  "college_id", "college_name", ue."check_in", ue."check_out", ue."total_time", ue."event_id"  FROM "user_event" as ue
+    const queryText = `SELECT u."id", "category", "first_name", "last_name", "email", 
+    "phone_number",  "college_id", "college_name", ue."check_in", ue."check_out", 
+    ue."total_time", ue."event_id"  FROM "user_event" as ue
     JOIN "user" AS u ON ue."user_id" = u."id"
     JOIN "affiliation" as a ON u."college_id" = a."id"
     WHERE ue."event_id" = ${req.params.id}`;
