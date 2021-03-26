@@ -30,7 +30,8 @@ function LoginForm() {
     loginInput: {
         width: '75%',
         textAlign: "center",
-        margin:10
+        margin:10,
+        borderRadius:50
     },
 });
 const classes = useStyles();
