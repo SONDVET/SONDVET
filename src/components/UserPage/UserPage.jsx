@@ -63,7 +63,8 @@ function UserPage() {
     involved_w_sond_since: user.involved_w_sond_since,
     college_id: user.college_id,
     password: user.password,
-    access_level: user.access_level
+    access_level: user.access_level,
+    archived: user.archived
   })
 
   const setEditMode = () => {
@@ -114,6 +115,8 @@ function UserPage() {
     }
     return null;
   }
+
+  //  ('' + user.phone_number).replace(/\D/g, '').match(/^(\d{3})(\d{3})(\d{4})$/)
 
 
   return (
