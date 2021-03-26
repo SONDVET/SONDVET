@@ -123,17 +123,17 @@ function UserPage() {
   const isAMember = (userId, groupId) => {
     for (let item of store.userGroup) {
       if (item.user_id === userId && item.group_id === groupId)
-      return true
+        return true
     }
     return false
   }
 
   const toggleJoin = (userId, groupId, command) => {
-    if (command === 'join'){
-      dispatch({type: 'ADD_USER_GROUP', payload: {user_id: userId, group_id: groupId}})
+    if (command === 'join') {
+      dispatch({ type: 'ADD_USER_GROUP', payload: { user_id: userId, group_id: groupId } })
     }
-    if (command === 'leave'){
-      dispatch({type: 'REMOVE_USER_GROUP', payload: {user_id: userId, group_id: groupId}})
+    if (command === 'leave') {
+      dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: userId, group_id: groupId } })
     }
   }
 
@@ -148,10 +148,10 @@ function UserPage() {
         <div className="rankContainer">
           <div>Rank:</div> <div>{edit ? <div>{accessRanks[user.access_level - 1]}</div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
         </div>}
-        <div>
+      <div>
         <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
-        </div>
-        {/* Personal Information Table */}
+      </div>
+      {/* Personal Information Table */}
       <TableContainer className='personalInfoContainer' component={Paper} >
         <Table size="small">
           <TableHead>
@@ -210,17 +210,18 @@ function UserPage() {
             </StyledTableRow>
           </TableBody>
         </Table>
-    
+
       </TableContainer>
 
-        {/* Group Table */}
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <StyledTableRow>
-                <StyledTableCell colSpan="3" align="center">Groups</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
+      {/* Group Table */}
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <StyledTableRow>
+              <StyledTableCell colSpan="3" align="center">Groups</StyledTableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
             <StyledTableRow>
               <StyledTableCell><b>Name</b></StyledTableCell>
               <StyledTableCell><b>Joined?</b></StyledTableCell>
@@ -228,13 +229,14 @@ function UserPage() {
             </StyledTableRow>
             {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow key={group.id}>
               <StyledTableCell>{group.college_name}</StyledTableCell>
-              <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} </StyledTableCell> 
+              <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} </StyledTableCell>
               <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <button onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</button> : <button onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</button>)}</StyledTableCell>
             </StyledTableRow>)}
-          </Table>
-        </TableContainer>
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        {/* User Events Table */}
+      {/* User Events Table */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
