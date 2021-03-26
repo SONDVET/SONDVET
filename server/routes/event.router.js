@@ -58,7 +58,10 @@ router.get('/oneuserevent/:id', (req, res) => {
 //Used on /userdetails for admins to edit user info
 router.get('/oneuser/:id', (req, res) => {
     console.log('getting one user, id of', req.params.id);
-    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level"
+    const queryText = `
+    SELECT "user"."id", "category", "first_name", "last_name", "email",
+    "phone_number", "address", "city", "state", "zip", "dob",
+    "involved_w_sond_since", "college_id", "access_level", "archived"
     FROM "user"
     WHERE "id" = $1;`
     pool.query(queryText, [req.params.id])
@@ -111,7 +114,8 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     UPDATE "event"
     SET "name" = $1, "description" = $2, "special_inst" = $3, location = $4, "date" = $5, "pic_url" = $6
     WHERE "id" = $7`;
-    pool.query(queryText, [eventEdit.name, eventEdit.description, eventEdit.special_inst, eventEdit.location, eventEdit.date, eventEdit.image, eventEdit.id])
+    pool.query(queryText, [eventEdit.name, eventEdit.description, eventEdit.special_inst, eventEdit.location, 
+        eventEdit.date, eventEdit.image, eventEdit.id])
         .then((result) => {
             console.log(`Updated information for event with id: ${eventEdit.id}`);
             res.sendStatus(200);
@@ -251,7 +255,9 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
 // Event Id Will Need to be passed in the params
 router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     console.log('ingetallusers')
-    const queryText = `SELECT u."id", "category" ,"first_name" , "last_name" , "email" , "phone_number" ,  "college_id", "college_name", ue."check_in", ue."check_out", ue."total_time", ue."event_id"  FROM "user_event" as ue
+    const queryText = `SELECT u."id", "category", "first_name", "last_name", "email", 
+    "phone_number",  "college_id", "college_name", ue."check_in", ue."check_out", 
+    ue."total_time", ue."event_id"  FROM "user_event" as ue
     JOIN "user" AS u ON ue."user_id" = u."id"
     JOIN "affiliation" as a ON u."college_id" = a."id"
     WHERE ue."event_id" = ${req.params.id}`;

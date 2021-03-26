@@ -23,8 +23,6 @@ function UserAdminView() {
 
     const [edit, setEdit] = useState(true);
 
-
-
     const setEditMode = () => {
         console.log('clicked edit mode', edit);
         if (edit === true) {
@@ -35,7 +33,6 @@ function UserAdminView() {
             return setEdit(true);
         }
     };
-
 
     const updateInfo = () => {
         console.log(person)
@@ -65,8 +62,10 @@ function UserAdminView() {
         involved_w_sond_since: "",
         college_id: 1,
         password: "",
-        access_level: 1
+        access_level: 1,
+        archived: false
     })
+
     const grandTotalTime = (time) => {
         let hours = 0
         let minutes = 0
@@ -103,12 +102,14 @@ function UserAdminView() {
             involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
             college_id: store.oneUser[0].college_id,
             password: store.oneUser[0].password,
-            access_level: store.oneUser[0].access_level
+            access_level: store.oneUser[0].access_level,
+            archived: store.oneUser[0].archived
         })
     }
 
 
-
+    //used to convert access level number to readable title
+    const accessRanks = ["Volunteer", "Officer", "Admin"]
 
     return (
         <>
@@ -116,11 +117,24 @@ function UserAdminView() {
 
             {store.oneUser[0] && store.user.access_level === 3 ?
                 <>
-                    <h1>User Page</h1>
+                    <h1>Admin Page</h1>
                     <div className="container">
                         <h2>{user.last_name}, {user.first_name}</h2>
                         <p>{user.email}</p>
                     </div>
+
+                    {(store.user.access_level > 2) &&
+                        <div className="rankContainer">
+                            <div>Rank:</div>
+                            <div><i>{edit ? <div>{accessRanks[user.access_level - 1]}</div>
+                                : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}>
+                                    <option value="1">Volunteer</option>
+                                    <option value="2">Officer</option>
+                                    <option value="3">Admin</option>
+                                </select>}
+                            </i>
+                            </div>
+                        </div>}
 
                     <h3>Personal Information:</h3>
                     <div className='personalInfoContainer'>
@@ -136,6 +150,7 @@ function UserAdminView() {
                         <div className="personInfoItem">Date of Birth</div>            <div className="personInfoItem">{edit ? <div>{user.dob.substring(0, 10)}</div> : <input value={user.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</div>
                         <div className="personInfoItem">Involved with SOND Since</div> <div className="personInfoItem">{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input value={user.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</div>
                         <div className="personInfoItem">Affiliation/College</div>      <div className="personInfoItem">{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</div>
+                        <div className="personInfoItem">Archived</div>                <div className="personInfoItem">{edit ? <div>{user.archived.toString()}</div> : <input defaultValue={user.archived.toString()} onChange={(e) => setPerson({ ...person, archived: e.target.value })}/>}</div>
                         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
                         <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
                     </div>
@@ -145,13 +160,13 @@ function UserAdminView() {
                                 <tr>
                                     <th>
                                         Event
-            </th>
+                                    </th>
                                     <th>
                                         Event Date
-            </th>
+                                    </th>
                                     <th>
                                         Attendance
-            </th>
+                                    </th>
                                     <th>
                                         {/* purposefully empty*/}
                                     </th>
@@ -179,10 +194,10 @@ function UserAdminView() {
                                 <tr>
                                     <td>
                                         Total Volunteer Time:
-            </td>
+                                    </td>
                                     <td colSpan="3">
                                         {grandTotalHours} hours {grandTotalMinutes} minutes
-            </td>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

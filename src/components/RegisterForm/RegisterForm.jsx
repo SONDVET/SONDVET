@@ -91,9 +91,11 @@ function RegisterForm() {
         <option key={school.id} value={school.id}>{school.college_name}</option>
         )}
       </select> */}
-        <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
-        {/* <input placeholder="Access_Level" onChange={(e) => setUser({ ...user, access_level: e.target.value })} />
-      <input placeholder="Category" onChange={(e) => setUser({ ...user, category: e.target.value })} required /> */}
+
+      <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
+      <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
+
+
 
         <div>
           <input className="btn" type="submit" name="submit" value="Register" />

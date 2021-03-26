@@ -6,6 +6,8 @@ import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea,
 import Pagination from '@material-ui/lab/Pagination';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
+import moment from 'moment';
+
 //  This page lists all posted events
 function Events() {
 
@@ -74,6 +76,7 @@ function Events() {
                                 </CardContent>
                                 {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
+                                <CardContent>{moment(event.date).format("dddd, MMMM Do YYYY")} <br/> {moment(event.time, "HH:mm").format('hh:mm A')}</CardContent>
                                 <CardContent> {event.description} <br /> {event.location} <br /> {event.special_inst} </CardContent>
                                 {/* </Accordion>  */}
                                 {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}

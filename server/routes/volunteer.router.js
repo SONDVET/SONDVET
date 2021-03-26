@@ -38,7 +38,7 @@ router.get('/affiliation', (req, res) => {
 // that is passed into the params
 router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id
-    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level", "college_name"
+    const queryText = `SELECT "user"."id", "category", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since", "college_id", "access_level", "college_name", "archived"
     FROM "user"
     FUll JOIN "affiliation" ON "user"."college_id" = "affiliation"."id"
     WHERE "college_id" = ${id};`;
