@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { TextField, makeStyles } from '@material-ui/core'
+import { TextField, makeStyles, FormControl } from '@material-ui/core'
 import { useHistory } from 'react-router-dom';
 
 
@@ -56,7 +56,7 @@ const classes = useStyles();
             variant="filled"
             type="text"
             name="username"
-            label="User Name"
+            label="Email Address"
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
