@@ -111,5 +111,30 @@ router.get('/usergroup', rejectUnauthenticated, (req, res) => {
     })
 });
 
+//create new entry in user_group
+router.put('/usergroup/:userid/:groupid', rejectUnauthenticated, (req, res) => {
+    const queryText = `INSERT INTO "user_group" ("user_id", "group_id")
+    VALUES ($1, $2);`;
+    pool.query(queryText, [req.params.userid, req.params.groupid])
+    .then (result => {
+        res.sendStatus(201);
+    })
+    .catch((err) => {
+        res.sendStatus(500);
+    })
+});
+
+//remove entry from user_group
+router.delete('/usergroup/:userid/:groupid', rejectUnauthenticated, (req, res) => {
+    const queryText = `DELETE FROM "user_group" WHERE "user_id" = $1 AND "group_id" = $2;`
+    pool.query(queryText, [req.params.userid, req.params.groupid])
+    .then (result => {
+        res.sendStatus(200);
+    })
+    .catch((err) => {
+        res.sendStatus(500)
+    })
+})
+
 
 module.exports = router;

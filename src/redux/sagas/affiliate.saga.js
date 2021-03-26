@@ -39,11 +39,31 @@ function* fetchUserGroup() {
     }
 }
 
+function* addUserGroup(action) {
+    try {
+        yield axios.put(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
+        yield put({type: 'FETCH_USER_GROUP'})
+    } catch (error) {
+        console.log(`error creating new userGroup, ${error}`);
+    }
+}
+
+function* removeUserGroup(action) {
+    try {
+        yield axios.delete(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
+        yield put({type: 'FETCH_USER_GROUP'})
+    } catch (error) {
+        console.log(`error removing userGroup, ${error}`);
+    }
+}
+
 function* affiliateSaga() {
     yield takeLatest('FETCH_AFFILIATE', fetchAffiliate);
     yield takeLatest('FETCH_AFFILIATE_USER', fetchAffiliateUser);
     yield takeLatest('GET_AFFILIATION', fetchAffiliation);
     yield takeLatest('FETCH_USER_GROUP', fetchUserGroup);
+    yield takeLatest('ADD_USER_GROUP', addUserGroup);
+    yield takeLatest('REMOVE_USER_GROUP', removeUserGroup);
 }
 
 export default affiliateSaga;
