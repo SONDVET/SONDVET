@@ -93,7 +93,6 @@ function RegisterForm() {
       </select> */}
 
       <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
-      <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
 
 
 
