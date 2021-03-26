@@ -56,7 +56,7 @@ function RegisterForm() {
       <div className="regWelcome">
         <h2>Welcome New Volunteers</h2>
         <p>For people who want to volunteer with Special Olympics North Dakota, please take a moment to register before viewing our events.  
-          Your email address will be used as your username going forward.  Be sure to include any affiliation or school you are associated with.  Thanks for volunteering!</p>
+          <i><b>Your email address will be used as your username going forward.</b></i> Be sure to include any affiliation or school you are associated with.  Thanks for volunteering!</p>
       </div>
 
 
