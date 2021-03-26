@@ -131,6 +131,7 @@ function AddEvent() {
                         onChange={(e) => setNewEvent({ ...newEvent, pic_url: e.target.value })}
                     />
                     <Button type="submit" variant="contained" color="primary">Submit</Button>
+                    <Button type="reset" variant="contained" color="secondary">Clear Fields</Button>
                     <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>
                 </form>
             </div>
