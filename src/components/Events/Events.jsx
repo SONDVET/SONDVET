@@ -8,7 +8,6 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 import moment from 'moment';
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 //  This page lists all posted events
