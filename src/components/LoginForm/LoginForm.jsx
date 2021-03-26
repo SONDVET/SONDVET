@@ -56,7 +56,7 @@ const classes = useStyles();
             variant="filled"
             type="text"
             name="username"
-            label="User Name"
+            label="Email"
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
