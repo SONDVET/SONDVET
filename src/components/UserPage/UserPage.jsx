@@ -225,7 +225,7 @@ function UserPage() {
               <StyledTableCell><b>Joined?</b></StyledTableCell>
               <StyledTableCell></StyledTableCell>
             </StyledTableRow>
-            {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow>
+            {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow key={group.id}>
               <StyledTableCell>{group.college_name}</StyledTableCell>
               <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} </StyledTableCell> 
               <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <button onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</button> : <button onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</button>)}</StyledTableCell>
