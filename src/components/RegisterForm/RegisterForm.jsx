@@ -95,7 +95,6 @@ function RegisterForm() {
       <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
 
 
-
         <div>
           <input className="btn" type="submit" name="submit" value="Register" />
         </div>

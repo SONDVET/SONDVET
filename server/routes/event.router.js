@@ -10,12 +10,12 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all events');
     // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
-        queryText = `SELECT * FROM "event";`;
+        queryText = `SELECT * FROM "event" WHERE "archived"='FALSE';`;
     }
     //if there is a search query, only search matches are selected
     else {
         queryText = `SELECT * FROM "event"
-        WHERE "name" ILIKE '%${req.query.search}%'`
+        WHERE "name" ILIKE '%${req.query.search}%' AND "archived"='FALSE';`
     }
     pool.query(queryText)
         .then(result => {
@@ -29,7 +29,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 //GET rout for retrieving all user_events
 router.get('/aue', rejectUnauthenticated, (req, res) => {
     console.log('getting all userevents');
-    const queryText = `SELECT * FROM "user_event";`;
+    const queryText = `SELECT * FROM "user_event" JOIN "event" ON "user_event"."event_id"="event"."id" WHERE "archived"='FALSE';`;
     pool.query(queryText)
         .then(result => {
             res.send(result.rows);
@@ -44,7 +44,7 @@ router.get('/oneuserevent/:id', (req, res) => {
     console.log('getting one userevents, id of', req.params.id);
     const queryText = `SELECT * FROM "user_event"
     JOIN "event" ON "user_event"."event_id" = "event"."id"
-    WHERE "user_event"."user_id" = $1;`;
+    WHERE "user_event"."user_id" = $1 AND "archived"='FALSE';`;
     pool.query(queryText, [req.params.id])
         .then(result => {
             res.send(result.rows);
@@ -224,18 +224,20 @@ router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) =
         })
 })
 
-// DELETE route deletes event
+
+// PUT route archives event
 // Used on Event Details page
-router.delete(`/details/:id`, rejectUnauthenticated, (req, res) => {
-    console.log('Deleting event with an id of:', req.params.id);
-    const queryText = `DELETE FROM "event" WHERE "id"=$1;`
+router.put(`/details/:id`, rejectUnauthenticated, (req, res) => {
+    console.log('Archiving event with an id of:', req.params.id);
+    const queryText = `UPDATE "event" SET "archived" = 'TRUE' WHERE "id"=$1;`
     pool.query(queryText, [req.params.id])
         .then((result) => {
             res.sendStatus(204)
         }).catch((err) => {
             console.log('Error deleting event', err);
         })
-}); // END DELETE EVENT ROUTER
+}); // END ARCHIVE EVENT ROUTER
+
 
 // GET request to select single event 
 // used for event details page
@@ -249,6 +251,7 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
             res.sendStatus(500);
         })
 });
+
 
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
