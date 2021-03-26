@@ -5,7 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 
 //  This page is for users to view all events they subscribed to and edit their profile info.
@@ -119,6 +120,22 @@ function UserPage() {
 
   //  ('' + user.phone_number).replace(/\D/g, '').match(/^(\d{3})(\d{3})(\d{4})$/)
 
+  const isAMember = (userId, groupId) => {
+    for (let item of store.userGroup) {
+      if (item.user_id === userId && item.group_id === groupId)
+      return true
+    }
+    return false
+  }
+
+  const toggleJoin = (userId, groupId, command) => {
+    if (command === 'join'){
+      dispatch({type: 'ADD_USER_GROUP', payload: {user_id: userId, group_id: groupId}})
+    }
+    if (command === 'leave'){
+      dispatch({type: 'REMOVE_USER_GROUP', payload: {user_id: userId, group_id: groupId}})
+    }
+  }
 
   return (
     <>
@@ -132,7 +149,7 @@ function UserPage() {
           <div>Rank:</div> <div>{edit ? <div>{accessRanks[user.access_level - 1]}</div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
         </div>}
 
-      <h3>Personal Information:</h3>
+        {/* Personal Information Table */}
       <TableContainer className='personalInfoContainer' component={Paper} >
         <Table size="small">
           <TableHead>
@@ -195,6 +212,7 @@ function UserPage() {
         </Table>
       </TableContainer>
 
+        {/* Group Table */}
         <TableContainer>
           <Table>
             <TableHead>
@@ -204,11 +222,12 @@ function UserPage() {
             </TableHead>
             {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow>
               <StyledTableCell>{group.college_name}</StyledTableCell>
-              <StyledTableCell>{edit ? 'waiting for join to fill this out' : <button>Join</button>}</StyledTableCell>
+              <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} {edit ? '' : ((store.userGroup[0]) && isAMember(user.id, group.id) ? <button onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</button> : <button onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</button>)}</StyledTableCell>
             </StyledTableRow>)}
           </Table>
         </TableContainer>
 
+        {/* User Events Table */}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
