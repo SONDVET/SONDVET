@@ -59,7 +59,7 @@ function GroupView() {
                             <td>{affiliates.phone_number}</td>
                             <td>placeholder</td>
                             <td><button onClick={() => goToUser(affiliates.id)}>View</button></td>
-                            <td><button onClick={() => removeUser(affiliates.id)}>Remove</button></td>
+                            <td><button onClick={() => dispatch({type: 'REMOVE_USER_GROUP', payload: {user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id}})}>Remove</button></td>
                         </tr>
                     </tbody>
                 )}

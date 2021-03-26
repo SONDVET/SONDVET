@@ -49,9 +49,13 @@ function* addUserGroup(action) {
 }
 
 function* removeUserGroup(action) {
+    console.log('action.payload is:', action.payload, 'action.payload.params is', (action.payload.parameter == true));
     try {
         yield axios.delete(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
         yield put({type: 'FETCH_USER_GROUP'})
+        if (action.payload.parameter){
+            yield put({type: 'FETCH_AFFILIATE_USER', payload: action.payload.parameter});
+        }
     } catch (error) {
         console.log(`error removing userGroup, ${error}`);
     }
