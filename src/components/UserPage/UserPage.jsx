@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserPage.css";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -11,6 +11,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 //  This page is for users to view all events they subscribed to and edit their profile info.
 function UserPage() {
 
+  //Styling for material tables
   const StyledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: theme.palette.common.black,
@@ -29,11 +30,13 @@ function UserPage() {
     },
   }))(TableRow);
 
+
   const dispatch = useDispatch();
   const history = useHistory();
   const store = useSelector(store => store);
   const user = useSelector((store) => store.user);
 
+  //Grabs needed info on page load
   useEffect(() => {
     dispatch({ type: 'FETCH_AFFILIATE' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
@@ -79,6 +82,8 @@ function UserPage() {
     setEdit(true);
     window.location.reload();
   }
+
+  // calculates user's total volunteer time
 
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
@@ -188,6 +193,21 @@ function UserPage() {
           <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
         </Table>
       </TableContainer>
+
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <StyledTableRow>
+                <StyledTableCell colSpan="2" align="center">Groups</StyledTableCell>
+              </StyledTableRow>
+            </TableHead>
+            {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow>
+              <StyledTableCell>{group.college_name}</StyledTableCell>
+              <StyledTableCell>{edit ? 'waiting for join to fill this out' : <button>Join</button>}</StyledTableCell>
+            </StyledTableRow>)}
+          </Table>
+        </TableContainer>
+
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
