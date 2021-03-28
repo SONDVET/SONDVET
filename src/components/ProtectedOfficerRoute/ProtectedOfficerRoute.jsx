@@ -30,11 +30,11 @@ function ProtectedRoute(props) {
 
   let ComponentToShow;
 
-  if (user.id && user.access_level >=3) {
+  if (user.id && user.access_level >=2) {
     // if the user is logged in (only logged in users have ids)
     // show the component that is protected
     ComponentToShow = ComponentToProtect;
-  } else if (user.id && user.access_level < 3 ) {
+  } else if (user.id && user.access_level < 2 ) {
     ComponentToShow = Events
   } 
   else {
