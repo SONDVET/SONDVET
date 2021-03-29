@@ -56,6 +56,7 @@ function AddEvent() {
                         id="name-control"
                         label="Name"
                         variant="outlined"
+                        inputProps={{ maxLength: 255}}
                         required
                         onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
                     />
@@ -64,6 +65,7 @@ function AddEvent() {
                         id="description-control"
                         label="Description"
                         variant="outlined"
+                        inputProps={{ maxLength: 255}}
                         multiline
                         rows={6}
                         required
@@ -74,6 +76,7 @@ function AddEvent() {
                         id="sp-instruction-control"
                         label="Special Instructions"
                         variant="outlined"
+                        inputProps={{ maxLength: 255}}
                         multiline
                         rows={3}
                         helperText="optional"
@@ -81,6 +84,7 @@ function AddEvent() {
                     />
                     <TextField
                         className={classes.input}
+                        inputProps={{ maxLength: 255}}
                         id="location-control"
                         label="Location"
                         variant="outlined"
@@ -116,6 +120,7 @@ function AddEvent() {
                         id="date-control"
                         label="Image URL"
                         variant="outlined"
+                        inputProps={{ maxLength: 2550}}
                         rowsMax={4}
                         helperText="optional"
                         onChange={(e) => setNewEvent({ ...newEvent, pic_url: e.target.value })}
