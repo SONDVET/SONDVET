@@ -6,10 +6,23 @@ import { useParams, useHistory } from 'react-router-dom';
 import './EventDetail.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import moment from 'moment';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { useTheme } from '@material-ui/core/styles';
 
 
 //  This page lists the details for a specific event
 function EventDetail() {
+
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
 
     const history = useHistory();
 
@@ -34,6 +47,16 @@ function EventDetail() {
         dispatch({ type: 'UNARCHIVE_EVENT', payload: params.id })
         history.push('/events');
     }
+
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
 
 
     return (
@@ -98,7 +121,33 @@ function EventDetail() {
                         </table>
 
                         {event[0] && user.access_level >= 2 &&
-                            <button onClick={() => archiveEvent()}>Archive Event</button>
+                            // <button onClick={() => archiveEvent()}>Archive Event</button>
+                    <div>
+                        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                            Delete Event
+                        </Button>
+                        <Dialog
+                            fullScreen={fullScreen}
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="responsive-dialog-title"
+                        >
+                            <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    Are you sure you want to delete this event?  If you do they will be set to "archived" and only Admins will be able to retrive them.
+                            </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button autoFocus onClick={handleClose} color="primary">
+                                    Disagree and Cancel
+                                </Button>
+                                <Button onClick={handleClose, archiveEvent} color="primary" autoFocus>
+                                    Agree and Archive Event
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
                             // <button onClick={() => unarchiveEvent()}>Unarchive Event</button>
                         }
                     </>
