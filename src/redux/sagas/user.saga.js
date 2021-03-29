@@ -24,6 +24,7 @@ function* fetchUser() {
   }
 }
 
+// Sets user archived status to TRUE
 function* archiveUser(action) {
   try {
     yield axios.put(`/api/user/${action.payload}`);

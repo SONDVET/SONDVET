@@ -41,6 +41,7 @@ function UserAdminView() {
         window.location.reload();
     }
 
+    // Sends dispatch to user router.put to archive user
     const archiveUser = () => {
         dispatch({ type: 'ARCHIVE_USER', payload: params.id });
         history.push("/user");

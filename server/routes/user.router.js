@@ -56,8 +56,8 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
-// // ADMIN PUT user to archived 
-// // available at /api/user/
+// ADMIN PUT user to archived 
+// available at /api/user/:id
 router.put('/:id', rejectUnauthenticated, (req, res) =>  {
   console.log('Archiving user id', req.params.id);
   const id = req.params.id;
