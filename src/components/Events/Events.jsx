@@ -118,9 +118,9 @@ function Events() {
                                 <CardContent> {event.description} <br /> {event.location} <br /> {event.special_inst} </CardContent>
                                 {/* </Accordion>  */}
                                 <div>
-                                {(moment(event.date) < moment(today)) ? 'event passed' : 'event yet to come'}
+                                {((moment(event.date)+86400000) < moment(today)) ? 'event passed' : 'event yet to come'}
                                 </div>
-                                {console.log( 'difference between: ', moment(event.date) - moment(today))}
+                                {console.log( 'difference between: ', moment(event.date)+86400000 - moment(today))}
                                 {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
                                 {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
 
