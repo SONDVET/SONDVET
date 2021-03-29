@@ -81,7 +81,6 @@ function GroupView() {
         history.push('/events');
     }
 
-    //  I think I can use this for both alerts, test to confirm.
     const handleClickOpen = () => {
         setOpen(true);
     };
