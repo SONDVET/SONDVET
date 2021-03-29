@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { useParams, useHistory } from 'react-router-dom';
+import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -35,16 +35,15 @@ function Admin() {
     dispatch({ type: "FETCH_ARCHIVED" })
   }, [])
 
-  const unarchiveUser = () => {
-    dispatch({ type: 'UNARCHIVE_USER', payload: params.id });
-    history.push("/admin");
-  }
-
-
+  const goToUser = (user) => {
+    console.log(`You want to view details for person with id of ${user}`)
+    history.push(`/userdetails/${user}`)
+  };
 
   return (
     <>
       <h1>Archived Users</h1>
+      <h2>Click On a User to View/Edit Details</h2>
       <TableContainer>
         <Table>
           <TableHead>
@@ -60,7 +59,7 @@ function Admin() {
           </TableHead>
           <TableBody>
             {(store.archivedUsers[0] && store.archivedUsers.map((user) =>
-              <StyledTableRow key={user.id}>
+              <StyledTableRow key={user.id} onClick={() => goToUser(user.id)}>
                 <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                 <StyledTableCell>{user.email}</StyledTableCell>
                 <StyledTableCell>{user.phone_number}</StyledTableCell>
