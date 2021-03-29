@@ -239,6 +239,20 @@ router.put(`/details/:id`, rejectUnauthenticated, (req, res) => {
 }); // END ARCHIVE EVENT ROUTER
 
 
+// PUT route unarchives event
+// Used on Event Details page
+router.put(`/details/:id/archived`, rejectUnauthenticated, (req, res) => {
+    console.log('Unarchiving event with an id of:', req.params.id);
+    const queryText = `UPDATE "event" SET "archived" = 'FALSE' WHERE "id"=$1;`
+    pool.query(queryText, [req.params.id])
+        .then((result) => {
+            res.sendStatus(204)
+        }).catch((err) => {
+            console.log('Error unarchiving event', err);
+        })
+}); // END UNARCHIVE EVENT ROUTER
+
+
 // GET request to select single event 
 // used for event details page
 router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
