@@ -121,7 +121,6 @@ function Events() {
                                 </CardContent>
                                 {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
                                 {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
-
                                 {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>)}
                     </div>
