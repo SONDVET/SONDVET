@@ -117,12 +117,9 @@ function Events() {
                                 <CardContent>{moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}</CardContent>
                                 <CardContent> {event.description} <br /> {event.location} <br /> {event.special_inst} </CardContent>
                                 {/* </Accordion>  */}
-                                <div>
-                                {((moment(event.date)+86400000) < moment(today)) ? 'event passed' : 'event yet to come'}
-                                </div>
-                                {console.log( 'difference between: ', moment(event.date)+86400000 - moment(today))}
-                                {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
-                                {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
+                                {((moment(event.date)+86400000) < moment(today)) ? 'event passed ' : ''}
+                                {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
+                                {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}
 
                                 {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>)}
