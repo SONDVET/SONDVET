@@ -117,11 +117,11 @@ function Events() {
                                 </CardContent>
                                 {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
-                                <CardContent>
+                                <CardContent className="descriptionText">
                                     {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
-                                    <p>{event.location}</p>
-                                    <p className="descriptionText">{event.description}</p>
-                                    <p>{event.special_inst} </p>
+                                    <p >{event.location}</p>
+                                    <p >{event.description}</p>
+                                    <p >{event.special_inst} </p>
                                 </CardContent>
                                 {((moment(event.date)+86400000) < moment(today)) ? 'event expired ' : ''}
                                 {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
