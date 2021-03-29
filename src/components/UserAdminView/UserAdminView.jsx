@@ -44,13 +44,13 @@ function UserAdminView() {
     // Sends dispatch to user router.put to archive user
     const archiveUser = () => {
         dispatch({ type: 'ARCHIVE_USER', payload: params.id });
-        history.push("/user");
+        history.push("/group_view/1");
     }
 
     // Sends dispatch to user router.put to unarchive user
     const unarchiveUser = () => {
         dispatch({ type: 'UNARCHIVE_USER', payload: params.id });
-        history.push("/user");
+        history.push("/group_view/1");
     }
 
     const [grandTotalHours, setGrandTotalHours] = useState(0)
