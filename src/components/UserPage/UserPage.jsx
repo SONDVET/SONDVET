@@ -214,10 +214,6 @@ function UserPage() {
                   <StyledTableCell>Involved with SOND Since</StyledTableCell>
                   <StyledTableCell>{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={user.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                 </StyledTableRow>
-                <StyledTableRow>
-                  <StyledTableCell>Affiliation/College</StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</StyledTableCell>
-                </StyledTableRow>
               </TableBody>
             </Table>
 
