@@ -30,6 +30,11 @@ function EventDetail() {
         history.push("/events");
     }
 
+    const unarchiveEvent = () => {
+        dispatch({ type: 'UNARCHIVE_EVENT', payload: params.id })
+        history.push('/events');
+    }
+
 
     return (
 
@@ -91,8 +96,10 @@ function EventDetail() {
                                 })}
                             </tbody>
                         </table>
-                    {event[0] && user.access_level >= 2 &&
-                        <button onClick={() => archiveEvent()}>Delete Event</button>
+
+                        {event[0] && user.access_level >= 2 &&
+                            <button onClick={() => archiveEvent()}>Archive Event</button>
+                            // <button onClick={() => unarchiveEvent()}>Unarchive Event</button>
                         }
                     </>
                 }

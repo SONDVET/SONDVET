@@ -10,6 +10,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 //  This page is for officers and admins to view users by aflliliation
 function GroupView() {
 
+
     //Styling for material tables
     const StyledTableCell = withStyles((theme) => ({
         head: {
@@ -53,11 +54,20 @@ function GroupView() {
     };
 
 
+    // //  Click to remove an entire group/affiliation
+    const removeGroup = () => {
+        dispatch({ type: 'REMOVE_GROUP', payload: params.id });
+        console.log(params.id);
+        history.push('/events');
+    }
+
+
     return (
         <>
             {store.affiliate[0] &&
                 <h1>{store.affiliate[0].college_name}</h1>
             }
+            <button onClick={() => removeGroup()}>Delete Group</button>
             <Table id="groupView" className="groupViewContainer">
                 <TableHead>
                     <StyledTableCell>Last Name</StyledTableCell>
