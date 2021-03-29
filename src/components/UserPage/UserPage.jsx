@@ -161,7 +161,7 @@ function UserPage() {
       <br />
       <Grid container direction="row" justify="space-evenly" alignItems="center">
         {/* Personal Information Table */}
-        <Grid item xs={5}>
+        <Grid item lg={5}>
           <TableContainer className='personalInfoContainer' component={Paper} >
             <Table size="small">
               <TableHead>
@@ -221,7 +221,7 @@ function UserPage() {
         </Grid>
 
         {/* Group Table */}
-        <Grid item xs={4}>
+        <Grid item md={4}>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
