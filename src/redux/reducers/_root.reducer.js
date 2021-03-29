@@ -9,7 +9,7 @@ import oneUserEvent from './oneUserEvent.reducer';
 import affiliate from './affiliate.reducer';
 import oneUser from './oneUser.reducer';
 import userGroup from './userGroup.reducer';
-
+import archivedUsers from "./archivedUsers.reducer"
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -27,7 +27,8 @@ const rootReducer = combineReducers({
   affiliate,
   affiliateUser,
   oneUser,
-  userGroup
+  userGroup,
+  archivedUsers
 });
 
 export default rootReducer;

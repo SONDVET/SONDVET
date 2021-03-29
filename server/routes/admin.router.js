@@ -7,7 +7,6 @@ const {
 
 
 router.get('/archivedusers', (req, res) => {
-    const id = req.params.id
     const queryText = `SELECT "user"."id", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since"
     FROM "user"
     WHERE "archived" = True;`;
