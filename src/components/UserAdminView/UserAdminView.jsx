@@ -14,6 +14,25 @@ import Button from '@material-ui/core/Button';
 //  This page is for users to view all events they subscribed to and edit their profile info.
 function UserAdminView() {
 
+    //Styling for material tables
+    const StyledTableCell = withStyles((theme) => ({
+        head: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        body: {
+            fontSize: 14,
+        },
+    }))(TableCell);
+
+    const StyledTableRow = withStyles((theme) => ({
+        root: {
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+        },
+    }))(TableRow);
+
     const dispatch = useDispatch();
     const history = useHistory();
     const store = useSelector(store => store);
@@ -59,6 +78,15 @@ function UserAdminView() {
     const unarchiveUser = () => {
         dispatch({ type: 'UNARCHIVE_USER', payload: params.id });
         history.push("/admin");
+    }
+
+    const phoneFormater = (phoneNumb) => {
+        let format = ('' + phoneNumb).replace(/\D/g, '');
+        let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ')' + match[2] + '-' + match[3];
+        }
+        return null;
     }
 
     const [grandTotalHours, setGrandTotalHours] = useState(0)
