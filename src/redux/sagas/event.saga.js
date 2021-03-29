@@ -108,10 +108,18 @@ function* fetchOneUser(action) {
 
 
 function* removeEvent(action) {
-    try{
+    try {
         yield axios.put(`/api/event/details/${action.payload}`);
     } catch (error) {
         console.log(`error removing event, ${error}`);
+    }
+}
+
+function* unremoveEvent(action) {
+    try {
+        yield axios.put(`/api/event/details/${action.payload}`);
+    } catch (error) {
+        console.log(`error unremoving event, ${error}`)
     }
 }
 
@@ -129,6 +137,7 @@ function* eventSaga() {
     yield takeLatest('CHECK_OUT', checkOut);
     yield takeLatest('ADD_NEW_EVENT', addNewEvent);
     yield takeLatest('ARCHIVE_EVENT', removeEvent);
+    yield takeLatest('UNARCHIVE_EVENT', unremoveEvent);
 }
 
 export default eventSaga;
