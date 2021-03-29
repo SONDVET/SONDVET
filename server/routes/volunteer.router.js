@@ -21,9 +21,10 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
+
 // GETS all affiliations
 router.get('/affiliation', (req, res) => {
-    const queryText = `SELECT * FROM "affiliation"`
+    const queryText = `SELECT * FROM "affiliation" WHERE "inactive"=FALSE;`
     pool.query(queryText)
         .then(result => {
             res.send(result.rows)
@@ -33,6 +34,21 @@ router.get('/affiliation', (req, res) => {
             res.sendStatus(500);
         })
 });
+
+
+// PUT to make an affiliation inactive(archived)
+router.put('/affiliation/:id', (req, res) => {
+    const queryText = `UPDATE "affiliation" SET "inactive"=TRUE WHERE "id"=$1;`;
+    pool.query(queryText, [req.params.id])
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error archiving affiliation, ${err}`);
+            res.sendStatus(500);
+        })
+});
+
 
 // Selects All Users Who are in the affiliaton with the id
 // that is passed into the params
