@@ -166,7 +166,7 @@ function UserAdminView() {
                         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
                         <button onClick={() => setEditMode()}>Edit Info</button> 
                         <button onClick={() => updateInfo()}>Save</button>
-                        <button onClick={() => archiveUser()}>Delete User</button>
+                        <button onClick={() => archiveUser()}>Archive User</button>
                         <button onClick={() => unarchiveUser()}>Restore User</button>
                     </div>
                     <div className="userEventsContainer">
