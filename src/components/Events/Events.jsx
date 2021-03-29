@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './Events.css';
-import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary } from '@material-ui/core';
+import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary, Typography } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
@@ -113,9 +113,12 @@ function Events() {
                                 </CardContent>
                                 {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
-                                <CardContent>{moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}</CardContent>
-                                <CardContent> {event.description} <br /> {event.location} <br /> {event.special_inst} </CardContent>
-                                {/* </Accordion>  */}
+                                <CardContent>
+                                    {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
+                                    <p>{event.location}</p>
+                                    <p className="descriptionText">{event.description}</p>
+                                    <p>{event.special_inst} </p>
+                                </CardContent>
                                 {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
                                 {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
 
