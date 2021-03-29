@@ -50,7 +50,12 @@ function Nav() {
             <LogOutButton className="navLink" />
           </>
         )}
-
+        {user.id && user.access_level >= 3 &&
+          <>
+          <Link className="navLink" to="/admin">
+            Admin
+          </Link>
+          </>}
       </div>
     </div>
   );
