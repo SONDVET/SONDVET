@@ -56,7 +56,7 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     })
 });
 
-// ADMIN PUT user to archived 
+// ADMIN PUT sets user to archived 
 // available at /api/user/:id
 router.put('/:id', rejectUnauthenticated, (req, res) =>  {
   console.log('Archiving user id', req.params.id);
@@ -70,6 +70,24 @@ router.put('/:id', rejectUnauthenticated, (req, res) =>  {
       res.sendStatus(204)
   }).catch((err) => {
       console.log(`Error archiving user with an id of ${id}`)
+      res.sendStatus(500);
+  });
+});
+
+// ADMIN PUT sets user to unarchived 
+// available at /api/user/:id
+router.put('/:id/archived', rejectUnauthenticated, (req, res) =>  {
+  console.log('Unarchiving user id', req.params.id);
+  const id = req.params.id;
+  const query = `
+  UPDATE "user"
+  SET "archived" = 'FALSE'
+  WHERE "id" = $1;`
+  pool.query(query, [id])
+  .then((result) => {
+      res.sendStatus(204)
+  }).catch((err) => {
+      console.log(`Error unarchiving user with an id of ${id}`)
       res.sendStatus(500);
   });
 });

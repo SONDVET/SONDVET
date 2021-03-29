@@ -33,9 +33,19 @@ function* archiveUser(action) {
   }
 }
 
+// Sets user archived status to FALSE
+function* unarchiveUser(action) {
+  try {
+    yield axios.put(`/api/user/${action.payload}/archived`);
+  } catch (error) {
+    console.log(`Error unarchiving user, ${error}`);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
-  yield takeLatest('ARCHIVE_USER', archiveUser)
+  yield takeLatest('ARCHIVE_USER', archiveUser);
+  yield takeLatest('UNARCHIVE_USER', unarchiveUser);
 }
 
 export default userSaga;
