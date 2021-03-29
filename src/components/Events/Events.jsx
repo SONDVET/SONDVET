@@ -37,6 +37,7 @@ function Events() {
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
+    const today = new Date();
 
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
@@ -116,6 +117,10 @@ function Events() {
                                 <CardContent>{moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}</CardContent>
                                 <CardContent> {event.description} <br /> {event.location} <br /> {event.special_inst} </CardContent>
                                 {/* </Accordion>  */}
+                                <div>
+                                {(moment(event.date) < moment(today)) ? 'event passed' : 'event yet to come'}
+                                </div>
+                                {console.log( 'difference between: ', moment(event.date) - moment(today))}
                                 {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
                                 {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
 
