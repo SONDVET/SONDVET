@@ -45,7 +45,7 @@ function Admin() {
             <Table>
                 <TableHead>
                     <StyledTableRow>
-                        <StyledTableCell colSpan='2'> Name </StyledTableCell>
+                        <StyledTableCell> Name </StyledTableCell>
                         <StyledTableCell> Email </StyledTableCell>
                         <StyledTableCell> Phone Number </StyledTableCell>
                         <StyledTableCell> Address </StyledTableCell>
@@ -55,9 +55,17 @@ function Admin() {
                     </StyledTableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                    
-                    </TableRow>
+                    {(store.archivedUsers[0] && store.archivedUsers.map((user) =>  
+                        <StyledTableRow key={user.id}>
+                        <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
+                        <StyledTableCell>{user.email}</StyledTableCell>
+                        <StyledTableCell>{user.phone_number}</StyledTableCell>
+                        <StyledTableCell>{user.address}</StyledTableCell>
+                        <StyledTableCell>{user.city}</StyledTableCell>
+                        <StyledTableCell>{user.state}</StyledTableCell>
+                        <StyledTableCell>{user.zip}</StyledTableCell>
+                        </StyledTableRow>
+                        ))}
                 </TableBody>
             </Table>
         </TableContainer>
