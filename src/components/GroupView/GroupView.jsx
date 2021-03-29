@@ -130,14 +130,17 @@ function GroupView() {
             </div>            
             <Table id="groupView" className="groupViewContainer">
                 <TableHead>
+                    <TableRow>
                     <StyledTableCell>Last Name</StyledTableCell>
                     <StyledTableCell>First Name</StyledTableCell>
                     <StyledTableCell>Email</StyledTableCell>
                     <StyledTableCell>Phone Number</StyledTableCell>
                     <StyledTableCell align="center" colSpan="2">Actions</StyledTableCell>
+                </TableRow>
                 </TableHead>
+                <TableBody>
                 {(store.affiliateUser[0]) && store.affiliateUser.map((affiliates) =>
-                    <TableBody>
+                    
                         <StyledTableRow key={affiliates.id}>
                             <StyledTableCell>{affiliates.last_name}</StyledTableCell>
                             <StyledTableCell>{affiliates.first_name}</StyledTableCell>
@@ -172,8 +175,9 @@ function GroupView() {
                                 </Dialog>
                             </StyledTableCell>
                         </StyledTableRow>
-                    </TableBody>
+                    
                 )}
+                </TableBody>
             </Table>
             <ReactHTMLTableToExcel
                 id="test-table-xls-button"
