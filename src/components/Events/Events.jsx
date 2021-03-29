@@ -101,8 +101,11 @@ function Events() {
             <div className='searchWrap'>
                 <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
+           
             <div className="eventListContainer">
+            
                 <div>
+                {store.event.length > 0 ?
                     <div className="cardWrap">
                         {/* loops over every event in the event store and displays them in a div */}
                         {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) =>
@@ -124,6 +127,7 @@ function Events() {
                                 {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>)}
                     </div>
+            :<><h1 style={{textAlign: 'center'}}>No Events Found</h1></>}
                     <div className="pageWrap">
                         <Pagination
                             className="pagination"
