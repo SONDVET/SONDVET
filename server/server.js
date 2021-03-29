@@ -14,7 +14,8 @@ const userRouter = require('./routes/user.router');
 const eventRouter = require('./routes/event.router');
 // router to handle all volunteer reqs
 const volunteerRouter = require('./routes/volunteer.router');
-
+// router to hadle all admin reqs
+const adminRouter = require('./routes/admin.router')
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,6 +31,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/event', eventRouter);
 app.use('/api/volunteer', volunteerRouter);
+app.use('/api/admin', adminRouter)
 
 // Serve static files
 app.use(express.static('build'));
