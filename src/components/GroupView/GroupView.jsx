@@ -20,6 +20,7 @@ function GroupView() {
 
 
     const [open, setOpen] = React.useState(false);
+    const [userOpen, setUserOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -71,7 +72,7 @@ function GroupView() {
                 parameter: params.id 
             }
         })
-        handleClose()
+        handleCloser()
     };
 
     // //  Click to remove an entire group/affiliation
@@ -84,9 +85,15 @@ function GroupView() {
     const handleClickOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClickOpener = () => {
+        setUserOpen(true);
+    };
+    const handleCloser = () => {
+        setUserOpen(false);
     };
 
 
@@ -139,23 +146,23 @@ function GroupView() {
                             <StyledTableCell align="center"><button onClick={() => goToUser(affiliates.id)}>View</button></StyledTableCell>
                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                             <StyledTableCell>
-                                <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                                <Button variant="outlined" color="primary" onClick={handleClickOpener}>
                                     Remove User
                                 </Button>
                                 <Dialog
                                     fullScreen={fullScreen}
-                                    open={open}
-                                    onClose={handleClose}
+                                    open={userOpen}
+                                    onClose={handleCloser}
                                     aria-labelledby="responsive-dialog-title"
                                 >
                                     <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
                                     <DialogContent>
                                         <DialogContentText>
                                             Are you sure you want to remove this user from this affiliation?  If you do they will can edit their user information to rejoin.
-                                    </DialogContentText>
+                                         </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
-                                        <Button autoFocus onClick={handleClose} color="primary">
+                                        <Button autoFocus onClick={handleCloser} color="primary">
                                             Disagree and Cancel
                                         </Button>
                                         <Button onClick={ () => removeUser(affiliates.id, affiliates.group_id)} color="primary" autoFocus>
