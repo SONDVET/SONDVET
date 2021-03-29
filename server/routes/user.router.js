@@ -60,10 +60,6 @@ router.put('/', rejectUnauthenticated, (req, res) => {
 // // available at /api/user/
 router.put('/:id', rejectUnauthenticated, (req, res) =>  {
   console.log('Archiving user id', req.params.id);
-  const userEdit = {
-    id: req.body.id,
-    archived: req.body.archived
-  }
   const id = req.params.id;
   const query = `
   UPDATE "user"
