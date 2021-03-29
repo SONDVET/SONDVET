@@ -48,9 +48,10 @@ function AddEvent() {
 
     return (
         <>
-            <h1>Add New Events Here!</h1>
+            <h1>Fill out this form to create a new event.</h1>
             <div className="addEventContainer">
                 <form className="addEventForm" onSubmit={addNewEvent}>
+                    <div className="upperFields">
                     <TextField
                         className={classes.input}
                         id="name-control"
@@ -78,10 +79,13 @@ function AddEvent() {
                         variant="outlined"
                         inputProps={{ maxLength: 255}}
                         multiline
-                        rows={3}
+                        rows={6}
                         helperText="optional"
+                        style={{width: 420}}
                         onChange={(e) => setNewEvent({ ...newEvent, special_inst: e.target.value })}
                     />
+                    </div>
+                <div className="lowerFields">
                     <TextField
                         className={classes.input}
                         inputProps={{ maxLength: 255}}
@@ -125,8 +129,11 @@ function AddEvent() {
                         helperText="optional"
                         onChange={(e) => setNewEvent({ ...newEvent, pic_url: e.target.value })}
                     />
+                    </div>
+                    <div className="buttonBox">
                     <Button type="submit" variant="contained" color="primary">Submit</Button>
                     <Button type="reset" variant="contained" color="secondary">Clear Fields</Button>
+                    </div>
                     <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>
                 </form>
             </div>
