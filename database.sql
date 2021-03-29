@@ -66,6 +66,7 @@ CREATE TABLE "event" (
 CREATE TABLE "affiliation" (
 	"id" serial NOT NULL,
 	"college_name" varchar(255) NOT NULL,
+	"inactive" BOOLEAN NOT NULL DEFAULT 'FALSE',
 	CONSTRAINT "affiliation_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -83,13 +84,11 @@ CREATE TABLE "user_group" (
 );
 
 
-
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
 ALTER TABLE "user_event" ADD CONSTRAINT "user_event_fk1" FOREIGN KEY ("event_id") REFERENCES "event"("id");
 ALTER TABLE "user" ADD CONSTRAINT "user_fk0" FOREIGN KEY ("college_id") REFERENCES "affiliation"("id");
 ALTER TABLE "user_group" ADD CONSTRAINT "user_group_fk0" FOREIGN KEY ("user_id") REFERENCES "user"("id");
 ALTER TABLE "user_group" ADD CONSTRAINT "user_group_fk1" FOREIGN KEY ("group_id") REFERENCES "affiliation"("id");
-
 
 
 -- Create Starting Affiliatons
