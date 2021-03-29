@@ -76,7 +76,7 @@ router.put('/:id', rejectUnauthenticated, (req, res) =>  {
 
 // ADMIN PUT sets user to unarchived 
 // available at /api/user/:id
-router.put('/:id', rejectUnauthenticated, (req, res) =>  {
+router.put('/:id/archived', rejectUnauthenticated, (req, res) =>  {
   console.log('Unarchiving user id', req.params.id);
   const id = req.params.id;
   const query = `

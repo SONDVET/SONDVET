@@ -47,6 +47,12 @@ function UserAdminView() {
         history.push("/user");
     }
 
+    // Sends dispatch to user router.put to unarchive user
+    const unarchiveUser = () => {
+        dispatch({ type: 'UNARCHIVE_USER', payload: params.id });
+        history.push("/user");
+    }
+
     const [grandTotalHours, setGrandTotalHours] = useState(0)
     const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
@@ -161,6 +167,7 @@ function UserAdminView() {
                         <button onClick={() => setEditMode()}>Edit Info</button> 
                         <button onClick={() => updateInfo()}>Save</button>
                         <button onClick={() => archiveUser()}>Delete User</button>
+                        <button onClick={() => unarchiveUser()}>Restore User</button>
                     </div>
                     <div className="userEventsContainer">
                         <table>
