@@ -71,6 +71,7 @@ function GroupView() {
                 parameter: params.id 
             }
         })
+        handleClose()
     };
 
     // //  Click to remove an entire group/affiliation
@@ -157,7 +158,7 @@ function GroupView() {
                                         <Button autoFocus onClick={handleClose} color="primary">
                                             Disagree and Cancel
                                         </Button>
-                                        <Button onClick={handleClose, removeUser(affiliates.id, affiliates.group_id)} color="primary" autoFocus>
+                                        <Button onClick={ () => removeUser(affiliates.id, affiliates.group_id)} color="primary" autoFocus>
                                             Agree and Remove User
                                         </Button>
                                     </DialogActions>
