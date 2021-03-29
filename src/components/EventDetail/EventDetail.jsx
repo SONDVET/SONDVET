@@ -18,6 +18,7 @@ function EventDetail() {
     const user = useSelector((store) => store.user)
     const userEvent = useSelector((store) => store.userEvent);
     const event = useSelector((store) => store.event);
+    const today = new Date();
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT_DETAILS', payload: params.id });
         dispatch({ type: 'FETCH_USER_EVENT', payload: params.id })
@@ -45,7 +46,7 @@ function EventDetail() {
                     <>
                         <h1>{event[0].name}</h1>
                         <img src={event[0].pic_url} />
-                        <p>{event[0].date}</p>
+                        <p>{moment(event[0].date).format('MMMM Do YYYY')}</p>
                         <p>{event[0].time}</p>
                         {/* <p>{time}</p> */}
                         <p>{event[0].description}</p>
