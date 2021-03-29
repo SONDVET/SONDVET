@@ -33,9 +33,18 @@ function* archiveUser(action) {
   }
 }
 
+function* unarchiveUser(action) {
+  try {
+    yield axios.put(`/api/user/${action.payload}`);
+  } catch (error) {
+    console.log(`Error archiving user, ${error}`);
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
   yield takeLatest('ARCHIVE_USER', archiveUser)
+  yield takeLatest('UNARCHIVE_USER', unarchiveUser)
 }
 
 export default userSaga;
