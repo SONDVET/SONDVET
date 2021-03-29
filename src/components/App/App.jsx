@@ -12,7 +12,8 @@ import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
 
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-
+import ProtectedAdminRoute from "../ProtectedAdminRoute/ProtectedAdminRoute"
+import ProtectedOfficerRoute from "../ProtectedOfficerRoute/ProtectedOfficerRoute"
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
@@ -103,7 +104,7 @@ function App() {
             <LandingPage />
           </ProtectedRoute>
 
-          <ProtectedRoute
+          <ProtectedOfficerRoute
             // with authRedirect:
             // - if logged in,  and authorized, redirects to AddEvent page
             // - else shows LandingPage at "/home"
@@ -111,7 +112,7 @@ function App() {
             path="/addevent"
           >
             <AddEvent />
-          </ProtectedRoute>
+          </ProtectedOfficerRoute>
 
           <ProtectedRoute
             // with authRedirect:

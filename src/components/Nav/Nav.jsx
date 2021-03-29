@@ -30,7 +30,7 @@ function Nav() {
           {loginLinkData.text}
         </Link>
 
-        {user.id && (
+        {user.id && user.access_level >= 2 && (
           <>
             <Link className="navLink" to="/addevent">
               Add Event
