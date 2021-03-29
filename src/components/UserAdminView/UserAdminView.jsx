@@ -41,6 +41,18 @@ function UserAdminView() {
         window.location.reload();
     }
 
+    // Sends dispatch to user router.put to archive user
+    const archiveUser = () => {
+        dispatch({ type: 'ARCHIVE_USER', payload: params.id });
+        history.push("/group_view/1");
+    }
+
+    // Sends dispatch to user router.put to unarchive user
+    const unarchiveUser = () => {
+        dispatch({ type: 'UNARCHIVE_USER', payload: params.id });
+        history.push("/group_view/1");
+    }
+
     const [grandTotalHours, setGrandTotalHours] = useState(0)
     const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
@@ -152,7 +164,10 @@ function UserAdminView() {
                         <div className="personInfoItem">Affiliation/College</div>      <div className="personInfoItem">{edit ? <div>{user.college_id}</div> : <input defaultValue={user.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="number" />}</div>
                         <div className="personInfoItem">Archived</div>                <div className="personInfoItem">{edit ? <div>{user.archived.toString()}</div> : <input defaultValue={user.archived.toString()} onChange={(e) => setPerson({ ...person, archived: e.target.value })}/>}</div>
                         {/* edit button will conidtionally render the divs into inputs, Save will dispatch the new data */}
-                        <button onClick={() => setEditMode()} >Edit Info</button> <button onClick={() => updateInfo()} >save</button>
+                        <button onClick={() => setEditMode()}>Edit Info</button> 
+                        <button onClick={() => updateInfo()}>Save</button>
+                        <button onClick={() => archiveUser()}>Archive User</button>
+                        <button onClick={() => unarchiveUser()}>Restore User</button>
                     </div>
                     <div className="userEventsContainer">
                         <table>
