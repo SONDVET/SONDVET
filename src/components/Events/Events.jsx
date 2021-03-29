@@ -37,6 +37,7 @@ function Events() {
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
+    const today = new Date();
 
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
@@ -101,8 +102,11 @@ function Events() {
             <div className='searchWrap'>
                 <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
+           
             <div className="eventListContainer">
+            
                 <div>
+                {store.event.length > 0 ?
                     <div className="cardWrap">
                         {/* loops over every event in the event store and displays them in a div */}
                         {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) =>
@@ -119,12 +123,14 @@ function Events() {
                                     <p className="descriptionText">{event.description}</p>
                                     <p>{event.special_inst} </p>
                                 </CardContent>
-                                {(checkForAttend(user.id, event.id) || !store.allUserEvent) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
-                                {(!checkForAttend(user.id, event.id) && store.allUserEvent) ? <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button> : ''}
+                                {((moment(event.date)+86400000) < moment(today)) ? 'event expired ' : ''}
+                                {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
+                                {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}
 
                                 {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>)}
                     </div>
+            :<><h1 style={{textAlign: 'center'}}>No Events Found</h1></>}
                     <div className="pageWrap">
                         <Pagination
                             className="pagination"

@@ -73,8 +73,7 @@ function GroupView() {
         })
     };
 
-
-    //  Click to remove an entire group/affiliation
+    // //  Click to remove an entire group/affiliation
     const removeGroup = () => {
         dispatch({ type: 'REMOVE_GROUP', payload: params.id });
         console.log(params.id);
