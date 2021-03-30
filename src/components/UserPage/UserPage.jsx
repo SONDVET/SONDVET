@@ -250,48 +250,48 @@ function UserPage() {
       {/* User Events Table */}
       <Grid container direction="row" justify="space-evenly" alignItems="center">
         <Grid item xs={10}>
-        <TableContainer component={Paper} >
-          <Table>
-            <TableHead>
-              <StyledTableRow>
-                <StyledTableCell align="left">Event</StyledTableCell>
-                <StyledTableCell align="center">Event Date</StyledTableCell>
-                <StyledTableCell align="center">Attendance</StyledTableCell>
-                <StyledTableCell align="center">View</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody>
-              {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
-                <StyledTableCell align="left">
-                  <b>{item.name}</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {item.date.substring(0, 10)}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
-                  {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
-                </StyledTableCell >
-                <StyledTableCell align="center">
-                  <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
-                </StyledTableCell>
-              </StyledTableRow>)}
-              <StyledTableRow>
-                <StyledTableCell colSpan="4">
-                  {/*intentionally blank buffer column */}
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>
-                  <b>Total Volunteer Time:</b>
-            </StyledTableCell>
-                <StyledTableCell colSpan="3" align="center">
-                  {grandTotalHours} hours {grandTotalMinutes} minutes
-            </StyledTableCell>
-              </StyledTableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+          <TableContainer component={Paper} >
+            <Table>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell align="left">Event</StyledTableCell>
+                  <StyledTableCell align="center">Event Date</StyledTableCell>
+                  <StyledTableCell align="center">Attendance</StyledTableCell>
+                  <StyledTableCell align="center">View</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+                {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                  <StyledTableCell align="left">
+                    <b>{item.name}</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {item.date.substring(0, 10)}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
+                    {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
+                  </StyledTableCell >
+                  <StyledTableCell align="center">
+                    <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
+                  </StyledTableCell>
+                </StyledTableRow>)}
+                <StyledTableRow>
+                  <StyledTableCell colSpan="4">
+                    {/*intentionally blank buffer column */}
+                  </StyledTableCell>
+                </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell>
+                    <b>Total Volunteer Time:</b>
+                  </StyledTableCell>
+                  <StyledTableCell colSpan="3" align="center">
+                    {grandTotalHours} hours {grandTotalMinutes} minutes
+                  </StyledTableCell>
+                </StyledTableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
       </Grid>
 
