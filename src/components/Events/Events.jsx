@@ -99,6 +99,7 @@ function Events() {
     const shrink = useMediaQuery("(min-width: 800px)")    
     return (
         <>
+            <h1>Current Events</h1>
             <div className='searchWrap'>
                 <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>

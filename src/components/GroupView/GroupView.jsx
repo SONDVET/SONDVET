@@ -170,7 +170,7 @@ function GroupView() {
                                     <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
                                     <DialogContent>
                                         <DialogContentText>
-                                            Are you sure you want to remove this user from this affiliation?  If you do they will can edit their user information to rejoin.
+                                            Are you sure you want to remove this user from this affiliation?  If you do they will have to edit their user information before they can rejoin.
                                          </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
