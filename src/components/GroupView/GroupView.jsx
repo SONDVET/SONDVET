@@ -139,8 +139,10 @@ function GroupView() {
                 <h1>{store.affiliate[0].college_name}</h1>
             
             <div>
-                <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
-                   Archive Group
+                <Button 
+                variant="contained"
+                onClick={()=> history.push("/group_view")}>
+                    All Groups
                 </Button>
                 <Dialog
                     fullScreen={fullScreen}
@@ -215,6 +217,9 @@ function GroupView() {
                 )}
                 </TableBody>
             </Table>
+            <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
+                   Archive Group
+                </Button>
             <ReactHTMLTableToExcel
                 id="test-table-xls-button"
                 className="download-table-xls-button"
