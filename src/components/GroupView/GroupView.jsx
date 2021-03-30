@@ -14,7 +14,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useTheme } from '@material-ui/core/styles';
 
-
+const StyledTableRow = withStyles((theme) => ({
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+    },
+}))(TableRow);
 //  This page is for officers and admins to view users by aflliliation
 function GroupView() {
 
@@ -36,26 +42,46 @@ function GroupView() {
         },
     }))(TableCell);
 
-    const StyledTableRow = withStyles((theme) => ({
-        root: {
-            '&:nth-of-type(odd)': {
-                backgroundColor: theme.palette.action.hover,
-            },
-        },
-    }))(TableRow);
+    
+    const goToDetails = (eventId) => {
+        //TODO: this route may need to be updated 
+        history.push(`/details/${eventId}`)
+    }
 
+    const goToGroup = (groupId) => {
+        //TODO: this route may need to be updated 
+        history.push(`/group_view/${groupId}`)
+    }
     const params = useParams()
     const dispatch = useDispatch();
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const orgName = useSelector((store) => store.affiliate);
-
+    
     useEffect(() => {
-        dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
-        dispatch({ type: 'GET_AFFILIATION', payload: params.id });
+        if(params.id === undefined){
+           console.log('noParams')
+                dispatch({ type: 'FETCH_AFFILIATE' });
+                dispatch({ type: 'FETCH_ALL_USER_EVENT' });
+                dispatch({ type: 'FETCH_ALL_USER_EVENT' });
+                dispatch({ type: 'FETCH_USER_GROUP' });
+        } else{
+            console.log("no bork")
+            dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
+            dispatch({ type: 'GET_AFFILIATION', payload: params.id });
+        }
+       
     }, []);
-
+    const memberCount = (groupId) => {
+        let count = 0;
+        for (let item of store.userGroup) {
+            if (groupId === item.group_id) {
+                count++;
+            }
+        }
+        return count;
+    }
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (user) => {
         console.log(`You want to view details for person with id of ${user}`)
@@ -108,9 +134,10 @@ function GroupView() {
 
     return (
         <>
-            {store.affiliate[0] &&
+            {params.id != undefined ?
+            <>
                 <h1>{store.affiliate[0].college_name}</h1>
-            }
+            
             <div>
                 <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
                    Archive Group
@@ -195,7 +222,41 @@ function GroupView() {
                 filename="Group Members"
                 sheet="GroupMembers.xls"
                 buttonText="Download Group Members" />
-        </>
+                </>
+                :
+                <>
+                 {/* {store.affiliate[0] &&  */}
+                <div className="groupListContainer">
+
+                <Table id="SO College Members">
+                    <TableHead>
+                        <StyledTableRow>
+                            <StyledTableCell>Group</StyledTableCell>
+                            <StyledTableCell>Total Members</StyledTableCell>
+                            <StyledTableCell></StyledTableCell>
+                        </StyledTableRow>
+                    </TableHead>
+                    <TableBody>
+                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
+                            <StyledTableRow key={affiliate.id}>
+                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
+                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
+                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
+                            </StyledTableRow>
+                        )}
+                    </TableBody>
+                </Table>
+                <ReactHTMLTableToExcel
+                    id="test-table-xls-button"
+                    className="download-table-xls-button"
+                    
+                    table="SO College Members"
+                    filename="SO College Members"
+                    sheet="eventUser.xls"
+                    buttonText="Download SO College Members" />
+            </div>
+            {/* } */}
+                </>}</>
     );
 }
 

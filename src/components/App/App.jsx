@@ -114,7 +114,7 @@ function App() {
             <AddEvent />
           </ProtectedOfficerRoute>
 
-          <ProtectedRoute
+          <ProtectedOfficerRoute
             // with authRedirect:
             // - if logged in, and authorized, redirects to GroupView
             // - else shows LandingPage at "/home"
@@ -122,9 +122,15 @@ function App() {
             path="/group_view/:id"
           >
             <GroupView />
-          </ProtectedRoute>
+          </ProtectedOfficerRoute>
 
-          <ProtectedRoute
+          <ProtectedOfficerRoute
+          exact path="/group_view"
+          >
+             <GroupView />
+          </ProtectedOfficerRoute>
+           
+          <ProtectedOfficerRoute
             // with authRedirect:
             // - if logged in redirects to EventDetail
             // - else shows LandingPage at "/home"
@@ -132,7 +138,7 @@ function App() {
             path="/details/:id"
           >
             <EventDetail />
-          </ProtectedRoute>
+          </ProtectedOfficerRoute>
 
           <ProtectedRoute
             // with authRedirect:
