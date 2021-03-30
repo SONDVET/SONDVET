@@ -89,6 +89,23 @@ function UserAdminView() {
         return null;
     }
 
+    const isAMember = (userId, groupId) => {
+        for (let item of store.userGroup) {
+          if (item.user_id === userId && item.group_id === groupId)
+            return true
+        }
+        return false
+      }
+
+      const toggleJoin = (userId, groupId, command) => {
+        if (command === 'join') {
+          dispatch({ type: 'ADD_USER_GROUP', payload: { user_id: userId, group_id: groupId } })
+        }
+        if (command === 'leave') {
+          dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: userId, group_id: groupId } })
+        }
+      }
+
     const [grandTotalHours, setGrandTotalHours] = useState(0)
     const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
@@ -177,6 +194,8 @@ function UserAdminView() {
                                 </div></Grid>}
                         <Grid item>
                             <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Info' : 'cancel edit'}</Button> {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
+                            <Button variant="contained" color="secondary" onClick={() => archiveUser()}>Archive User</Button> 
+                            <Button variant="contained" color="default" onClick={() => unarchiveUser()}>Restore User</Button>
                         </Grid>
                     </Grid>
                     <br />

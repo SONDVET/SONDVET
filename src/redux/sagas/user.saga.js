@@ -28,6 +28,7 @@ function* fetchUser() {
 function* archiveUser(action) {
   try {
     yield axios.put(`/api/user/${action.payload}`);
+    yield put({ type: 'SET_USER', payload: response.data });
   } catch (error) {
     console.log(`Error archiving user, ${error}`);
   }
