@@ -112,7 +112,7 @@ function GroupView() {
                 <h1>{store.affiliate[0].college_name}</h1>
             }
             <div>
-                <Button variant="outlined" color="secondary" onClick={() => handleClickOpen()}>
+                <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
                    Archive Group
                 </Button>
                 <Dialog
@@ -155,7 +155,7 @@ function GroupView() {
                             <StyledTableCell>{affiliates.first_name}</StyledTableCell>
                             <StyledTableCell>{affiliates.email}</StyledTableCell>
                             <StyledTableCell>{phoneFormater(affiliates.phone_number)}</StyledTableCell>
-                            <StyledTableCell align="center"><button onClick={() => goToUser(affiliates.id)}>View</button></StyledTableCell>
+                            <StyledTableCell align="center"><Button variant="outlined" color="primary" onClick={() => goToUser(affiliates.id)}>View</Button></StyledTableCell>
                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                             <StyledTableCell>
                                 <Button variant="outlined" color="secondary" onClick={handleClickOpener}>
