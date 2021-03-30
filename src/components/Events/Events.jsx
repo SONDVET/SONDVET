@@ -38,7 +38,7 @@ function Events() {
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
     const today = new Date();
-    
+
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
     useEffect(() => {
@@ -96,44 +96,52 @@ function Events() {
         }
         return count;
     }
-    const shrink = useMediaQuery("(min-width: 800px)")    
+
+
+    const shrink = useMediaQuery("(min-width: 800px)")
+
     return (
         <>
-            <h1>Current Events</h1>
+            <div className="eventsHead">
+                <h2 className="headText">Current Events</h2>
+                <p className="headText">Click on "join" to volunteer for that event.  A list of events you have volunteered for will appear on your userpage. <br></br> Clicking on "Can't make it" removes you as a volunteer for that event.
+                </p>
+            </div>
             <div className='searchWrap'>
                 <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
-            
+
             <div className="eventListContainer">
                 <div>
-                {store.event.length > 0 ?
-                    <div className="cardWrap">
-                        {/* loops over every event in the event store and displays them in a div */}
-                        {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) => {
-                            return (
-                            <Card key={event.id} className={`${shrink ? classes.eventCard : classes.mobileCard}`}>
-                                <CardHeader title={event.name} />
-                                <CardContent>
-                                    <img src={event.pic_url} height='50px' />
-                                </CardContent>
-                                {/* {/* <Accordion>
+                    {store.event.length > 0 ?
+                        <div className="cardWrap">
+                            {/* loops over every event in the event store and displays them in a div */}
+                            {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) => {
+                                return (
+                                    <Card key={event.id} className={`${shrink ? classes.eventCard : classes.mobileCard}`}>
+                                        <CardHeader title={event.name} />
+                                        <CardContent>
+                                            <img src={event.pic_url} height='50px' />
+                                        </CardContent>
+                                        {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
-                                <CardContent  className="descriptionText" >
-                                    {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
-                                    <p >{event.location}</p>
-                                    <p >{event.description}</p>
-                                    <p >{event.special_inst} </p>
-                                </CardContent>
-                                {((moment(event.date)+86400000) < moment(today)) ? 'event expired ' : ''}
-                                {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
-                                {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
+                                        <CardContent className="descriptionText" >
+                                            {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
+                                            <p >{event.location}</p>
+                                            <p >{event.description}</p>
+                                            <p >{event.special_inst} </p>
+                                        </CardContent>
+                                        {((moment(event.date) + 86400000) < moment(today)) ? 'event expired ' : ''}
+                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
+                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
-                                {(user.access_level >= 2) && <Button variant="contained" color="link" onClick={() => goToDetails(event.id)}>Details</Button>}
-                            </Card>
-                          
-                        )})}
-                    </div>
-            :<><h1 style={{textAlign: 'center'}}>No Events Found</h1></>}
+                                        {(user.access_level >= 2) && <Button variant="contained" color="link" onClick={() => goToDetails(event.id)}>Details</Button>}
+                                    </Card>
+
+                                )
+                            })}
+                        </div>
+                        : <><h1 style={{ textAlign: 'center' }}>No Events Found</h1></>}
                     <div className="pageWrap">
                         <Pagination
                             className="pagination"
@@ -171,7 +179,7 @@ function Events() {
                 <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="download-table-xls-button"
-                    
+
                     table="SO College Members"
                     filename="SO College Members"
                     sheet="eventUser.xls"
