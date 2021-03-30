@@ -89,32 +89,18 @@ function EventDetail() {
         return null;
     }
 
-
     return (
-
         <>
             <Container>
                 {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
-                <div className="eventDetailContainer">
-
-                    {event[0] && user.access_level >= 2 ?
-                        <>
                             <h1>{event[0].name}</h1>
-                            <img src={event[0].pic_url} />
+                            <img src={event[0].pic_url} height='150px'/>
                             <p>{moment(event[0].date).format('MMMM Do YYYY')}</p>
                             <p>{event[0].time}</p>
                             {/* <p>{time}</p> */}
                             <p>{event[0].description}</p>
                             <p>{event[0].special_inst}</p>
-                        </>
-                        :
-                        <>
-                            <h1>404</h1>
-                            <h2>Not Found</h2>
-                        </>
-                    }
-                    {userEvent[0] && user.access_level >= 2 &&
-                        <>
+
                             <ReactHTMLTableToExcel
                                 id="test-table-xls-button"
                                 className="download-table-xls-button"
@@ -122,6 +108,7 @@ function EventDetail() {
                                 filename="Event Registrants"
                                 sheet="eventUser.xls"
                                 buttonText="Download Event Registrants" />
+                                <h2>Scheduled Participants</h2>
                             <TableContainer component={Paper} >
                                 <Table id="eventUser" className="eventUser">
                                     <TableHead>
@@ -184,10 +171,6 @@ function EventDetail() {
                                 </div>
                                 // <button onClick={() => unarchiveEvent()}>Unarchive Event</button>
                             }
-
-                        </>
-                    }
-                </div>
             </Container>
         </>
     );
