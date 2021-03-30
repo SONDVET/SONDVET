@@ -112,8 +112,8 @@ function GroupView() {
                 <h1>{store.affiliate[0].college_name}</h1>
             }
             <div>
-                <Button variant="outlined" color="primary" onClick={() => handleClickOpen()}>
-                    Delete Group
+                <Button variant="outlined" color="secondary" onClick={() => handleClickOpen()}>
+                   Archive Group
                 </Button>
                 <Dialog
                     fullScreen={fullScreen}

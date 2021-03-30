@@ -195,7 +195,6 @@ function UserAdminView() {
                         <Grid item>
                             <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Info' : 'cancel edit'}</Button> {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
                             <Button variant="contained" color="secondary" onClick={() => archiveUser()}>Archive User</Button> 
-                            
                             <Button variant="contained" color="default" onClick={() => unarchiveUser()}>Restore User</Button>
                         </Grid>
                     </Grid>
