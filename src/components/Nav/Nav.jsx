@@ -5,10 +5,8 @@ import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 import Logo from '../Images/WhiteLogo.png';  //src/components/Images/SONDLogo.png
-import { useMediaQuery, Drawer, Button,  Toolbar, AppBar, FormControl } from '@material-ui/core'
+import { useMediaQuery, Drawer, Button, makeStyles, Toolbar, AppBar, FormControl } from '@material-ui/core'
 import MenuIcon from "@material-ui/icons/Menu";
-import { useStyles } from './NavDrawerStyle'
-
 function Nav() {
   const user = useSelector((store) => store.user);
 
@@ -21,9 +19,21 @@ function Nav() {
     loginLinkData.path = '/user';
     loginLinkData.text = 'My Profile';
   }
-  const classes = useStyles
+
   const shrink = useMediaQuery("(min-width: 800px)")
   const [drawer, setDrawer] = useState(false);
+  const useStyles = makeStyles((theme) => ({
+    drawerLink: {
+      color: "white",
+      backgroundColor: "#FF0000",
+      borderRadius:0,
+      padding: "20px  5px 20px 5px",
+    },
+    drawerPaper:{
+      backgroundColor:"#FF0000"
+    }
+  }));
+  const classes = useStyles()
   return (
     <div className="nav">
       {shrink ?
@@ -74,38 +84,53 @@ function Nav() {
             <MenuIcon />
           </Button>
           <Drawer
-            className={classes.drawer}
+            anchor='top'
             open={drawer}
-            onClose={() => setDrawer(false)}
+            className={classes.drawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            onClick={() => setDrawer(false)}
           >
-            <button
+          
+            <img className="mainLogo" src={Logo} style={{backgroundColor:"#FF0000"}} />
+          
+            <Button
               component={Link}
               to="/user"
               onClick={() => setDrawer(false)}
-              className="drawerLink"
+              className={classes.drawerLink}
             >
               My Profile
-            </button>
+            </Button>
             {user.id && user.access_level >= 2 && (
-              <button
-                className="drawerLink"
-                styles={{ backgroundColor: "FF0000" }}
+              <Button
+                className={classes.drawerLink}
                 component={Link}
                 to="/addevent"
                 onClick={() => setDrawer(false)}
               >
                 Add Event
-              </button>
+              </Button>
             )}
-            <button
-              className="drawerLink"
+            <Button
+              className={classes.drawerLink}
               component={Link}
               to="/events"
               onClick={() => setDrawer(false)}
             >
               Events
-             </button>
-            {user.id && <LogOutButton className="drawerLink" />}
+             </Button>
+            {user.id && user.access_level >= 3 &&
+              <Button
+                className={classes.drawerLink}
+                component={Link}
+                to="/admin"
+                onClick={() => setDrawer(false)}
+              >
+                Admin
+              </Button>}
+            {user.id && <LogOutButton className="navLink" />}
           </Drawer>
         </>
       }
