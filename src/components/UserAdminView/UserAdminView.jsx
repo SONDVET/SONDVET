@@ -187,7 +187,7 @@ function UserAdminView() {
                             <p>{user.email}</p>
                         </div>
 
-                        {(user.access_level > 2) &&
+                        {(store.user.access_level > 2) &&
                             <Grid item>
                                 <div className="rankContainer">
                                     <div>Rank: &nbsp;</div>  <div clasname="rank">{edit ? <div><b>{accessRanks[user.access_level - 1]}</b></div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
