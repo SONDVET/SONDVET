@@ -17,6 +17,7 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    padding: '20px'
   },
   body: {
     fontSize: 14,
@@ -248,6 +249,8 @@ function UserPage() {
       {/* User Events Table */}
       <Grid container direction="row" justify="space-evenly" alignItems="center">
         <Grid item xs={10}>
+        <h2>Event Participations</h2>
+
           <TableContainer component={Paper} >
             <Table>
               <TableHead>
