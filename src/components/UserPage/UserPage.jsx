@@ -224,7 +224,7 @@ function UserPage() {
             <Table>
               <TableHead>
                 <StyledTableRow>
-                  <StyledTableCell colSpan="3" align="center">Groups</StyledTableCell>
+                  <StyledTableCell colSpan="3" align="center">Groups: Join adds you to a group and and Leave removes you from it.</StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
