@@ -58,15 +58,15 @@ function Events() {
     }, [store.event])
 
     //button which will take a user to that event's details page
-    const goToDetails = (eventId) => {
-        //TODO: this route may need to be updated 
-        history.push(`/details/${eventId}`)
-    }
+    // const goToDetails = (eventId) => {
+    //     //TODO: this route may need to be updated 
+    //     history.push(`/details/${eventId}`)
+    // }
 
-    const goToGroup = (groupId) => {
-        //TODO: this route may need to be updated 
-        history.push(`/group_view/${groupId}`)
-    }
+    // const goToGroup = (groupId) => {
+    //     //TODO: this route may need to be updated 
+    //     history.push(`/group_view/${groupId}`)
+    // }
 
     const checkForAttend = (userId, eventId) => {
         for (let item of store.allUserEvent) {
@@ -147,7 +147,8 @@ function Events() {
                     </div>
                 </div>
             </div>
-            {(user.access_level > 1) && <div className="groupListContainer">
+            {/* {(user.access_level > 1) && 
+                <div className="groupListContainer">
 
                 <Table id="SO College Members">
                     <TableHead>
@@ -175,7 +176,7 @@ function Events() {
                     filename="SO College Members"
                     sheet="eventUser.xls"
                     buttonText="Download SO College Members" />
-            </div>}
+            </div>} */}
         </>
     );
 }

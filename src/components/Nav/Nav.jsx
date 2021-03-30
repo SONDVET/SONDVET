@@ -58,7 +58,18 @@ function Nav() {
               Events
             </Link>
             }
-            {user.id && (
+            {user.id && user.access_level > 1 &&
+              <Link className="navLink" to= "/group_view">
+                All Groups
+              </Link>
+            }
+            {user.id && user.access_level >= 3 &&
+              <>
+                <Link className="navLink" to="/admin">
+                  Admin
+              </Link>
+              </>}
+          {user.id && (
               <>
                 {/* <Link className="navLink" to="/info">
                   Info Page
@@ -66,12 +77,7 @@ function Nav() {
                 <LogOutButton className="navLink" />
               </>
             )}
-            {user.id && user.access_level >= 3 &&
-              <>
-                <Link className="navLink" to="/admin">
-                  Admin
-          </Link>
-              </>}
+             
           </div>
         </>
         :
@@ -122,7 +128,16 @@ function Nav() {
             >
               Events
              </Button>
-}
+            }
+            {user.id && user.access_level >1 &&
+              <Button
+              className={classes.drawerLink}
+              component={Link}
+              to="/group_view"
+              >
+              All Groups
+              </Button>
+            }
             {user.id && user.access_level >= 3 &&
               <Button
                 className={classes.drawerLink}
