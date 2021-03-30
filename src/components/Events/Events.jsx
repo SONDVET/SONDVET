@@ -58,10 +58,10 @@ function Events() {
     }, [store.event])
 
     //button which will take a user to that event's details page
-    // const goToDetails = (eventId) => {
-    //     //TODO: this route may need to be updated 
-    //     history.push(`/details/${eventId}`)
-    // }
+    const goToDetails = (eventId) => {
+        //TODO: this route may need to be updated 
+        history.push(`/details/${eventId}`)
+    }
 
     // const goToGroup = (groupId) => {
     //     //TODO: this route may need to be updated 
