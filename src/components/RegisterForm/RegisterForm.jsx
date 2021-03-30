@@ -78,8 +78,8 @@ function RegisterForm() {
         <TextField variant="filled" className={classes.input} label="Date Of Birth" InputLabelProps={{ shrink: true }} onChange={(e) => setUser({ ...user, dob: e.target.value })} type="date" required />
         <TextField variant="filled" className={classes.input} label="Involved With SOND Since" InputLabelProps={{ shrink: true }} onChange={(e) => setUser({ ...user, involved_w_sond_since: e.target.value })} type="date" required />
         <FormControl variant="filled" className={classes.input} >
-          <InputLabel>School</InputLabel>
-          <Select value={user.college_id} onChange={(e) => setUser({ ...user, college_id: e.target.value })} >
+          <InputLabel>School *</InputLabel>
+          <Select required value={user.college_id} onChange={(e) => setUser({ ...user, college_id: e.target.value })} >
             {(affiliates[0]) && affiliates.map((school) =>
               <MenuItem key={school.id} value={school.id}>{school.college_name}</MenuItem>
             )}
@@ -92,7 +92,7 @@ function RegisterForm() {
         )}
       </select> */}
 
-      <TextField variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
+      <TextField required variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
 
 
         <div>
