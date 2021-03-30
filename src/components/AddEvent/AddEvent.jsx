@@ -59,6 +59,7 @@ function AddEvent() {
                         variant="outlined"
                         inputProps={{ maxLength: 255}}
                         required
+                        style={{ width: 420 }}
                         onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
                     />
                     <TextField

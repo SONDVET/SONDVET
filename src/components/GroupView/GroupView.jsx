@@ -96,6 +96,15 @@ function GroupView() {
         setUserOpen(false);
     };
 
+    const phoneFormater = (phoneNumb) => {
+        let format = ('' + phoneNumb).replace(/\D/g, '');
+        let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ')' + match[2] + '-' + match[3];
+        }
+        return null;
+    }
+
 
     return (
         <>
@@ -145,8 +154,8 @@ function GroupView() {
                             <StyledTableCell>{affiliates.last_name}</StyledTableCell>
                             <StyledTableCell>{affiliates.first_name}</StyledTableCell>
                             <StyledTableCell>{affiliates.email}</StyledTableCell>
-                            <StyledTableCell>{affiliates.phone_number}</StyledTableCell>
-                            <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View</Button></StyledTableCell>
+                            <StyledTableCell>{phoneFormater(affiliates.phone_number)}</StyledTableCell>
+                            <StyledTableCell align="center"><button onClick={() => goToUser(affiliates.id)}>View</button></StyledTableCell>
                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                             <StyledTableCell>
                                 <Button variant="outlined" color="primary" onClick={handleClickOpener}>

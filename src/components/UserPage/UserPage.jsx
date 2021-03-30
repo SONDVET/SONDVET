@@ -12,30 +12,30 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 
+//Styling for material tables
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 
 //  This page is for users to view all events they subscribed to and edit their profile info.
 function UserPage() {
 
-  //Styling for material tables
-  const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
-
-
+ 
   const dispatch = useDispatch();
   const history = useHistory();
   const store = useSelector(store => store);
@@ -50,7 +50,6 @@ function UserPage() {
 
   useEffect(() => {
     grandTotalTime();
-    // phoneFormater(user.phone_number);
   }, [store.oneUserEvent])
 
   const [edit, setEdit] = useState(true);
@@ -73,6 +72,7 @@ function UserPage() {
     archived: user.archived
   })
 
+
   const setEditMode = () => {
     console.log('clicked edit mode', edit);
     if (edit === true) {
@@ -87,11 +87,9 @@ function UserPage() {
   const updateInfo = () => {
     dispatch({ type: 'RE_REGISTER', payload: person });
     setEdit(true);
-    window.location.reload();
   }
 
   // calculates user's total volunteer time
-
   const [grandTotalHours, setGrandTotalHours] = useState(0)
   const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
@@ -122,7 +120,6 @@ function UserPage() {
     return null;
   }
 
-  //  ('' + user.phone_number).replace(/\D/g, '').match(/^(\d{3})(\d{3})(\d{4})$/)
 
   const isAMember = (userId, groupId) => {
     for (let item of store.userGroup) {
@@ -140,6 +137,7 @@ function UserPage() {
       dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: userId, group_id: groupId } })
     }
   }
+
 
   return (
     <>
@@ -172,47 +170,47 @@ function UserPage() {
               <TableBody>
                 <StyledTableRow>
                   <StyledTableCell><b>Category</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.category}</div> : <input defaultValue={person.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.category}</div> : <input defaultValue={person.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>First Name</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.first_name}</div> : <input value={person.first_name} defaultValue={person.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.first_name}</div> : <input key="name" value={person.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>Last Name</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.last_name}</div> : <input defaultValue={person.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.last_name}</div> : <input defaultValue={person.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>Email</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.email}</div> : <input defaultValue={person.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.email}</div> : <input defaultValue={person.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>Phone</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.phone_number}</div> : <input defaultValue={person.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>Address</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.address}</div> : <input defaultValue={person.address} onChange={(e) => setPerson({ ...person, address: e.target.value })} />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.address}</div> : <input defaultValue={person.address} onChange={(e) => setPerson({ ...person, address: e.target.value })} />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>City</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.city}</div> : <input defaultValue={person.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.city}</div> : <input defaultValue={person.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>State</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.state}</div> : <input defaultValue={person.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.state}</div> : <input defaultValue={person.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>Zip</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.zip}</div> : <input defaultValue={person.zip} onChange={(e) => setPerson({ ...person, zip: e.target.value })} type="number" />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.zip}</div> : <input defaultValue={person.zip} onChange={(e) => setPerson({ ...person, zip: e.target.value })} type="number" />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>Date of Birth</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.dob.substring(0, 10)}</div> : <input defaultValue={person.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.dob.substring(0, 10)}</div> : <input defaultValue={person.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</StyledTableCell>
                 </StyledTableRow>
                 <StyledTableRow>
                   <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
-                  <StyledTableCell>{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
+                  <StyledTableCell>{edit ? <div>{person.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                 </StyledTableRow>
               </TableBody>
             </Table>

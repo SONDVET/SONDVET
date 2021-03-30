@@ -58,6 +58,15 @@ function EventDetail() {
     };
 
 
+    const phoneFormater = (phoneNumb) => {
+        let format = ('' + phoneNumb).replace(/\D/g, '');
+        let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ')' + match[2] + '-' + match[3];
+        }
+        return null;
+    }
+
 
     return (
 
@@ -110,7 +119,7 @@ function EventDetail() {
                                             <td>{user.category}</td>
                                             <td>{user.college_name}</td>
                                             <td>{user.email}</td>
-                                            <td>{user.phone_number}</td>
+                                            <td>{phoneFormater(user.phone_number)}</td>
                                             <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => dispatch({ type: 'CHECK_IN', payload: { user_id: user.id, event_id: user.event_id, params: params.id } })}>Check In</button></td>
                                             <td><button disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id } })}>Check Out</button></td>
                                             <td><button onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</button></td>
