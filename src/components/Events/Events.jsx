@@ -124,10 +124,10 @@ function Events() {
                                     <p >{event.special_inst} </p>
                                 </CardContent>
                                 {((moment(event.date)+86400000) < moment(today)) ? 'event expired ' : ''}
-                                {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
-                                {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}
+                                {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
+                                {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
-                                {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
+                                {(user.access_level >= 2) && <Button variant="contained" color="link" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>
                           
                         )})}
@@ -161,7 +161,7 @@ function Events() {
                             <StyledTableRow key={affiliate.id}>
                                 <StyledTableCell>{affiliate.college_name}</StyledTableCell>
                                 <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                <StyledTableCell><Button variant="contained" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
+                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
                             </StyledTableRow>
                         )}
                     </TableBody>
@@ -169,6 +169,7 @@ function Events() {
                 <ReactHTMLTableToExcel
                     id="test-table-xls-button"
                     className="download-table-xls-button"
+                    
                     table="SO College Members"
                     filename="SO College Members"
                     sheet="eventUser.xls"
