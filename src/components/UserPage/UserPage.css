@@ -22,3 +22,14 @@ p {
 .rankContainer{
     display:inline-flex;
 }
+
+.name{
+    font-size: 35px;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+.mail{
+    font-size: 20px;
+    margin-top: 0;
+    color: rgb(85, 85, 85);
+}
