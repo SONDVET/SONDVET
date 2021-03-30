@@ -124,10 +124,10 @@ function Events() {
                                     <p >{event.special_inst} </p>
                                 </CardContent>
                                 {((moment(event.date)+86400000) < moment(today)) ? 'event expired ' : ''}
-                                {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
-                                {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}
+                                {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}
+                                {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}
 
-                                {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
+                                {(user.access_level >= 2) && <Button variant="contained" color="link" onClick={() => goToDetails(event.id)}>Details</Button>}
                             </Card>
                           
                         )})}
