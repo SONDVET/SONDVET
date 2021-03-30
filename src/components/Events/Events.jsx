@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './Events.css';
-import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary, Typography } from '@material-ui/core';
+import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary, Typography, useMediaQuery } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
@@ -38,7 +38,7 @@ function Events() {
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
     const today = new Date();
-
+    
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
     useEffect(() => {
@@ -96,28 +96,28 @@ function Events() {
         }
         return count;
     }
-
+    const shrink = useMediaQuery("(min-width: 800px)")    
     return (
         <>
             <div className='searchWrap'>
                 <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
-           
-            <div className="eventListContainer">
             
+            <div className="eventListContainer">
                 <div>
                 {store.event.length > 0 ?
                     <div className="cardWrap">
                         {/* loops over every event in the event store and displays them in a div */}
-                        {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) =>
-                            <Card key={event.id} className={classes.eventCard}>
+                        {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) => {
+                            return (
+                            <Card key={event.id} className={`${shrink ? classes.eventCard : classes.mobileCard}`}>
                                 <CardHeader title={event.name} />
                                 <CardContent>
                                     <img src={event.pic_url} height='50px' />
                                 </CardContent>
                                 {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
-                                <CardContent className="descriptionText">
+                                <CardContent  className="descriptionText" >
                                     {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
                                     <p >{event.location}</p>
                                     <p >{event.description}</p>
@@ -128,7 +128,9 @@ function Events() {
                                 {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date)+86400000) > moment(today))) && <Button variant="outlined" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}
 
                                 {(user.access_level >= 2) && <Button variant="outlined" onClick={() => goToDetails(event.id)}>Details</Button>}
-                            </Card>)}
+                            </Card>
+                          
+                        )})}
                     </div>
             :<><h1 style={{textAlign: 'center'}}>No Events Found</h1></>}
                     <div className="pageWrap">

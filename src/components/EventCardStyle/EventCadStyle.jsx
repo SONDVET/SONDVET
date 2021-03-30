@@ -1,7 +1,9 @@
-import { makeStyles } from "@material-ui/core"
+import { makeStyles} from "@material-ui/core"
+
 const useStyles = makeStyles({
     eventCard: {
         minWidth: '25%',
+        maxWidth: '30%',
         minHeight: 375,
         maxHeight: '100%',
         overflow: 'auto',
@@ -12,7 +14,18 @@ const useStyles = makeStyles({
     },
     searchBar: {
         width: "65%",
+        paddingBottom:30,
     },
+    mobileCard: {
+        width:"95%",
+        minHeight: 375,
+        maxHeight: '100%',
+        overflow: 'auto',
+        margin: 10, 
+        paddingBottom: 10,
+        backgroundColor: " rgb(223, 226, 230)",
+        textAlign: "center"
+    }
 
 });
 export { useStyles }
