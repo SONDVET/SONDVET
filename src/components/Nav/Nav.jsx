@@ -53,11 +53,11 @@ function Nav() {
         </Link>
               </>
             )}
-
+            {user.id &&
             <Link className="navLink" to="/events">
               Events
-        </Link>
-
+            </Link>
+            }
             {user.id && (
               <>
                 {/* <Link className="navLink" to="/info">
@@ -94,14 +94,14 @@ function Nav() {
           >
           
             <img className="mainLogo" src={Logo} style={{backgroundColor:"#FF0000"}} />
-          
+            
             <Button
               component={Link}
-              to="/user"
+              to={loginLinkData.path}
               onClick={() => setDrawer(false)}
               className={classes.drawerLink}
             >
-              My Profile
+              {loginLinkData.text}
             </Button>
             {user.id && user.access_level >= 2 && (
               <Button
@@ -113,6 +113,7 @@ function Nav() {
                 Add Event
               </Button>
             )}
+            {user.id &&
             <Button
               className={classes.drawerLink}
               component={Link}
@@ -121,6 +122,7 @@ function Nav() {
             >
               Events
              </Button>
+}
             {user.id && user.access_level >= 3 &&
               <Button
                 className={classes.drawerLink}
