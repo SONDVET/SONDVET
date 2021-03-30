@@ -236,7 +236,7 @@ function UserPage() {
                 {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow key={group.id}>
                   <StyledTableCell><b>{group.college_name}</b></StyledTableCell>
                   <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} </StyledTableCell>
-                  <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <button onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</button> : <button onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</button>)}</StyledTableCell>
+                  <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</Button> : <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</Button>)}</StyledTableCell>
                 </StyledTableRow>)}
               </TableBody>
             </Table>
@@ -248,48 +248,48 @@ function UserPage() {
       {/* User Events Table */}
       <Grid container direction="row" justify="space-evenly" alignItems="center">
         <Grid item xs={10}>
-        <TableContainer component={Paper} >
-          <Table>
-            <TableHead>
-              <StyledTableRow>
-                <StyledTableCell align="left">Event</StyledTableCell>
-                <StyledTableCell align="center">Event Date</StyledTableCell>
-                <StyledTableCell align="center">Attendance</StyledTableCell>
-                <StyledTableCell align="center">View</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody>
-              {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
-                <StyledTableCell align="left">
-                  <b>{item.name}</b>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {item.date.substring(0, 10)}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
-                  {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
-                </StyledTableCell >
-                <StyledTableCell align="center">
-                  <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
-                </StyledTableCell>
-              </StyledTableRow>)}
-              <StyledTableRow>
-                <StyledTableCell colSpan="4">
-                  {/*intentionally blank buffer column */}
-                </StyledTableCell>
-              </StyledTableRow>
-              <StyledTableRow>
-                <StyledTableCell>
-                  <b>Total Volunteer Time:</b>
-            </StyledTableCell>
-                <StyledTableCell colSpan="3" align="center">
-                  {grandTotalHours} hours {grandTotalMinutes} minutes
-            </StyledTableCell>
-              </StyledTableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+          <TableContainer component={Paper} >
+            <Table>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell align="left">Event</StyledTableCell>
+                  <StyledTableCell align="center">Event Date</StyledTableCell>
+                  <StyledTableCell align="center">Attendance</StyledTableCell>
+                  <StyledTableCell align="center">View</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+                {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                  <StyledTableCell align="left">
+                    <b>{item.name}</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {item.date.substring(0, 10)}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
+                    {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
+                  </StyledTableCell >
+                  <StyledTableCell align="center">
+                    <Button variant="contained" onClick={() => history.push(`/details/${item.event_id}`)}>view event</Button>
+                  </StyledTableCell>
+                </StyledTableRow>)}
+                <StyledTableRow>
+                  <StyledTableCell colSpan="4">
+                    {/*intentionally blank buffer column */}
+                  </StyledTableCell>
+                </StyledTableRow>
+                <StyledTableRow>
+                  <StyledTableCell>
+                    <b>Total Volunteer Time:</b>
+                  </StyledTableCell>
+                  <StyledTableCell colSpan="3" align="center">
+                    {grandTotalHours} hours {grandTotalMinutes} minutes
+                  </StyledTableCell>
+                </StyledTableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
       </Grid>
 
