@@ -22,3 +22,13 @@ p {
 .rankContainer{
     display:inline-flex;
 }
+
+.name{
+    font-size: xx-large;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+.mail{
+    margin-top: 0;
+    color: rgb(85, 85, 85);
+}
