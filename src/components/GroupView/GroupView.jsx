@@ -146,7 +146,7 @@ function GroupView() {
                             <StyledTableCell>{affiliates.first_name}</StyledTableCell>
                             <StyledTableCell>{affiliates.email}</StyledTableCell>
                             <StyledTableCell>{affiliates.phone_number}</StyledTableCell>
-                            <StyledTableCell align="center"><button onClick={() => goToUser(affiliates.id)}>View</button></StyledTableCell>
+                            <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View</Button></StyledTableCell>
                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                             <StyledTableCell>
                                 <Button variant="outlined" color="primary" onClick={handleClickOpener}>

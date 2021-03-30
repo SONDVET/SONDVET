@@ -161,7 +161,7 @@ function Events() {
                             <StyledTableRow key={affiliate.id}>
                                 <StyledTableCell>{affiliate.college_name}</StyledTableCell>
                                 <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                <StyledTableCell><button onClick={() => goToGroup(affiliate.id)}>View</button></StyledTableCell>
+                                <StyledTableCell><Button variant="contained" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
                             </StyledTableRow>
                         )}
                     </TableBody>

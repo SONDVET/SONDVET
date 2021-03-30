@@ -278,7 +278,7 @@ function UserAdminView() {
                                         {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow key={group.id}>
                                             <StyledTableCell><b>{group.college_name}</b></StyledTableCell>
                                             <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} </StyledTableCell>
-                                            <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <button onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</button> : <button onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</button>)}</StyledTableCell>
+                                            <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</Button> : <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</Button>)}</StyledTableCell>
                                         </StyledTableRow>)}
                                     </TableBody>
                                 </Table>
@@ -313,7 +313,7 @@ function UserAdminView() {
                                                 {(item.total_time.minutes) ? (`${item.total_time.minutes} minutes`) : 'N/A'}
                                             </StyledTableCell >
                                             <StyledTableCell align="center">
-                                                <button onClick={() => history.push(`/details/${item.event_id}`)}>view event</button>
+                                                <Button variant="contained" onClick={() => history.push(`/details/${item.event_id}`)}>view event</Button>
                                             </StyledTableCell>
                                         </StyledTableRow>)}
                                         <StyledTableRow>
