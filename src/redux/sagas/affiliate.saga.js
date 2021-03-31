@@ -22,7 +22,6 @@ function* fetchAffiliateUser(action) {
 
 function* fetchAffiliation(action) {
     try {
-        console.log(action.payload);
         const response = yield axios.get(`api/volunteer/organization/${action.payload}`)
         yield put({ type: 'SET_AFFILIATE', payload: response.data })
     } catch (error) {
@@ -75,6 +74,19 @@ function* removeGroup(action) {
 }
 
 
+// used to create a new affiliation
+function* postGroup(action) {
+    console.log(action.payload); // correct
+    try{
+        const response = yield axios.post(`api/volunteer/affiliation`, action.payload);
+        // yield put({ type: 'SET_AFFILIATE', payload: response.data });
+    } catch (error) {
+        console.log(`error adding group, ${error}`);
+    }
+}
+
+
+
 function* affiliateSaga() {
     yield takeLatest('FETCH_AFFILIATE', fetchAffiliate);
     yield takeLatest('FETCH_AFFILIATE_USER', fetchAffiliateUser);
@@ -83,6 +95,7 @@ function* affiliateSaga() {
     yield takeLatest('ADD_USER_GROUP', addUserGroup);
     yield takeLatest('REMOVE_USER_GROUP', removeUserGroup);
     yield takeLatest('REMOVE_GROUP', removeGroup);
+    yield takeLatest('ADD_AFFILIATION', postGroup)
 }
 
 export default affiliateSaga;

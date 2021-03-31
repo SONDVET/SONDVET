@@ -37,6 +37,21 @@ router.get('/affiliation', (req, res) => {
 });
 
 
+// PUT to make a new affiliation 
+router.post('/affiliation', (req, res) => {
+    console.log(req.body.name);
+    const queryText = `INSERT INTO "affiliation" ("college_name") VALUES ($1);`;
+    pool.query(queryText, [req.body.name])
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error adding affiliation, ${err}`);
+            res.sendStatus(500);
+        })
+});
+
+
 // PUT to make an affiliation inactive(archived)
 router.put('/affiliation/:id', (req, res) => {
     const queryText = `UPDATE "affiliation" SET "inactive"=TRUE WHERE "id"=$1;`;
@@ -70,6 +85,7 @@ router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
+
 // ADMIN PUT request to modify user access level
 // available at /api/volunteer/:id/access_level
 router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
@@ -86,6 +102,7 @@ router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
         res.sendStatus(500);
     });
 });
+
 
 // ADMIN DELETE user 
 // available at /api/volunteer/:id 
