@@ -141,7 +141,7 @@ function GroupView() {
 
     function handleSubmit() {
         console.log(group);
-        dispatch({ type: 'ADD_AFFILIATION', payload: {name: group} });
+        dispatch({ type: 'ADD_AFFILIATION', payload: { name: group } });
         setGroup("");
         dispatch({ type: 'FETCH_AFFILIATE' });
     }
@@ -149,156 +149,165 @@ function GroupView() {
 
     return (
         <>
-        <Container>
-            {params.id != undefined ?
-                <>
-                    <h1>{store.affiliate[0].college_name}</h1>
+            <Container>
+                {params.id != undefined ?
+                    <>
+                        <h1>{store.affiliate[0].college_name}</h1>
 
-                    <div>
-                        <Button
-                            variant="contained"
-                            onClick={() => history.push("/group_view")}>
-                            All Groups
+                        <div>
+                            <Button
+                                variant="contained"
+                                onClick={() => history.push("/group_view")}>
+                                All Groups
                 </Button>
-                        <Dialog
-                            fullScreen={fullScreen}
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="responsive-dialog-title"
-                        >
-                            <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText>
-                                    Are you sure you want to delete this group?  If you do they will be set to "archived" and only Admins will be able to retrive them.
+                            <Dialog
+                                fullScreen={fullScreen}
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="responsive-dialog-title"
+                            >
+                                <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        Are you sure you want to delete this group?  If you do they will be set to "archived" and only Admins will be able to retrive them.
                         </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button autoFocus onClick={handleClose} color="primary">
-                                    Disagree and Cancel
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button autoFocus onClick={handleClose} color="primary">
+                                        Disagree and Cancel
                         </Button>
-                                <Button onClick={handleClose, removeGroup} color="primary" autoFocus>
-                                    Agree and Delete Group
+                                    <Button onClick={handleClose, removeGroup} color="primary" autoFocus>
+                                        Agree and Delete Group
                         </Button>
-                            </DialogActions>
-                        </Dialog>
-                    </div>
-                    <Table id="groupView" className="groupViewContainer">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>Last Name</StyledTableCell>
-                                <StyledTableCell>First Name</StyledTableCell>
-                                <StyledTableCell>Email</StyledTableCell>
-                                <StyledTableCell>Phone Number</StyledTableCell>
-                                <StyledTableCell align="center" colSpan="2">Actions</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {(store.affiliateUser[0]) && store.affiliateUser.map((affiliates) =>
+                                </DialogActions>
+                            </Dialog>
+                        </div>
+                        <br></br>
+                        <TableContainer component={Paper}>
+                            <Table id="groupView" className="groupViewContainer">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell>Last Name</StyledTableCell>
+                                        <StyledTableCell>First Name</StyledTableCell>
+                                        <StyledTableCell>Email</StyledTableCell>
+                                        <StyledTableCell>Phone Number</StyledTableCell>
+                                        <StyledTableCell align="center" colSpan="2">Actions</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {(store.affiliateUser[0]) && store.affiliateUser.map((affiliates) =>
 
-                                <StyledTableRow key={affiliates.id}>
-                                    <StyledTableCell>{affiliates.last_name}</StyledTableCell>
-                                    <StyledTableCell>{affiliates.first_name}</StyledTableCell>
-                                    <StyledTableCell>{affiliates.email}</StyledTableCell>
-                                    <StyledTableCell>{phoneFormater(affiliates.phone_number)}</StyledTableCell>
-                                    <StyledTableCell align="center"><Button variant="outlined" color="primary" onClick={() => goToUser(affiliates.id)}>View</Button></StyledTableCell>
-                                    {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
-                                    <StyledTableCell>
-                                        <Button variant="outlined" color="secondary" onClick={handleClickOpener}>
-                                            Remove User
+                                        <StyledTableRow key={affiliates.id}>
+                                            <StyledTableCell>{affiliates.last_name}</StyledTableCell>
+                                            <StyledTableCell>{affiliates.first_name}</StyledTableCell>
+                                            <StyledTableCell>{affiliates.email}</StyledTableCell>
+                                            <StyledTableCell>{phoneFormater(affiliates.phone_number)}</StyledTableCell>
+                                            <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View User</Button></StyledTableCell>
+                                            {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
+                                            <StyledTableCell>
+                                                <Button variant="contained" color="secondary" onClick={handleClickOpener}>
+                                                    Remove From Group
                                 </Button>
-                                        <Dialog
-                                            fullScreen={fullScreen}
-                                            open={userOpen}
-                                            onClose={handleCloser}
-                                            aria-labelledby="responsive-dialog-title"
-                                        >
-                                            <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
-                                            <DialogContent>
-                                                <DialogContentText>
-                                                    Are you sure you want to remove this user from this affiliation?  If you do they will have to edit their user information before they can rejoin.
+                                                <Dialog
+                                                    fullScreen={fullScreen}
+                                                    open={userOpen}
+                                                    onClose={handleCloser}
+                                                    aria-labelledby="responsive-dialog-title"
+                                                >
+                                                    <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText>
+                                                            Are you sure you want to remove this user from this affiliation?  If you do they will have to edit their user information before they can rejoin.
                                          </DialogContentText>
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button autoFocus onClick={handleCloser} color="primary">
-                                                    Disagree and Cancel
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button autoFocus onClick={handleCloser} color="primary">
+                                                            Disagree and Cancel
                                         </Button>
-                                                <Button onClick={() => removeUser(affiliates.id, affiliates.group_id)} color="primary" autoFocus>
-                                                    Agree and Remove User
+                                                        <Button onClick={() => removeUser(affiliates.id, affiliates.group_id)} color="primary" autoFocus>
+                                                            Agree and Remove User
                                         </Button>
-                                            </DialogActions>
-                                        </Dialog>
-                                    </StyledTableCell>
-                                </StyledTableRow>
+                                                    </DialogActions>
+                                                </Dialog>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
 
-                            )}
-                        </TableBody>
-                    </Table>
-                    <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
-                        Archive Group
-                </Button>
-                    <Button
-                        component={ReactHTMLTableToExcel}
-                        variant="contained"
-                        id="test-table-xls-button"
-                        className="download-table-xls-button"
-                        table="groupView"
-                        filename="Group Members"
-                        sheet="GroupMembers.xls"
-                        buttonText="Download Group Members" ></Button>
-                </>
-                :
-                <>
-                    {/* {store.affiliate[0] &&  */}
-                    <div className="groupListContainer">
-
-                        <Table id="SO College Members">
-                            <TableHead>
-                                <StyledTableRow>
-                                    <StyledTableCell>Group</StyledTableCell>
-                                    <StyledTableCell>Total Members</StyledTableCell>
-                                    <StyledTableCell></StyledTableCell>
-                                </StyledTableRow>
-                            </TableHead>
-                            <TableBody>
-                                {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
-                                    <StyledTableRow key={affiliate.id}>
-                                        <StyledTableCell>{affiliate.college_name}</StyledTableCell>
-                                        <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                        <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
-                                    </StyledTableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                        <Table id="addNewGroup">
-                            <TableHead>
-                                <StyledTableRow>
-                                    <StyledTableCell colSpan="3">Add a New Group</StyledTableCell>
-                                </StyledTableRow>
-                            </TableHead>
-                            <TableBody>
-                                <StyledTableRow>
-                                    <StyledTableCell>
-                                        <input
-                                            value={group}
-                                            type="text"
-                                            placeholder="Input New Group Name"
-                                            onChange={(e) => setGroup(e.target.value)}>
-                                        </input>
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            onClick={handleSubmit}>
-                                            Add Group to List
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <br></br>
+                        <br></br>
+                        <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
+                            Archive Group
+                </Button> &nbsp; &nbsp;
+                        <Button
+                            component={ReactHTMLTableToExcel}
+                            variant="contained"
+                            id="test-table-xls-button"
+                            className="download-table-xls-button"
+                            table="groupView"
+                            filename="Group Members"
+                            sheet="GroupMembers.xls"
+                            buttonText="Download Group Members" ></Button>
+                    </>
+                    :
+                    <>
+                        {/* {store.affiliate[0] &&  */}
+                        <div className="groupListContainer">
+                            <TableContainer component={Paper}>
+                                <Table id="SO College Members">
+                                    <TableHead>
+                                        <StyledTableRow>
+                                            <StyledTableCell>Group</StyledTableCell>
+                                            <StyledTableCell>Total Members</StyledTableCell>
+                                            <StyledTableCell></StyledTableCell>
+                                        </StyledTableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
+                                            <StyledTableRow key={affiliate.id}>
+                                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
+                                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
+                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
+                                            </StyledTableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                                </TableContainer>
+                                <br></br>
+                                <TableContainer component={Paper}>
+                                <Table id="addNewGroup">
+                                    <TableHead>
+                                        <StyledTableRow>
+                                            <StyledTableCell colSpan="3">Add a New Group</StyledTableCell>
+                                        </StyledTableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <StyledTableRow>
+                                            <StyledTableCell>
+                                                <input
+                                                    value={group}
+                                                    type="text"
+                                                    placeholder="Input New Group Name"
+                                                    onChange={(e) => setGroup(e.target.value)}>
+                                                </input>
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    onClick={handleSubmit}>
+                                                    Add Group to List
                                         </Button>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            </TableBody>
-                        </Table>
-                    </div>
-                </>}
-        </Container></>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    </>}
+            </Container></>
     );
 }
 
