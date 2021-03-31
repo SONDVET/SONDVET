@@ -2,9 +2,9 @@ import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
 
-function* fetchArchived() {
+function* fetchArchived(action) {
     try {
-        const response = yield axios.get(`/api/admin/archivedusers`)
+        const response = yield axios.get(`/api/admin/archivedusers?search=${action.payload}`)
         yield put({ type: 'SET_ARCHIVED', payload: response.data })
     } catch (error) {
         console.log(`error GETTING events, ${error}`);

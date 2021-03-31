@@ -17,6 +17,7 @@ function Admin() {
 
   const classes = useStyles();
   const [search, setSearch] = useState('');
+  const [searchArch, setSearchArch] = useState('')
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
   const [selected, setSelected] = React.useState([]);
@@ -52,9 +53,9 @@ function Admin() {
   }))(TableRow);
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ARCHIVED" }) 
-    console.log(search)
-  }, [])
+    dispatch({ type: "FETCH_ARCHIVED", payload: searchArch}) 
+    console.log(searchArch)
+  }, [searchArch])
 
   useEffect(() => {
     dispatch({ type: "FETCH_ALL", payload: search})
@@ -76,7 +77,7 @@ function Admin() {
                 </p>
         <div className="table_header">
           <h2>Active Users:</h2>
-        </div>
+        </div> <br/>
         <TextField label="Search Active Users" value={search} onChange={(e) => setSearch(e.target.value)}/>
         <TableContainer component={Paper}>
           <Table>
@@ -123,6 +124,8 @@ function Admin() {
         <div className="table_header">
           <h2>Archived Users:</h2>
         </div>
+        <TextField label="Search Active Users" value={searchArch} onChange={(e) => setSearchArch(e.target.value)}/>
+
         <TableContainer component={Paper}>
           <Table>
             <TableHead>

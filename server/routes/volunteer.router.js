@@ -11,7 +11,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all users');
     console.log(req.query.search)
     // Send back user object from the session (previously queried from the database)
-    console.log 
     if (req.query.search.length === 0){
     query = 
     `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
@@ -23,7 +22,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         query=
         `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
         FROM "user" 
-        WHERE "last_name" ILIKE '${req.query.search}%'
+        
         AND "archived" = false 
         ORDER BY "last_name" ASC `;
     }
