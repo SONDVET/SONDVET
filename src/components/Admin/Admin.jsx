@@ -34,6 +34,7 @@ function Admin() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_ARCHIVED" })
+    dispatch({ type: "FETCH_ALL" })
   }, [])
 
   const goToUser = (user) => {
@@ -44,10 +45,41 @@ function Admin() {
   return (
     <>
       <Container>
+        <h1>All Users</h1>
+        <h2>Click On a User to View/Edit Details</h2>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <StyledTableRow>
+                <StyledTableCell> Name </StyledTableCell>
+                <StyledTableCell> Email </StyledTableCell>
+                <StyledTableCell> Phone Number </StyledTableCell>
+                <StyledTableCell> Address </StyledTableCell>
+                <StyledTableCell> City </StyledTableCell>
+                <StyledTableCell> State </StyledTableCell>
+                <StyledTableCell> Zip Code </StyledTableCell>
+              </StyledTableRow>
+            </TableHead>
+            <TableBody>
+              {(store.allUsers[0] && store.allUsers.map((user) =>
+                <StyledTableRow key={user.id} onClick={() => goToUser(user.id)}>
+                  <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
+                  <StyledTableCell>{user.email}</StyledTableCell>
+                  <StyledTableCell>{user.phone_number}</StyledTableCell>
+                  <StyledTableCell>{user.address}</StyledTableCell>
+                  <StyledTableCell>{user.city}</StyledTableCell>
+                  <StyledTableCell>{user.state}</StyledTableCell>
+                  <StyledTableCell>{user.zip}</StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {/* END ALL USERS */}
         <h1 className="admin_header">Admin</h1>
         <div className="table_header">
-        <h2>Archived Users:</h2>
-        <p>Click On a User to View/Edit Details</p>
+          <h2>Archived Users:</h2>
+          <p>Click On a User to View/Edit Details</p>
         </div>
         <TableContainer component={Paper}>
           <Table>

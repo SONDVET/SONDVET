@@ -8,6 +8,7 @@ const router = express.Router();
 
 // GETS all users
 router.get('/', rejectUnauthenticated, (req, res) => {
+    console.log('getting all users');
     // Send back user object from the session (previously queried from the database)
     // ¡¡ MODIFY TO SELECT EVERYTING BUT PASSWORD !!
     const query = `SELECT * FROM "user" ORDER BY "last_name" ASC`;
