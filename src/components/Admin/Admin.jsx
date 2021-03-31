@@ -64,8 +64,11 @@ function Admin() {
     <>
       <Container>
         <h1 className="admin_header">Admin</h1>
+        <h3 className="headText">All users profiles can be accessed from here</h3>
+        <p className="headText"> <br></br> Clicking  "View User" and then "Edit Info" from the user's page will allow you to archive or unarchive any user as well as adjust any of their personal information.
+                </p>
         <div className="table_header">
-          <h2>All Users:</h2>
+          <h2>Active Users:</h2>
         </div>
         <TableContainer component={Paper}>
           <Table>
@@ -106,6 +109,8 @@ function Admin() {
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
         </TableContainer>
+        <br></br>
+        <br></br>
         {/* END ALL USERS */}
         <div className="table_header">
           <h2>Archived Users:</h2>
