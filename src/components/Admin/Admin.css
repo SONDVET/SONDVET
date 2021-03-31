@@ -1,0 +1,16 @@
+.admin_header{
+    text-align:center;
+}
+
+.table_header {
+    display: flex ;
+    align-items: flex-end;
+}
+
+.headText{
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}

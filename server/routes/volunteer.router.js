@@ -8,9 +8,10 @@ const router = express.Router();
 
 // GETS all users
 router.get('/', rejectUnauthenticated, (req, res) => {
+    console.log('getting all users');
     // Send back user object from the session (previously queried from the database)
     // ¡¡ MODIFY TO SELECT EVERYTING BUT PASSWORD !!
-    const query = `SELECT * FROM "user" ORDER BY "last_name" ASC`;
+    const query = `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" FROM "user" WHERE "archived" = false ORDER BY "last_name" ASC `;
     pool.query(query)
         .then(result => {
             res.send(result.rows);
@@ -31,6 +32,21 @@ router.get('/affiliation', (req, res) => {
         })
         .catch((err) => {
             console.log(`Error getting affiliations, ${err}`);
+            res.sendStatus(500);
+        })
+});
+
+
+// PUT to make a new affiliation 
+router.post('/affiliation', (req, res) => {
+    console.log(req.body.name);
+    const queryText = `INSERT INTO "affiliation" ("college_name") VALUES ($1);`;
+    pool.query(queryText, [req.body.name])
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error adding affiliation, ${err}`);
             res.sendStatus(500);
         })
 });
@@ -69,6 +85,7 @@ router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
+
 // ADMIN PUT request to modify user access level
 // available at /api/volunteer/:id/access_level
 router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
@@ -85,6 +102,7 @@ router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
         res.sendStatus(500);
     });
 });
+
 
 // ADMIN DELETE user 
 // available at /api/volunteer/:id 
