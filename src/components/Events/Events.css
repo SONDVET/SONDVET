@@ -22,25 +22,14 @@ h2 {
     margin: 0.5em;
 }
 
-.eventsHead{
-    position:relative;
-    left:7em;
-    justify-content:space-around;
-    align-self: center;
-    width:80%;
-    margin: 0.5em;
+.headText{
+    text-align: center;
     display: flex;
-    flex-direction:column;
-    background-color: rgb(239, 239, 239);
-    border-radius: 3px;
-    box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
 
-.headText{
-    margin: 0.2em 1em 1em 1em;
-    display:flex;
-    align-self: center;
-}
 
 
 /* .descriptionText{

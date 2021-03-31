@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './AddEvent.css';
-import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, MenuItem, makeStyles } from "@material-ui/core";
+import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, MenuItem, makeStyles, Container, Grid } from "@material-ui/core";
 import moment from 'moment';
 
 
@@ -36,7 +36,7 @@ function AddEvent() {
 
     const useStyles = makeStyles({ // set stying for card and paper
         input: {
-            width: 200,
+            width: 420,
             padding: 10
         },
         description: {
@@ -48,96 +48,105 @@ function AddEvent() {
 
     return (
         <>
-            <h1>Fill out this form to create a new event.</h1>
-            <div className="addEventContainer">
-                <form className="addEventForm" onSubmit={addNewEvent}>
-                    <div className="upperFields">
-                    <TextField
-                        className={classes.input}
-                        id="name-control"
-                        label="Name"
-                        variant="outlined"
-                        inputProps={{ maxLength: 255}}
-                        required
-                        style={{ width: 420 }}
-                        onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
-                    />
-                    <TextField
-                        className={classes.description}
-                        id="description-control"
-                        label="Description"
-                        variant="outlined"
-                        inputProps={{ maxLength: 255}}
-                        multiline
-                        rows={6}
-                        required
-                        onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                    />
-                    <TextField
-                        className={classes.input}
-                        id="sp-instruction-control"
-                        label="Special Instructions"
-                        variant="outlined"
-                        inputProps={{ maxLength: 255}}
-                        multiline
-                        rows={6}
-                        helperText="optional"
-                        style={{width: 420}}
-                        onChange={(e) => setNewEvent({ ...newEvent, special_inst: e.target.value })}
-                    />
-                    </div>
-                <div className="lowerFields">
-                    <TextField
-                        className={classes.input}
-                        inputProps={{ maxLength: 255}}
-                        id="location-control"
-                        label="Location"
-                        variant="outlined"
-                        multiline
-                        rowsMax={4}
-                        required
-                        onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
-                    />
-                    <TextField
-                        className={classes.input}
-                        id="date-control"
-                        label="Date"
-                        InputLabelProps={{ shrink: true }}
-                        variant="outlined"
-                        type="date"
-                        rowsMax={4}
-                        required
-                        onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
-                    />
-                    <TextField
-                        className={classes.input}
-                        id="date-control"
-                        label="Time"
-                        InputLabelProps={{ shrink: true }}
-                        variant="outlined"
-                        type="time"
-                        rowsMax={4}
-                        required
-                        onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
-                    />
-                    <TextField
-                        className={classes.input}
-                        id="date-control"
-                        label="Image URL"
-                        variant="outlined"
-                        inputProps={{ maxLength: 2550}}
-                        rowsMax={4}
-                        helperText="optional"
-                        onChange={(e) => setNewEvent({ ...newEvent, pic_url: e.target.value })}
-                    />
-                    </div>
-                    <div className="buttonBox">
-                    <Button type="submit" variant="contained" color="primary">Submit</Button>
-                    <Button type="reset" variant="contained" color="secondary">Clear Fields</Button>
-                    </div>
-                    <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>
-                </form>
-            </div>
+            <Container>
+                <div className="addEventContainer">
+                    <h1 className="registerHeader">Fill out this form to create a new event.</h1>
+                    <form className="addEventForm" onSubmit={addNewEvent}>
+                        <Grid container direction="row" justify="center">
+                            <Grid item>
+                                <div className="upperFields">
+                                    <TextField
+                                        className={classes.input}
+                                        id="name-control"
+                                        label="Name"
+                                        variant="outlined"
+                                        inputProps={{ maxLength: 255 }}
+                                        required
+                                        style={{ width: 420 }}
+                                        onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
+                                    />
+                                    <TextField
+                                        className={classes.description}
+                                        id="description-control"
+                                        label="Description"
+                                        variant="outlined"
+                                        inputProps={{ maxLength: 255 }}
+                                        multiline
+                                        rows={6}
+                                        required
+                                        onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                                    />
+                                    <TextField
+                                        className={classes.input}
+                                        id="sp-instruction-control"
+                                        label="Special Instructions"
+                                        variant="outlined"
+                                        inputProps={{ maxLength: 255 }}
+                                        multiline
+                                        rows={6}
+                                        helperText="optional"
+                                        style={{ width: 420 }}
+                                        onChange={(e) => setNewEvent({ ...newEvent, special_inst: e.target.value })}
+                                    />
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="upperFields">
+                                    <TextField
+                                        className={classes.input}
+                                        inputProps={{ maxLength: 255 }}
+                                        id="location-control"
+                                        label="Location"
+                                        variant="outlined"
+                                        multiline
+                                        rowsMax={4}
+                                        required
+                                        onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
+                                    />
+                                    <TextField
+                                        className={classes.input}
+                                        id="date-control"
+                                        label="Date"
+                                        InputLabelProps={{ shrink: true }}
+                                        variant="outlined"
+                                        type="date"
+                                        rowsMax={4}
+                                        required
+                                        onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
+                                    />
+                                    <TextField
+                                        className={classes.input}
+                                        id="date-control"
+                                        label="Time"
+                                        InputLabelProps={{ shrink: true }}
+                                        variant="outlined"
+                                        type="time"
+                                        rowsMax={4}
+                                        required
+                                        onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
+                                    />
+                                    <TextField
+                                        className={classes.input}
+                                        id="date-control"
+                                        label="Image URL"
+                                        variant="outlined"
+                                        inputProps={{ maxLength: 2550 }}
+                                        rowsMax={4}
+                                        helperText="optional"
+                                        onChange={(e) => setNewEvent({ ...newEvent, pic_url: e.target.value })}
+                                    />
+                                </div>
+                            </Grid>
+                        </Grid>
+
+                        <div className="buttonBox">
+                            <Button type="reset" variant="contained" color="secondary">Clear Fields</Button>
+                            <Button type="submit" variant="contained" color="primary">Submit</Button>
+                        </div>
+                        <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>
+                    </form>
+                </div>
+            </Container>
         </>
     );
 }

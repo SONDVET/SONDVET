@@ -103,8 +103,8 @@ function Events() {
     return (
         <>
             <div className="eventsHead">
-                <h2 className="headText">Current Events</h2>
-                <p className="headText">Click on "join" to volunteer for that event.  A list of events you have volunteered for will appear on your userpage. <br></br> Clicking on "Can't make it" removes you as a volunteer for that event.
+                <h2 className="headText">Events</h2>
+                <p className="headText">Click on "Join" to volunteer for an event.  A list of events you have volunteered for will appear on your Profile. <br></br> Clicking  "Can't Make It" removes you as a volunteer for that event.
                 </p>
             </div>
             <div className='searchWrap'>
@@ -132,10 +132,10 @@ function Events() {
                                             <p >{event.special_inst} </p>
                                         </CardContent>
                                         {((moment(event.date) + 86400000) < moment(today)) ? 'event expired ' : ''}
-                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
-                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
+                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
+                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
-                                        {(user.access_level >= 2) && <Button variant="contained"  onClick={() => goToDetails(event.id)}>Details</Button>}
+                                        {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained"  onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>
 
                                 )
@@ -155,36 +155,6 @@ function Events() {
                     </div>
                 </div>
             </div>
-            {/* {(user.access_level > 1) && 
-                <div className="groupListContainer">
-
-                <Table id="SO College Members">
-                    <TableHead>
-                        <StyledTableRow>
-                            <StyledTableCell>Group</StyledTableCell>
-                            <StyledTableCell>Total Members</StyledTableCell>
-                            <StyledTableCell></StyledTableCell>
-                        </StyledTableRow>
-                    </TableHead>
-                    <TableBody>
-                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
-                            <StyledTableRow key={affiliate.id}>
-                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
-                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
-                            </StyledTableRow>
-                        )}
-                    </TableBody>
-                </Table>
-                <ReactHTMLTableToExcel
-                    id="test-table-xls-button"
-                    className="download-table-xls-button"
-
-                    table="SO College Members"
-                    filename="SO College Members"
-                    sheet="eventUser.xls"
-                    buttonText="Download SO College Members" />
-            </div>} */}
         </>
     );
 }
