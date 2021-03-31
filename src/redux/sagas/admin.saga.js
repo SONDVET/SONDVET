@@ -11,8 +11,18 @@ function* fetchArchived() {
     }
 }
 
+function* fetchAll() {
+    try {
+        const response = yield axios.get(`/api/volunteer/`)    
+    } catch (error) {
+        console.log(`Error getting all Users, ${error}`);
+    }
+}
+
+
 function* adminSaga() {
     yield takeLatest('FETCH_ARCHIVED', fetchArchived);
+    yield takeLatest('FETCH_ALL', fetchAll)
     
 }
 

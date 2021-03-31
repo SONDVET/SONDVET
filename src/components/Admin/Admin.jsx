@@ -33,6 +33,7 @@ function Admin() {
 
   useEffect(() => {
     dispatch({ type: "FETCH_ARCHIVED" })
+    dispatch({ type: "FETCH_ALL" })
   }, [])
 
   const goToUser = (user) => {
