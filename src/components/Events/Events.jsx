@@ -125,9 +125,11 @@ function Events() {
                                         </CardContent>
                                         {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
+                                            
                                         <CardContent className="descriptionText" >
                                             {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
-                                            <p >{event.location}</p>
+                            
+                                            <p > {event.location}</p>
                                             <p >{event.description}</p>
                                             <p >{event.special_inst} </p>
                                         </CardContent>
