@@ -312,7 +312,7 @@ function UserAdminView() {
                                             </StyledTableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                                            {(store.oneUserEvent[0].id !=0) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
                                                 <StyledTableCell align="left">
                                                     <b>{item.name}</b>
                                                 </StyledTableCell>
