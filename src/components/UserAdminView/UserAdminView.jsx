@@ -184,7 +184,7 @@ function UserAdminView() {
     return (
 
         <>
-            {store.oneUser[0] && store.user.access_level === 3 ?
+            {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
                     <Button onClick={declare}></Button>
                     <Container maxWidth="xl">
@@ -200,7 +200,11 @@ function UserAdminView() {
                                 {(user.archived) && <p className="archived">This user is currently archived</p>}
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Info' : 'cancel edit'}</Button> {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
+                                {store.user.access_level > 2 &&
+                                <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Info' : 'cancel edit'}</Button> 
+                                }
+                                {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
+                                
                                 <div className="archive-control">
                                     {!edit ? ((!user.archived) && <Button variant="contained" color="secondary" onClick={() => archiveUser()}>Archive User</Button>) : ''}
                                     {!edit ? ((user.archived) && <Button variant="contained" color="default" onClick={() => unarchiveUser()}>Restore User</Button>) : ''}

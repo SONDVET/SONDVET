@@ -119,19 +119,21 @@ function Events() {
                             {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) => {
                                 return (
                                     <Card key={event.id} className={`${shrink ? classes.eventCard : classes.mobileCard}`}>
-                                        <CardHeader title={event.name} />
+                                        <CardHeader className={classes.cardHead} title={event.name} />
                                         <CardContent>
                                             <img src={event.pic_url} height='50px' />
                                         </CardContent>
                                         {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
+                                            
                                         <CardContent className="descriptionText" >
                                             {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
-                                            <p >{event.location}</p>
+                            
+                                            <p > {event.location}</p>
                                             <p >{event.description}</p>
                                             <p >{event.special_inst} </p>
                                         </CardContent>
-                                        {((moment(event.date) + 86400000) < moment(today)) ? 'event expired ' : ''}
+                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button>: ''}
                                         {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
