@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, TablePagination } from '@material-ui/core';
+import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, TablePagination, TextField } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -16,6 +16,8 @@ function Admin() {
   const store = useSelector(store => store);
 
   const classes = useStyles();
+  const [search, setSearch] = useState('');
+  const [searchArch, setSearchArch] = useState('')
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
   const [selected, setSelected] = React.useState([]);
@@ -51,9 +53,15 @@ function Admin() {
   }))(TableRow);
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ARCHIVED" })
-    dispatch({ type: "FETCH_ALL" })
-  }, [])
+    dispatch({ type: "FETCH_ARCHIVED", payload: searchArch}) 
+    console.log(searchArch)
+  }, [searchArch])
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_ALL", payload: search})
+    console.log(search)
+  }, [search])
+
 
   const goToUser = (user) => {
     console.log(`You want to view details for person with id of ${user}`)
@@ -69,7 +77,8 @@ function Admin() {
                 </p>
         <div className="table_header">
           <h2>Active Users:</h2>
-        </div>
+        </div> <br/>
+        <TextField label="Search Active Users" value={search} onChange={(e) => setSearch(e.target.value)}/>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -115,6 +124,8 @@ function Admin() {
         <div className="table_header">
           <h2>Archived Users:</h2>
         </div>
+        <TextField label="Search Active Users" value={searchArch} onChange={(e) => setSearchArch(e.target.value)}/>
+
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
