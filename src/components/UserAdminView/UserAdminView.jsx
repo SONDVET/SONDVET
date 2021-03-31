@@ -209,7 +209,7 @@ function UserAdminView() {
                         </Grid>
 
                         <br />
-                        <Grid container direction="row" justify="space-evenly" alignItems="flex-begin">
+                        <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
                             {/* Personal Information Table */}
                             <Grid item lg={5}>
                                 <TableContainer className='personalInfoContainer' component={Paper} >
