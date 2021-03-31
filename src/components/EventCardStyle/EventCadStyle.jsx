@@ -25,6 +25,9 @@ const useStyles = makeStyles({
         paddingBottom: 10,
         backgroundColor: " rgb(223, 226, 230)",
         textAlign: "center"
+    },
+    cardButton: {
+      marginBottom: "15px"  
     }
 
 });
