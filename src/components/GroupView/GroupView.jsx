@@ -240,7 +240,7 @@ function GroupView() {
                         <br></br>
                         <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
                             Archive Group
-                </Button>
+                </Button> &nbsp; &nbsp;
                         <Button
                             component={ReactHTMLTableToExcel}
                             variant="contained"
