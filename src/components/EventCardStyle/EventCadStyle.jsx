@@ -30,10 +30,10 @@ const useStyles = makeStyles({
       marginBottom: "15px"  
     },
     cardHead: {
-        backgroundColor: "#FF0000",
+        backgroundColor: "#636359",
         color: "white",
         padding: "20px",
-        borderBottom: "solid black 1px"
+        borderBottom: "solid red 3px",
     }
 
 });
