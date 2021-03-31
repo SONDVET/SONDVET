@@ -220,13 +220,15 @@ function GroupView() {
             <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
                    Archive Group
                 </Button>
-            <ReactHTMLTableToExcel
+             <Button
+                component={ReactHTMLTableToExcel}
+                variant="contained"
                 id="test-table-xls-button"
                 className="download-table-xls-button"
                 table="groupView"
                 filename="Group Members"
                 sheet="GroupMembers.xls"
-                buttonText="Download Group Members" />
+                buttonText="Download Group Members" ></Button> 
                 </>
                 :
                 <>
@@ -251,17 +253,8 @@ function GroupView() {
                         )}
                     </TableBody>
                 </Table>
-                <ReactHTMLTableToExcel
-                    id="test-table-xls-button"
-                    className="download-table-xls-button"
-                    
-                    table="SO College Members"
-                    filename="SO College Members"
-                    sheet="eventUser.xls"
-                    buttonText="Download SO College Members" />
             </div>
-            {/* } */}
-                </>}</>
+        </>}</>
     );
 }
 
