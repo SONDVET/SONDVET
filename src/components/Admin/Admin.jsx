@@ -43,7 +43,7 @@ function Admin() {
 
   return (
     <>
-    <h1>All Users</h1>
+      <h1>All Users</h1>
       <h2>Click On a User to View/Edit Details</h2>
       <TableContainer>
         <Table>
