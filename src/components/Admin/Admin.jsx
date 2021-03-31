@@ -86,7 +86,7 @@ function Admin() {
             </TableHead>
             <TableBody>
               {(store.allUsers[0] && store.allUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user) =>
-                <StyledTableRow key={user.id} onClick={() => goToUser(user.id)}>
+                <StyledTableRow key={user.id} >
                   <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                   <StyledTableCell>{user.email}</StyledTableCell>
                   <StyledTableCell>{user.phone_number}</StyledTableCell>
@@ -94,7 +94,7 @@ function Admin() {
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>
                   <StyledTableCell>{user.zip}</StyledTableCell>
-                  <StyledTableCell><Button variant="contained">View User</Button></StyledTableCell>
+                  <StyledTableCell><Button variant="contained" onClick={() => goToUser(user.id)}>View User</Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -131,7 +131,7 @@ function Admin() {
             </TableHead>
             <TableBody>
               {(store.archivedUsers[0] && store.archivedUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user) =>
-                <StyledTableRow key={user.id} onClick={() => goToUser(user.id)}>
+                <StyledTableRow key={user.id} >
                   <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                   <StyledTableCell>{user.email}</StyledTableCell>
                   <StyledTableCell>{user.phone_number}</StyledTableCell>
@@ -139,7 +139,7 @@ function Admin() {
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>
                   <StyledTableCell>{user.zip}</StyledTableCell>
-                  <StyledTableCell><Button variant="contained">View User</Button></StyledTableCell>
+                  <StyledTableCell><Button variant="contained" onClick={() => goToUser(user.id)}>View User</Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
