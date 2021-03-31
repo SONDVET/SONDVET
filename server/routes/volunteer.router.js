@@ -11,7 +11,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all users');
     // Send back user object from the session (previously queried from the database)
     // ¡¡ MODIFY TO SELECT EVERYTING BUT PASSWORD !!
-    const query = `SELECT * FROM "user" ORDER BY "last_name" ASC`;
+    const query = `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" FROM "user" WHERE "archived" = false ORDER BY "last_name" ASC `;
     pool.query(query)
         .then(result => {
             res.send(result.rows);
