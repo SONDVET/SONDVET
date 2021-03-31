@@ -26,11 +26,11 @@ function Nav() {
     drawerLink: {
       color: "white",
       backgroundColor: "#FF0000",
-      borderRadius:0,
+      borderRadius: 0,
       padding: "20px  5px 20px 5px",
     },
-    drawerPaper:{
-      backgroundColor:"#FF0000"
+    drawerPaper: {
+      backgroundColor: "#FF0000"
     }
   }));
   const classes = useStyles()
@@ -54,12 +54,12 @@ function Nav() {
               </>
             )}
             {user.id &&
-            <Link className="navLink" to="/events">
-              Events
+              <Link className="navLink" to="/events">
+                Events
             </Link>
             }
             {user.id && user.access_level > 1 &&
-              <Link className="navLink" to= "/group_view">
+              <Link className="navLink" to="/group_view">
                 All Groups
               </Link>
             }
@@ -69,15 +69,15 @@ function Nav() {
                   Admin
               </Link>
               </>}
-          {user.id && (
+            {user.id && (
               <>
-                {/* <Link className="navLink" to="/info">
+                <Link className="navLink" to="/info">
                   Info Page
-            </Link> */}
+            </Link>
                 <LogOutButton className="navLink" />
               </>
             )}
-             
+
           </div>
         </>
         :
@@ -98,9 +98,9 @@ function Nav() {
             }}
             onClick={() => setDrawer(false)}
           >
-          
-            <img className="mainLogo" src={Logo} style={{backgroundColor:"#FF0000"}} />
-            
+
+            <img className="mainLogo" src={Logo} style={{ backgroundColor: "#FF0000" }} />
+
             <Button
               component={Link}
               to={loginLinkData.path}
@@ -109,33 +109,41 @@ function Nav() {
             >
               {loginLinkData.text}
             </Button>
+            <Button
+              className={classes.drawerLink}
+              component={Link}
+              to="/info"
+              onClick={() => setDrawer(false)}
+            >
+              Info Page
+            </Button>
             {user.id && user.access_level >= 2 && (
               <Button
                 className={classes.drawerLink}
                 component={Link}
                 to="/addevent"
                 onClick={() => setDrawer(false)}
-              >
+            >
                 Add Event
               </Button>
             )}
             {user.id &&
-            <Button
-              className={classes.drawerLink}
-              component={Link}
-              to="/events"
-              onClick={() => setDrawer(false)}
-            >
-              Events
+              <Button
+                className={classes.drawerLink}
+                component={Link}
+                to="/events"
+                onClick={() => setDrawer(false)}
+              >
+                Events
              </Button>
             }
-            {user.id && user.access_level >1 &&
+            {user.id && user.access_level > 1 &&
               <Button
-              className={classes.drawerLink}
-              component={Link}
-              to="/group_view"
+                className={classes.drawerLink}
+                component={Link}
+                to="/group_view"
               >
-              All Groups
+                All Groups
               </Button>
             }
             {user.id && user.access_level >= 3 &&

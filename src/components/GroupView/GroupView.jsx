@@ -149,6 +149,7 @@ function GroupView() {
 
     return (
         <>
+        <h1 className="header">Group View</h1>
             <Container>
                 {params.id != undefined ?
                     <>
