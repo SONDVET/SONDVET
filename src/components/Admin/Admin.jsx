@@ -23,41 +23,6 @@ function Admin() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = store.allUsers.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -66,15 +31,6 @@ function Admin() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, store.allUsers.length - page * rowsPerPage);
-
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -107,9 +63,11 @@ function Admin() {
   return (
     <>
       <Container>
-        <h1>All Users</h1>
-        <h2>Click On a User to View/Edit Details</h2>
-        <TableContainer>
+        <h1 className="admin_header">Admin</h1>
+        <div className="table_header">
+          <h2>All Users:</h2>
+        </div>
+        <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <StyledTableRow>
@@ -120,6 +78,7 @@ function Admin() {
                 <StyledTableCell> City </StyledTableCell>
                 <StyledTableCell> State </StyledTableCell>
                 <StyledTableCell> Zip Code </StyledTableCell>
+                <StyledTableCell></StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -132,6 +91,7 @@ function Admin() {
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>
                   <StyledTableCell>{user.zip}</StyledTableCell>
+                  <StyledTableCell><Button variant="contained">View User</Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -147,10 +107,8 @@ function Admin() {
           />
         </TableContainer>
         {/* END ALL USERS */}
-        <h1 className="admin_header">Admin</h1>
         <div className="table_header">
           <h2>Archived Users:</h2>
-          <p>Click On a User to View/Edit Details</p>
         </div>
         <TableContainer component={Paper}>
           <Table>
@@ -163,10 +121,11 @@ function Admin() {
                 <StyledTableCell> City </StyledTableCell>
                 <StyledTableCell> State </StyledTableCell>
                 <StyledTableCell> Zip Code </StyledTableCell>
+                <StyledTableCell></StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
-              {(store.archivedUsers[0] && store.archivedUsers.map((user) =>
+              {(store.archivedUsers[0] && store.archivedUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user) =>
                 <StyledTableRow key={user.id} onClick={() => goToUser(user.id)}>
                   <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                   <StyledTableCell>{user.email}</StyledTableCell>
@@ -175,10 +134,20 @@ function Admin() {
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>
                   <StyledTableCell>{user.zip}</StyledTableCell>
+                  <StyledTableCell><Button variant="contained">View User</Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={store.archivedUsers.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </Container>
     </>
