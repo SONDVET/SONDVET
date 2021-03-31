@@ -13,7 +13,8 @@ function* fetchArchived() {
 
 function* fetchAll() {
     try {
-        const response = yield axios.get(`/api/volunteer/`)    
+        const response = yield axios.get(`/api/volunteer/`)  
+        yield put({ type: 'SET_ALL', payload: response.data })  
     } catch (error) {
         console.log(`Error getting all Users, ${error}`);
     }

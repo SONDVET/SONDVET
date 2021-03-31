@@ -90,7 +90,7 @@ function Admin() {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {(store.user[0] && store.user.map((user) =>
+            {(store.allUsers[0] && store.allUsers.map((user) =>
               <StyledTableRow key={user.id} onClick={() => goToUser(user.id)}>
                 <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                 <StyledTableCell>{user.email}</StyledTableCell>
