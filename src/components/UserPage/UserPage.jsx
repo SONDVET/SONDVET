@@ -262,7 +262,7 @@ function UserPage() {
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
-                  {(store.oneUserEvent[0].id !=0) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                  {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
                     <StyledTableCell align="left">
                       <b>{item.name}</b>
                     </StyledTableCell>
