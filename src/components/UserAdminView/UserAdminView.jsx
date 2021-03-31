@@ -130,7 +130,7 @@ function UserAdminView() {
         access_level: 1,
         archived: false
     })
-
+   
     const grandTotalTime = (time) => {
         let hours = 0
         let minutes = 0
@@ -173,6 +173,11 @@ function UserAdminView() {
     }
 
 
+    if (store.oneUser[0] && person.id === 0){
+        declare()
+        return;
+    }
+
     //used to convert access level number to readable title
     const accessRanks = ["Volunteer", "Officer", "Admin"]
 
@@ -181,6 +186,7 @@ function UserAdminView() {
         <>
             {store.oneUser[0] && store.user.access_level === 3 ?
                 <>
+                    <Button onClick={declare}></Button>
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
                             <Grid item>
