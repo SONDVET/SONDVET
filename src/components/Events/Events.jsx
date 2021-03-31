@@ -103,8 +103,8 @@ function Events() {
     return (
         <>
             <div className="eventsHead">
-                <h2 className="headText">Current Events</h2>
-                <p className="headText">Click on "join" to volunteer for that event.  A list of events you have volunteered for will appear on your userpage. <br></br> Clicking on "Can't make it" removes you as a volunteer for that event.
+                <h2 className="headText">Events</h2>
+                <p className="headText">Click on "Join" to volunteer for an event.  A list of events you have volunteered for will appear on your Profile. <br></br> Clicking  "Can't Make It" removes you as a volunteer for that event.
                 </p>
             </div>
             <div className='searchWrap'>
