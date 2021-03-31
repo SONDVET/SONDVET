@@ -73,6 +73,38 @@ function Admin() {
           </TableBody>
         </Table>
       </TableContainer>
+      
+      <h1>All Users</h1>
+      <h2>Click On a User to View/Edit Details</h2>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <StyledTableRow>
+              <StyledTableCell> Name </StyledTableCell>
+              <StyledTableCell> Email </StyledTableCell>
+              <StyledTableCell> Phone Number </StyledTableCell>
+              <StyledTableCell> Address </StyledTableCell>
+              <StyledTableCell> City </StyledTableCell>
+              <StyledTableCell> State </StyledTableCell>
+              <StyledTableCell> Zip Code </StyledTableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            {(store.user[0] && store.user.map((user) =>
+              <StyledTableRow key={user.id} onClick={() => goToUser(user.id)}>
+                <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
+                <StyledTableCell>{user.email}</StyledTableCell>
+                <StyledTableCell>{user.phone_number}</StyledTableCell>
+                <StyledTableCell>{user.address}</StyledTableCell>
+                <StyledTableCell>{user.city}</StyledTableCell>
+                <StyledTableCell>{user.state}</StyledTableCell>
+                <StyledTableCell>{user.zip}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
     </>
   )
 }
