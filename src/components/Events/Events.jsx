@@ -131,7 +131,7 @@ function Events() {
                                             <p >{event.description}</p>
                                             <p >{event.special_inst} </p>
                                         </CardContent>
-                                        {((moment(event.date) + 86400000) < moment(today)) ? 'event expired ' : ''}
+                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button>: ''}
                                         {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
