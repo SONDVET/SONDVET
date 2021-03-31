@@ -10,12 +10,15 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all events');
     // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
-        queryText = `SELECT * FROM "event" WHERE "archived"='FALSE';`;
+        queryText = `
+        SELECT * FROM "event" 
+        WHERE "archived"='FALSE'
+        ORDER BY "date";`;
     }
     //if there is a search query, only search matches are selected
     else {
         queryText = `SELECT * FROM "event"
-        WHERE "name" ILIKE '%${req.query.search}%' AND "archived"='FALSE';`
+        WHERE "name" ILIKE '%${req.query.search}%' AND "archived"='FALSE' ORDER BY "date";`
     }
     pool.query(queryText)
         .then(result => {

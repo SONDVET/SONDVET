@@ -223,53 +223,43 @@ function GroupView() {
                         <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
                             Archive Group
                 </Button>
-                        <ReactHTMLTableToExcel
+                        <Button
+                            component={ReactHTMLTableToExcel}
+                            variant="contained"
                             id="test-table-xls-button"
                             className="download-table-xls-button"
                             table="groupView"
                             filename="Group Members"
                             sheet="GroupMembers.xls"
-                            buttonText="Download Group Members" />
+                            buttonText="Download Group Members" ></Button>
                     </>
                     :
                     <>
                         {/* {store.affiliate[0] &&  */}
-                        
-                        <h1>All Groups</h1>
-
                         <div className="groupListContainer">
                             <TableContainer component={Paper}>
-                                <Table id="SO College Members">
-                                    <TableHead>
-                                        <StyledTableRow>
-                                            <StyledTableCell>Group</StyledTableCell>
-                                            <StyledTableCell>Total Members</StyledTableCell>
-                                            <StyledTableCell></StyledTableCell>
+                            <Table id="SO College Members">
+                                <TableHead>
+                                    <StyledTableRow>
+                                        <StyledTableCell>Group</StyledTableCell>
+                                        <StyledTableCell>Total Members</StyledTableCell>
+                                        <StyledTableCell></StyledTableCell>
+                                    </StyledTableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
+                                        <StyledTableRow key={affiliate.id}>
+                                            <StyledTableCell>{affiliate.college_name}</StyledTableCell>
+                                            <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
+                                            <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
                                         </StyledTableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
-                                            <StyledTableRow key={affiliate.id}>
-                                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
-                                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
-                                            </StyledTableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
+                                    )}
+                                </TableBody>
+                            </Table>
                             </TableContainer>
-                            <ReactHTMLTableToExcel
-                                id="test-table-xls-button"
-                                className="download-table-xls-button"
-
-                                table="SO College Members"
-                                filename="SO College Members"
-                                sheet="eventUser.xls"
-                                buttonText="Download SO College Members" />
                         </div>
-                        {/* } */}
-                    </>
-                }</Container></>
+                    </>}
+            </Container></>
     );
 }
 

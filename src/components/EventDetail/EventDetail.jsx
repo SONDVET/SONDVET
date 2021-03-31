@@ -188,13 +188,16 @@ function EventDetail() {
                                 </div>
                             </Grid>
                             <Grid item>
-                            <ReactHTMLTableToExcel
+                            <Button
+                        variant="contained"
+                        component={ReactHTMLTableToExcel}
                         id="test-table-xls-button"
                         className="download-table-xls-button"
                         table="eventUser"
                         filename="Event Registrants"
                         sheet="eventUser.xls"
-                        buttonText="Download Event Registrants" />
+                        buttonText="Download Event Registrants">
+                        </Button>
                             </Grid>
                         </Grid>
                         // <button onClick={() => unarchiveEvent()}>Unarchive Event</button>

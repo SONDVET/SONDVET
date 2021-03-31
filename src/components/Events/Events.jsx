@@ -103,8 +103,8 @@ function Events() {
     return (
         <>
             <div className="eventsHead">
-                <h2 className="headText">Current Events</h2>
-                <p className="headText">Click on "join" to volunteer for that event.  A list of events you have volunteered for will appear on your userpage. <br></br> Clicking on "Can't make it" removes you as a volunteer for that event.
+                <h2 className="headText">Events</h2>
+                <p className="headText">Click on "Join" to volunteer for an event.  A list of events you have volunteered for will appear on your Profile. <br></br> Clicking  "Can't Make It" removes you as a volunteer for that event.
                 </p>
             </div>
             <div className='searchWrap'>
@@ -155,36 +155,6 @@ function Events() {
                     </div>
                 </div>
             </div>
-            {/* {(user.access_level > 1) && 
-                <div className="groupListContainer">
-
-                <Table id="SO College Members">
-                    <TableHead>
-                        <StyledTableRow>
-                            <StyledTableCell>Group</StyledTableCell>
-                            <StyledTableCell>Total Members</StyledTableCell>
-                            <StyledTableCell></StyledTableCell>
-                        </StyledTableRow>
-                    </TableHead>
-                    <TableBody>
-                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
-                            <StyledTableRow key={affiliate.id}>
-                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
-                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
-                            </StyledTableRow>
-                        )}
-                    </TableBody>
-                </Table>
-                <ReactHTMLTableToExcel
-                    id="test-table-xls-button"
-                    className="download-table-xls-button"
-
-                    table="SO College Members"
-                    filename="SO College Members"
-                    sheet="eventUser.xls"
-                    buttonText="Download SO College Members" />
-            </div>} */}
         </>
     );
 }
