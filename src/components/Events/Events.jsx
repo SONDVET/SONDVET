@@ -119,7 +119,7 @@ function Events() {
                             {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) => {
                                 return (
                                     <Card key={event.id} className={`${shrink ? classes.eventCard : classes.mobileCard}`}>
-                                        <CardHeader title={event.name} />
+                                        <CardHeader className={classes.cardHead} title={event.name} />
                                         <CardContent>
                                             <img src={event.pic_url} height='50px' />
                                         </CardContent>

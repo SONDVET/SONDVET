@@ -28,6 +28,12 @@ const useStyles = makeStyles({
     },
     cardButton: {
       marginBottom: "15px"  
+    },
+    cardHead: {
+        backgroundColor: "#FF0000",
+        color: "white",
+        padding: "20px",
+        borderBottom: "solid black 1px"
     }
 
 });
