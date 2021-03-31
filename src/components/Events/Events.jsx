@@ -135,7 +135,7 @@ function Events() {
                                         {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
-                                        {(user.access_level >= 2) && <Button variant="contained" color="link" onClick={() => goToDetails(event.id)}>Details</Button>}
+                                        {(user.access_level >= 2) && <Button variant="contained"  onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>
 
                                 )
