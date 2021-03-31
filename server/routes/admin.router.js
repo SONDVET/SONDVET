@@ -9,7 +9,8 @@ const {
 router.get('/archivedusers', (req, res) => {
     const queryText = `SELECT "user"."id", "first_name", "last_name", "email", "phone_number", "address", "city", "state", "zip", "dob", "involved_w_sond_since"
     FROM "user"
-    WHERE "archived" = True;`;
+    WHERE "archived" = True
+    ORDER BY "last_name" ASC;`;
     pool.query(queryText)
         .then(result => {
             res.send(result.rows);

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './GroupView.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
@@ -149,6 +149,7 @@ function GroupView() {
 
     return (
         <>
+        <Container>
             {params.id != undefined ?
                 <>
                     <h1>{store.affiliate[0].college_name}</h1>
@@ -296,7 +297,8 @@ function GroupView() {
                             </TableBody>
                         </Table>
                     </div>
-                </>}</>
+                </>}
+        </Container></>
     );
 }
 
