@@ -10,6 +10,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
 
 
 //Styling for material tables
@@ -267,7 +268,7 @@ function UserPage() {
                       <b>{item.name}</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {item.date.substring(0, 10)}
+                      {moment(item.date).format('LL')}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
