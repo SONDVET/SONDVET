@@ -265,7 +265,7 @@ function GroupView() {
                                 <Table id="SO College Members">
                                     <TableHead>
                                         <StyledTableRow>
-                                            <StyledTableCell>Group</StyledTableCell>
+                                            <StyledTableCell>Active Groups</StyledTableCell>
                                             <StyledTableCell>Total Members</StyledTableCell>
                                             <StyledTableCell></StyledTableCell>
                                         </StyledTableRow>
@@ -287,8 +287,9 @@ function GroupView() {
                                 <Table id="SO College Members">
                                     <TableHead>
                                         <StyledTableRow>
-                                            <StyledTableCell>Group</StyledTableCell>
+                                            <StyledTableCell>Archived Groups</StyledTableCell>
                                             <StyledTableCell>Total Members</StyledTableCell>
+                                            <StyledTableCell></StyledTableCell>
                                             <StyledTableCell></StyledTableCell>
                                         </StyledTableRow>
                                     </TableHead>
@@ -298,6 +299,7 @@ function GroupView() {
                                                 <StyledTableCell>{affiliate.college_name}</StyledTableCell>
                                                 <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
                                                 <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
+                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => restoreGroup(affiliate.id)}>Unarchive</Button></StyledTableCell>
                                             </StyledTableRow>
                                         )}
                                     </TableBody>
