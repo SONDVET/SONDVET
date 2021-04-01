@@ -11,6 +11,7 @@
 CREATE TABLE "user_event" (
 	"id" serial NOT NULL,
 	"user_id" int NOT NULL,
+	"group_id" int NOT NULL,
 	"event_id" int NOT NULL,
 	"check_in" TIMESTAMP,
 	"check_out" TIMESTAMP,

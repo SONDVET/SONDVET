@@ -224,8 +224,11 @@ function UserPage() {
                     <StyledTableCell>{edit ? <div>{person.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                   </StyledTableRow>
                   <StyledTableRow>
-                    <StyledTableCell><b>Group</b></StyledTableCell>
-                    <StyledTableCell>{edit ? <div>{(store.affiliate[0]) && store.affiliate[person.college_id-1].college_name}</div> : <select defaultValue={person.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="text">{(store.affiliate[0]) && store.affiliate.map((group) => <option value={group.id}>{group.college_name}</option>)}</select>}</StyledTableCell>
+                    {/* <StyledTableCell><b>Group</b></StyledTableCell>
+                    <StyledTableCell>{edit ? <div>{(store.affiliate[0]) && store.affiliate[person.college_id-1].college_name}</div> 
+                    : <select defaultValue={person.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="text">
+                      {(store.affiliate[0]) && store.affiliate.map((group) => <option value={group.id}>{group.college_name}</option>)}
+                      </select>}</StyledTableCell> */}
                   </StyledTableRow>
                 </TableBody>
               </Table>
@@ -234,7 +237,7 @@ function UserPage() {
           </Grid>
 
           {/* Group Table */}
-          {/* <Grid item md={4}>
+          <Grid item md={4}>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -256,7 +259,7 @@ function UserPage() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </Grid> */}
+          </Grid>
         </Grid>
         <br />
 

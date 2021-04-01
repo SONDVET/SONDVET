@@ -2,13 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './Events.css';
-import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary, Typography, useMediaQuery } from '@material-ui/core';
+import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary, Typography, useMediaQuery, Select, MenuItem } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 import moment from 'moment';
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useTheme } from '@material-ui/core/styles';
+
 
 //  This page lists all posted events
 function Events() {
@@ -32,12 +39,17 @@ function Events() {
         },
     }))(TableRow);
 
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const dispatch = useDispatch();
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
     const today = new Date();
+    const [groupRep, setGroupRep] = useState((store.userGroup[0]) && store.userGroup[0].group_id); 
 
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
@@ -87,16 +99,13 @@ function Events() {
     }
     const classes = useStyles()
 
-    const memberCount = (groupId) => {
-        let count = 0;
-        for (let item of store.userGroup) {
-            if (groupId === item.group_id) {
-                count++;
-            }
-        }
-        return count;
-    }
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const shrink = useMediaQuery("(min-width: 800px)")
 
@@ -125,27 +134,57 @@ function Events() {
                                         </CardContent>
                                         {/* {/* <Accordion>
                                     <AccordionSummary><p>Details</p></AccordionSummary> */}
-                                            
+
                                         <CardContent className="descriptionText" >
                                             {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
-                            
+
                                             <p > {event.location}</p>
                                             <p >{event.description}</p>
                                             <p >{event.special_inst} </p>
                                         </CardContent>
-                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button>: ''}
-                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
-                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
+                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button> : ''}
+                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) &&
+                                            <>
+                                                <Button variant="contained" onClick={handleClickOpen}>Join Event</Button>
+                                                <Dialog
+                                                    fullScreen={fullScreen}
+                                                    open={open}
+                                                    onClose={handleClose}
+                                                    aria-labelledby="responsive-dialog-title"
+                                                >
+                                                    <DialogTitle id="responsive-dialog-title">{"Pick a group"}</DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText>
+                                                            It looks like you are a member of more than one group.  Which group would you like to represent for this event?
+                                                        </DialogContentText>
+                                                        <Select value={groupRep} onChange={(e) => setGroupRep(e.target.value) }>{(store.userGroup[0]) && store.userGroup.map((group) =>
+                                                            <MenuItem value={group.group_id}>{store.affiliate[group.group_id-1].college_name}</MenuItem>
+                                                        )}</Select>
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button autoFocus onClick={handleClose} color="primary">
+                                                            Disagree and Cancel
+                                                        </Button>
+                                                        <Button onClick={handleClose} color="primary" autoFocus>
+                                                            Agree and Archive Event
+                                                        </Button>
+                                                    </DialogActions>
+                                                </Dialog></>}&nbsp;
+                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => console.log('hello')}>Can't make it</Button>}  &nbsp;
 
-                                        {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained"  onClick={() => goToDetails(event.id)}>Details</Button>}
+                                        {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>
+
+                                    // dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })
+                                    //dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })
+
 
                                 )
                             })}
                         </div>
                         : <><h1 style={{ textAlign: 'center' }}>No Events Found</h1></>}
-                        <br></br>
-                        <br></br>
+                    <br></br>
+                    <br></br>
                     <div className="pageWrap">
                         <Pagination
                             className="pagination"
