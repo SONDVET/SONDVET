@@ -87,13 +87,21 @@ function* postGroup(action) {
     }
 }
 
-
+function* fetchOneUserGroup(action) {
+    try{
+        const response = yield axios.post(`api/volunteer/usergroup/${action.payload}`);
+        yield put({type: 'SET_USER_GROUP', payload: response.data})
+    } catch (error) {
+        console.log(`error getting one user group, ${error}`);
+    }
+}
 
 function* affiliateSaga() {
     yield takeLatest('FETCH_AFFILIATE', fetchAffiliate);
     yield takeLatest('FETCH_AFFILIATE_USER', fetchAffiliateUser);
     yield takeLatest('GET_AFFILIATION', fetchAffiliation);
     yield takeLatest('FETCH_USER_GROUP', fetchUserGroup);
+    yield takeLatest('FETCH_ONE_USER_GROUP', fetchOneUserGroup);
     yield takeLatest('ADD_USER_GROUP', addUserGroup);
     yield takeLatest('REMOVE_USER_GROUP', removeUserGroup);
     yield takeLatest('REMOVE_GROUP', removeGroup);
