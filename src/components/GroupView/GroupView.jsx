@@ -204,7 +204,7 @@ function GroupView() {
                                             <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View User</Button></StyledTableCell>
                                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                                             <StyledTableCell>
-                                                <Button variant="contained" color="secondary" onClick={handleClickOpener}>
+                                                <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpener}>
                                                     Remove From Group
                                 </Button>
                                                 <Dialog
@@ -237,7 +237,7 @@ function GroupView() {
                         </TableContainer>
                         <br></br>
                         <br></br>
-                        <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
+                        <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => handleClickOpen()}>
                             Archive Group
                 </Button> &nbsp; &nbsp;
                         <Button

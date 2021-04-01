@@ -207,7 +207,7 @@ function UserAdminView() {
                                 {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
                                 
                                 <div className="archive-control">
-                                    {!edit ? ((!user.archived) && <Button variant="contained" color="secondary" onClick={() => archiveUser()}>Archive User</Button>) : ''}
+                                    {!edit ? ((!user.archived) && <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => archiveUser()}>Archive User</Button>) : ''}
                                     {!edit ? ((user.archived) && <Button variant="contained" color="default" onClick={() => unarchiveUser()}>Restore User</Button>) : ''}
                                 </div>
                             </Grid>

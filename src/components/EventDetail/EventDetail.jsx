@@ -163,7 +163,7 @@ function EventDetail() {
                                             <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check Out</Button></StyledTableCell>
                                             <StyledTableCell>
                                                 <div>
-                                                    <Button variant="contained" color="secondary" onClick={handleClickOpener}>
+                                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpener}>
                                                         Remove
                                                     </Button>
                                                     <Dialog
@@ -202,7 +202,7 @@ function EventDetail() {
                         <Grid container justify="space-between">
                             <Grid item>
                                 <div>
-                                    <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
                                         Delete Event
                         </Button>
                                     <Dialog
@@ -252,11 +252,11 @@ function EventDetail() {
 export default EventDetail;
 
 
-//  <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</Button>
+//  <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</Button>
 
 
 // <div>
-//     <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+//     <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
 //             Remove
 //                         </Button>
 //     <Dialog
