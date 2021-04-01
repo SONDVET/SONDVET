@@ -154,7 +154,8 @@ router.get('/organization/:id', rejectUnauthenticated, (req, res) => {
 
 //GET everything in user_group
 router.get('/usergroup', rejectUnauthenticated, (req, res) => {
-    const queryText = `SELECT * FROM "user_group";`
+    const queryText = `SELECT * FROM "user_group"
+    JOIN "affiliation" ON "affiliation"."id" = "user_group"."group_id";`
     pool.query(queryText)
     .then(result => {
         res.send(result.rows)

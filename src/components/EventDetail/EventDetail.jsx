@@ -50,10 +50,12 @@ function EventDetail() {
 
     const [selectedPerson, setSelectedPerson] = useState("")
     const history = useHistory();
+
+    const params = useParams();
+    const dispatch = useDispatch();
+    const store = useSelector(store => store);
+    const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
-    const params = useParams()
-    const dispatch = useDispatch()
-    const user = useSelector((store) => store.user)
     const userEvent = useSelector((store) => store.userEvent);
     const event = useSelector((store) => store.event);
     const today = new Date();

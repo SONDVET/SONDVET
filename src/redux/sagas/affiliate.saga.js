@@ -22,6 +22,7 @@ function* fetchAffiliateUser(action) {
 }
 
 function* fetchAffiliation(action) {
+    console.log(`getting all affiliates for id, ${action.payload}`);
     try {
         const response = yield axios.get(`api/volunteer/organization/${action.payload}`)
         yield put({ type: 'SET_AFFILIATE', payload: response.data })
