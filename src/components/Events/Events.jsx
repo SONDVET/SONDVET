@@ -49,7 +49,8 @@ function Events() {
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
     const today = new Date();
-    const [groupRep, setGroupRep] = useState(store.userGroup[0].group_id); 
+    //TODO: FIX THIS
+    const [groupRep, setGroupRep] = useState(0); 
 
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
@@ -59,7 +60,6 @@ function Events() {
 
     useEffect(() => {
         dispatch({ type: 'FETCH_AFFILIATE' });
-        dispatch({ type: 'FETCH_ALL_USER_EVENT' });
         dispatch({ type: 'FETCH_ALL_USER_EVENT' });
         dispatch({ type: 'FETCH_USER_GROUP' });
     }, [])
@@ -158,18 +158,18 @@ function Events() {
                                                             It looks like you are a member of more than one group.  Which group would you like to represent for this event?
                                                         </DialogContentText>
                                                         <Select value={groupRep} onChange={(e) => setGroupRep(e.target.value) }>{(store.userGroup[0]) && store.userGroup.map((group) =>
-                                                            <MenuItem value={group.group_id}>{store.affiliate[group.group_id-1].college_name}</MenuItem>
+                                                            <MenuItem value={group.group_id}>{group.college_name}</MenuItem>
                                                         )}</Select>
                                                     </DialogContent>
                                                     <DialogActions>
                                                         <Button autoFocus onClick={handleClose} color="primary">
                                                             Cancel
                                                         </Button>
-                                                        <Button onClick={() => {setOpen(false), dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: groupRep } })}} color="primary" autoFocus>
+                                                        <Button onClick={() => {setOpen(false), dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: groupRep } })}} color="primary" autoFocus disabled={groupRep === 0}>
                                                             Confirm and Join
                                                         </Button>
                                                     </DialogActions>
-                                                </Dialog></> : <Button variant="contained" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: groupRep } })}>Join Event</Button>)}&nbsp;
+                                                </Dialog></> : <Button variant="contained" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}

@@ -32,7 +32,10 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 //GET rout for retrieving all user_events
 router.get('/aue', rejectUnauthenticated, (req, res) => {
     console.log('getting all userevents');
-    const queryText = `SELECT * FROM "user_event" JOIN "event" ON "user_event"."event_id"="event"."id" WHERE "archived"='FALSE';`;
+    const queryText = `SELECT * FROM "user_event" 
+    JOIN "event" ON "user_event"."event_id"="event"."id" 
+    JOIN "affiliation" ON "affiliation"."id" = "user_event"."group_id"
+    WHERE "archived"='FALSE';`;
     pool.query(queryText)
         .then(result => {
             res.send(result.rows);
@@ -277,10 +280,10 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
 router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     console.log('ingetallusers')
     const queryText = `SELECT u."id", "category", "first_name", "last_name", "email", 
-    "phone_number",  "college_id", "college_name", ue."check_in", ue."check_out", 
+    "phone_number", "college_name", ue."check_in", ue."check_out", 
     ue."total_time", ue."event_id"  FROM "user_event" as ue
     JOIN "user" AS u ON ue."user_id" = u."id"
-    JOIN "affiliation" as a ON u."college_id" = a."id"
+    JOIN "affiliation" as a ON ue."group_id" = a."id"
     WHERE ue."event_id" = ${req.params.id}`;
     pool.query(queryText)
         .then(result => {
