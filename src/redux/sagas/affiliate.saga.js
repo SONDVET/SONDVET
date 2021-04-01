@@ -39,7 +39,6 @@ function* fetchUserGroup() {
     }
 }
 
-
 function* addUserGroup(action) {
     try {
         yield axios.put(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
@@ -48,7 +47,6 @@ function* addUserGroup(action) {
         console.log(`error creating new userGroup, ${error}`);
     }
 }
-
 
 function* removeUserGroup(action) {
     console.log('action.payload is:', action.payload, 'action.payload.params is', (action.payload.parameter == true));
@@ -63,7 +61,6 @@ function* removeUserGroup(action) {
     }
 }
 
-
 // used to list a group/affiliation as inactive (archived)
 function* removeGroup(action) {
     console.log('group to be inactive is:',action.payload)
@@ -73,7 +70,6 @@ function* removeGroup(action) {
         console.log(`error removing group, ${error}`);
     }
 }
-
 
 // used to create a new affiliation
 function* postGroup(action) {
@@ -86,6 +82,7 @@ function* postGroup(action) {
     }
 }
 
+// gets archived groups for view
 function* fetchArchivedGroups() {
     try {
         const response = yield axios.get(`/api/volunteer/affiliation/archived'`)
@@ -94,8 +91,6 @@ function* fetchArchivedGroups() {
         console.log(`Error GETTING archived groups, ${error}`);
     }
 }
-
-
 
 function* affiliateSaga() {
     yield takeLatest('FETCH_AFFILIATE', fetchAffiliate);
