@@ -181,7 +181,7 @@ function EventDetail() {
                                                             </DialogContentText>
                                                         </DialogContent>
                                                         <DialogActions>
-                                                            <Button autoFocus onClick={handleCloser} variant="contained" color="primary">
+                                                            <Button autoFocus onClick={handleCloser} variant="contained">
                                                                 Cancel
                                                             </Button>
                                                             <Button onClick={handleCloser, archiveEvent} style={{color:"white", backgroundColor:"#FF0000"}} autoFocus>
@@ -261,8 +261,8 @@ export default EventDetail;
 //     <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
 //             Remove
 //                         </Button>
-//     <Dialog
-//         fullScreen={fullScreen}
+//   
+//         fullScreen={fullScreen}  <Dialog
 //         open={open}
 //         onClose={handleClose}
 //         aria-labelledby="responsive-dialog-title"
