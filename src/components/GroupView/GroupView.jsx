@@ -44,7 +44,7 @@ function GroupView() {
     const [group, setGroup] = useState("");
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const [search, setSearch] = useState ("")
+    const [search, setSearch] = useState("")
 
     const goToDetails = (eventId) => {
         //TODO: this route may need to be updated 
@@ -72,7 +72,7 @@ function GroupView() {
         } else {
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
             dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
-            
+
         }
     }, [search]);
 
@@ -154,7 +154,7 @@ function GroupView() {
 
     return (
         <>
-        <h1 className="header">Group View</h1>
+            <h1 className="header">Group View</h1>
             <Container>
                 {store.affiliate.length === 1 ?
                     <>
@@ -164,7 +164,7 @@ function GroupView() {
                                 variant="contained"
                                 onClick={() => history.push("/group_view")}>
                                 All Groups
-                </Button>
+                            </Button>
                             <Dialog
                                 fullScreen={fullScreen}
                                 open={open}
@@ -178,12 +178,12 @@ function GroupView() {
                         </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
-                                    <Button autoFocus onClick={handleClose} variant="contained" style={{color:"white", backgroundColor:"#FF0000"}}>
+                                    <Button autoFocus onClick={handleClose} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }}>
                                         Cancel
-                        </Button>
+                                    </Button>
                                     <Button onClick={handleClose, removeGroup} variant="contained" color="primary" autoFocus>
                                         Delete Group
-                        </Button>
+                                    </Button>
                                 </DialogActions>
                             </Dialog>
                         </div>
@@ -210,9 +210,9 @@ function GroupView() {
                                             <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View User</Button></StyledTableCell>
                                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                                             <StyledTableCell>
-                                                <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpener}>
+                                                <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpener}>
                                                     Remove From Group
-                                </Button>
+                                                </Button>
                                                 <Dialog
                                                     fullScreen={fullScreen}
                                                     open={userOpen}
@@ -223,15 +223,15 @@ function GroupView() {
                                                     <DialogContent>
                                                         <DialogContentText>
                                                             Are you sure you want to remove this user from this affiliation?  If you do they will have to edit their user information before they can rejoin.
-                                         </DialogContentText>
+                                                    </DialogContentText>
                                                     </DialogContent>
                                                     <DialogActions>
                                                         <Button autoFocus onClick={handleCloser} color="primary">
                                                             Disagree and Cancel
-                                        </Button>
+                                                        </Button>
                                                         <Button onClick={() => removeUser(affiliates.id, affiliates.group_id)} color="primary" autoFocus>
                                                             Agree and Remove User
-                                        </Button>
+                                                        </Button>
                                                     </DialogActions>
                                                 </Dialog>
                                             </StyledTableCell>
@@ -243,9 +243,9 @@ function GroupView() {
                         </TableContainer>
                         <br></br>
                         <br></br>
-                        <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => handleClickOpen()}>
+                        <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpen()}>
                             Archive Group
-                </Button> &nbsp; &nbsp;
+                        </Button> &nbsp; &nbsp;
                         <Button
                             component={ReactHTMLTableToExcel}
                             variant="contained"
@@ -260,7 +260,7 @@ function GroupView() {
                     <>
                         {/* {store.affiliate[0] &&  */}
                         <div className="groupListContainer">
-                        <TextField label="Search Groups" value={search} onChange={(e) => setSearch(e.target.value)}/>
+                            <TextField label="Search Groups" value={search} onChange={(e) => setSearch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
@@ -280,9 +280,9 @@ function GroupView() {
                                         )}
                                     </TableBody>
                                 </Table>
-                                </TableContainer>
-                                <br></br>
-                                <TableContainer component={Paper}>
+                            </TableContainer>
+                            <br></br>
+                            <TableContainer component={Paper}>
                                 <Table id="addNewGroup">
                                     <TableHead>
                                         <StyledTableRow>
