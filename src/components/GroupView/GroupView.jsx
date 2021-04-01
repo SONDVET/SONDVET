@@ -282,6 +282,28 @@ function GroupView() {
                                 </Table>
                             </TableContainer>
                             <br></br>
+                            <TextField label="Search Groups" value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <TableContainer component={Paper}>
+                                <Table id="SO College Members">
+                                    <TableHead>
+                                        <StyledTableRow>
+                                            <StyledTableCell>Group</StyledTableCell>
+                                            <StyledTableCell>Total Members</StyledTableCell>
+                                            <StyledTableCell></StyledTableCell>
+                                        </StyledTableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
+                                            <StyledTableRow key={affiliate.id}>
+                                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
+                                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
+                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
+                                            </StyledTableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            
                             <TableContainer component={Paper}>
                                 <Table id="addNewGroup">
                                     <TableHead>
