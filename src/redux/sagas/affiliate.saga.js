@@ -86,6 +86,15 @@ function* postGroup(action) {
     }
 }
 
+function* fetchArchivedGroups() {
+    try {
+        const response = yield axios.get(`/api/volunteer/affiliation/archived'`)
+        yield put({ type: 'SET_ARCHIVED_GROUP', payload: response.data })
+    } catch (error) {
+        console.log(`Error GETTING archived groups, ${error}`);
+    }
+}
+
 
 
 function* affiliateSaga() {
@@ -96,7 +105,8 @@ function* affiliateSaga() {
     yield takeLatest('ADD_USER_GROUP', addUserGroup);
     yield takeLatest('REMOVE_USER_GROUP', removeUserGroup);
     yield takeLatest('REMOVE_GROUP', removeGroup);
-    yield takeLatest('ADD_AFFILIATION', postGroup)
+    yield takeLatest('ADD_AFFILIATION', postGroup);
+    yield takeLatest('FETCH_ARCHIVED_GROUPS', fetchArchivedGroups);
 }
 
 export default affiliateSaga;
