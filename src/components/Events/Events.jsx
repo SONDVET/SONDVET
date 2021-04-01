@@ -144,6 +144,8 @@ function Events() {
                             })}
                         </div>
                         : <><h1 style={{ textAlign: 'center' }}>No Events Found</h1></>}
+                        <br></br>
+                        <br></br>
                     <div className="pageWrap">
                         <Pagination
                             className="pagination"
