@@ -109,7 +109,7 @@ function EventDetail() {
                 <Container>
                     {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
                     <Card className={classes.mobileCard}>
-                        <CardHeader title={event[0].name} />
+                        <CardHeader title={event[0].name} className={classes.cardHead} />
                         <CardContent>
                             <img src={event[0].pic_url} height='100px' />
                         </CardContent>
