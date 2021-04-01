@@ -10,6 +10,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
 
 
 //Styling for material tables
@@ -118,7 +119,7 @@ function UserPage() {
     if (match) {
       return '(' + match[1] + ')' + match[2] + '-' + match[3];
     }
-    return null;
+    return phoneNumb;
   }
 
 
@@ -188,7 +189,7 @@ function UserPage() {
                   </StyledTableRow>
                   <StyledTableRow>
                     <StyledTableCell><b>Phone</b></StyledTableCell>
-                    <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</StyledTableCell>
+                    <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} maxLength="10" onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="tel" />}</StyledTableCell>
                   </StyledTableRow>
                   <StyledTableRow>
                     <StyledTableCell><b>Address</b></StyledTableCell>
@@ -262,12 +263,12 @@ function UserPage() {
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
-                  {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                  {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
                     <StyledTableCell align="left">
                       <b>{item.name}</b>
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {item.date.substring(0, 10)}
+                      {moment(item.date).format('LL')}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
@@ -305,16 +306,3 @@ function UserPage() {
 export default UserPage;
 
 
-
-// let phoneNumb = user.phone_number;
-
-// const phoneFormater = (phoneNumb) => {
-//   let format = ('' + phoneNumb).replace(/\D/g,'');
-//   let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
-//   if (match){
-//     return '('+match[1]+')'+match[2]+'-'+match[3];
-//   }
-//   return null;
-// }
-
-{/* <div className="personInfoItem">Phone</div>                    <div className="personInfoItem">{edit ? <div>{phoneFormater()}</div> : <input defaultValue={user.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</div> */ }
