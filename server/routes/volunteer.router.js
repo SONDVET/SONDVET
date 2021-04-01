@@ -84,6 +84,18 @@ router.put('/affiliation/:id', (req, res) => {
         })
 });
 
+router.put('/affiliation/:id', (req, res) => {
+    const queryText = `UPDATE "affiliation" SET "inactive"=FALSE WHERE "id"=$1;`;
+    pool.query(queryText, [req.params.id])
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error unarchiving affiliation, ${err}`);
+            res.sendStatus(500);
+        })
+});
+
 
 // Selects All Users Who are in the affiliaton with the id
 // that is passed into the params
