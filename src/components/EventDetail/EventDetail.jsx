@@ -48,7 +48,7 @@ function EventDetail() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-
+    const [selectedPerson, setSelectedPerson] = useState("")
     const history = useHistory();
     const [search, setSearch] = useState('');
     const params = useParams()
@@ -88,7 +88,8 @@ function EventDetail() {
         setOpen(false);
     };
 
-    const handleClickOpener = () => {
+    const handleClickOpener = (user) => {
+        setSelectedPerson(user)
         setUserOpen(true);
     };
     const handleCloser = () => {
@@ -136,7 +137,7 @@ function EventDetail() {
                     </Card>
 
                     <h2>Scheduled Participants</h2>
-                    <TextField label="Search Scheduled Participants" value={search} onChange={(e) => setSearch(e.target.value)}/>
+                    <TextField style={{width:'25%', paddingBottom:'10px'}}label="Search Scheduled Participants" value={search} onChange={(e) => setSearch(e.target.value)}/>
                     <TableContainer component={Paper} >
                         <Table id="eventUser" className="eventUser">
                             <TableHead>
@@ -163,27 +164,28 @@ function EventDetail() {
                                             <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check Out</Button></StyledTableCell>
                                             <StyledTableCell>
                                                 <div>
-                                                    <Button variant="contained" color="secondary" onClick={handleClickOpener}>
+                                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => handleClickOpener(user)}>
                                                         Remove
                                                     </Button>
                                                     <Dialog
+                                                        
                                                         fullScreen={fullScreen}
                                                         open={userOpen}
                                                         onClose={handleCloser}
                                                         aria-labelledby="responsive-dialog-title"
                                                     >
-                                                        <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
-                                                        <DialogContent>
+                                                        <DialogTitle id="responsive-dialog-title">{`Are you sure you want to remove ${selectedPerson.first_name} ${selectedPerson.last_name}?`}</DialogTitle>
+                                                        <DialogContent >
                                                             <DialogContentText>
-                                                                Are you sure you want to remove this volunteer from this event?
+                                                                They will no longer be able to check into this event.
                                                             </DialogContentText>
                                                         </DialogContent>
                                                         <DialogActions>
-                                                            <Button autoFocus onClick={handleCloser} color="primary">
-                                                                Disagree and Cancel
+                                                            <Button autoFocus onClick={handleCloser} variant="contained" color="primary">
+                                                                Cancel
                                                             </Button>
-                                                            <Button onClick={handleCloser, archiveEvent} color="primary" autoFocus>
-                                                                Agree and Remove Volunteer
+                                                            <Button onClick={handleCloser, archiveEvent} style={{color:"white", backgroundColor:"#FF0000"}} autoFocus>
+                                                                Remove Volunteer
                                                             </Button>
                                                         </DialogActions>
                                                     </Dialog>
@@ -202,7 +204,7 @@ function EventDetail() {
                         <Grid container justify="space-between">
                             <Grid item>
                                 <div>
-                                    <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
                                         Delete Event
                         </Button>
                                     <Dialog
@@ -252,11 +254,11 @@ function EventDetail() {
 export default EventDetail;
 
 
-//  <Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</Button>
+//  <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</Button>
 
 
 // <div>
-//     <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+//     <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
 //             Remove
 //                         </Button>
 //     <Dialog

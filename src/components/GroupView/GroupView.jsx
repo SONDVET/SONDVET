@@ -70,8 +70,9 @@ function GroupView() {
             dispatch({ type: 'FETCH_USER_GROUP' });
             console.log(search)
         } else {
-            dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
+            dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
+            
         }
     }, [search]);
 
@@ -150,7 +151,7 @@ function GroupView() {
         <>
         <h1 className="header">Group View</h1>
             <Container>
-                {params.id != undefined ?
+                {store.affiliate.length === 1 ?
                     <>
                         <h1>{store.affiliate[0].college_name}</h1>
                         <div>
@@ -165,18 +166,18 @@ function GroupView() {
                                 onClose={handleClose}
                                 aria-labelledby="responsive-dialog-title"
                             >
-                                <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
+                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to delete ${store.affiliate[0].college_name} ?`}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
-                                        Are you sure you want to delete this group?  If you do they will be set to "archived" and only Admins will be able to retrive them.
+                                        If you do they will be set to "archived" and only Admins will be able to retrive them.
                         </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
-                                    <Button autoFocus onClick={handleClose} color="primary">
-                                        Disagree and Cancel
+                                    <Button autoFocus onClick={handleClose} variant="contained" style={{color:"white", backgroundColor:"#FF0000"}}>
+                                        Cancel
                         </Button>
-                                    <Button onClick={handleClose, removeGroup} color="primary" autoFocus>
-                                        Agree and Delete Group
+                                    <Button onClick={handleClose, removeGroup} variant="contained" color="primary" autoFocus>
+                                        Delete Group
                         </Button>
                                 </DialogActions>
                             </Dialog>
@@ -204,7 +205,7 @@ function GroupView() {
                                             <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View User</Button></StyledTableCell>
                                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                                             <StyledTableCell>
-                                                <Button variant="contained" color="secondary" onClick={handleClickOpener}>
+                                                <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpener}>
                                                     Remove From Group
                                 </Button>
                                                 <Dialog
@@ -237,7 +238,7 @@ function GroupView() {
                         </TableContainer>
                         <br></br>
                         <br></br>
-                        <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
+                        <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => handleClickOpen()}>
                             Archive Group
                 </Button> &nbsp; &nbsp;
                         <Button
