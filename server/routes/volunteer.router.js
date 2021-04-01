@@ -166,6 +166,21 @@ router.get('/usergroup', rejectUnauthenticated, (req, res) => {
     })
 });
 
+//GET oneUserGroup
+router.get('/usergroup/:id', rejectUnauthenticated, (req, res) => {
+    const queryText = `SELECT * FROM "user_group"
+    JOIN "affiliation" ON "affiliation"."id" = "user_group"."group_id"
+    WHERE "user_group".id = $1;`
+    pool.query(queryText, [req.params.id])
+    .then(result => {
+        res.send(result.rows)
+    })
+    .catch((err) => {
+        console.log(`Error getting user_group, ${err}`);
+        res.sendStatus(500);
+    })
+});
+
 //create new entry in user_group
 router.put('/usergroup/:userid/:groupid', rejectUnauthenticated, (req, res) => {
     const queryText = `INSERT INTO "user_group" ("user_id", "group_id")

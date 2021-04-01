@@ -61,7 +61,7 @@ function Events() {
     useEffect(() => {
         dispatch({ type: 'FETCH_AFFILIATE' });
         dispatch({ type: 'FETCH_ALL_USER_EVENT' });
-        dispatch({ type: 'FETCH_USER_GROUP' });
+        dispatch({ type: 'FETCH_ONE_USER_GROUP', payload: user.id });
     }, [])
 
     //updates pagination list whenever event list is changed
