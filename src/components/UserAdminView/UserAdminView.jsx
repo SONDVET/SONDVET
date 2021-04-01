@@ -55,7 +55,6 @@ function UserAdminView() {
     const setEditMode = () => {
         console.log('clicked edit mode', edit);
         if (edit === true) {
-            declare()
             return setEdit(false);
         }
         else if (!edit === true) {
@@ -152,7 +151,7 @@ function UserAdminView() {
 
     //get run when the edit button is pushed
     //to ensure oneUser store is populated before values are assinged       
-    const declare = () => {
+    if (store.oneUser[0] && person.id === 0){        
         setPerson({
             id: store.oneUser[0].id,
             category: store.oneUser[0].category,
@@ -174,10 +173,8 @@ function UserAdminView() {
     }
 
 
-    if (store.oneUser[0] && person.id === 0){
-        declare()
-        return;
-    }
+  
+      
 
     //used to convert access level number to readable title
     const accessRanks = ["Volunteer", "Officer", "Admin"]
@@ -187,12 +184,12 @@ function UserAdminView() {
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
-                    <Button onClick={declare}></Button>
+
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
                             <Grid item>
-                                <p className="name">{user.first_name} {user.last_name}</p>
-                                <p className="mail">{user.email}</p>
+                                <p className="name">{person.first_name} {person.last_name}</p>
+                                <p className="mail">{person.email}</p>
 
                                 {(store.user.access_level > 2) &&
                                     <div className="rankContainer">
