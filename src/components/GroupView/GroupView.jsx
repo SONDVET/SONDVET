@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './GroupView.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper, TextField } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
@@ -44,7 +44,7 @@ function GroupView() {
     const [group, setGroup] = useState("");
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
+    const [search, setSearch] = useState ("")
 
     const goToDetails = (eventId) => {
         //TODO: this route may need to be updated 
@@ -64,17 +64,16 @@ function GroupView() {
 
     useEffect(() => {
         if (params.id === undefined) {
-            console.log('noParams')
-            dispatch({ type: 'FETCH_AFFILIATE' });
+            dispatch({ type: 'FETCH_AFFILIATE', payload: search });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_USER_GROUP' });
+            console.log(search)
         } else {
-            console.log("no bork")
             dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
         }
-    }, []);
+    }, [search]);
 
     const memberCount = (groupId) => {
         let count = 0;
@@ -154,7 +153,6 @@ function GroupView() {
                 {params.id != undefined ?
                     <>
                         <h1>{store.affiliate[0].college_name}</h1>
-
                         <div>
                             <Button
                                 variant="contained"
@@ -256,6 +254,7 @@ function GroupView() {
                     <>
                         {/* {store.affiliate[0] &&  */}
                         <div className="groupListContainer">
+                        <TextField label="Search Groups" value={search} onChange={(e) => setSearch(e.target.value)}/>
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>

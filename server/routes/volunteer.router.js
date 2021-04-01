@@ -39,7 +39,12 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 // GETS all affiliations
 router.get('/affiliation', (req, res) => {
-    const queryText = `SELECT * FROM "affiliation" WHERE "inactive"=FALSE;`
+    console.log(req.query.search)
+    if(req.query.length === 0){
+    queryText = `SELECT * FROM "affiliation" WHERE "inactive"=FALSE;`
+    }else{
+    queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE '${req.query.search}%' AND "inactive"=FALSE;` 
+    }
     pool.query(queryText)
         .then(result => {
             res.send(result.rows)
