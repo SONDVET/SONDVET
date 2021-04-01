@@ -2,9 +2,10 @@ import { put, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 
 
-function* fetchAffiliate() {
+function* fetchAffiliate(action) {
     try {
-        const response = yield axios.get(`api/volunteer/affiliation`)
+        console.log(action.payload)
+        const response = yield axios.get(`api/volunteer/affiliation?search=${action.payload}`)
         yield put({ type: 'SET_AFFILIATE', payload: response.data })
     } catch (error) {
         console.log(`error GETTING affiliates, ${error}`);
@@ -21,6 +22,7 @@ function* fetchAffiliateUser(action) {
 }
 
 function* fetchAffiliation(action) {
+    console.log(`getting all affiliates for id, ${action.payload}`);
     try {
         const response = yield axios.get(`api/volunteer/organization/${action.payload}`)
         yield put({ type: 'SET_AFFILIATE', payload: response.data })

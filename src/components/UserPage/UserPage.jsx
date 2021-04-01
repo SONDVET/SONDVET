@@ -119,7 +119,7 @@ function UserPage() {
     if (match) {
       return '(' + match[1] + ')' + match[2] + '-' + match[3];
     }
-    return null;
+    return phoneNumb;
   }
 
 
@@ -197,7 +197,7 @@ function UserPage() {
                   </StyledTableRow>
                   <StyledTableRow>
                     <StyledTableCell><b>Phone</b></StyledTableCell>
-                    <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</StyledTableCell>
+                    <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} maxLength="10" onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="tel" />}</StyledTableCell>
                   </StyledTableRow>
                   <StyledTableRow>
                     <StyledTableCell><b>Address</b></StyledTableCell>
@@ -223,12 +223,9 @@ function UserPage() {
                     <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
                     <StyledTableCell>{edit ? <div>{person.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                   </StyledTableRow>
-                  <StyledTableRow>
-                    {/* <StyledTableCell><b>Group</b></StyledTableCell>
-                    <StyledTableCell>{edit ? <div>{(store.affiliate[0]) && store.affiliate[person.college_id-1].college_name}</div> 
-                    : <select defaultValue={person.college_id} onChange={(e) => setPerson({ ...person, college_id: e.target.value })} type="text">
-                      {(store.affiliate[0]) && store.affiliate.map((group) => <option value={group.id}>{group.college_name}</option>)}
-                      </select>}</StyledTableCell> */}
+                   <StyledTableRow>
+                    <StyledTableCell><b>Password</b></StyledTableCell>
+                    <StyledTableCell>{edit ? <div>--hidden--</div> : <input placeholder="Enter New Password" onChange={(e) => setPerson({ ...person, password: e.target.value })}/>}</StyledTableCell>
                   </StyledTableRow>
                 </TableBody>
               </Table>
@@ -321,16 +318,3 @@ function UserPage() {
 export default UserPage;
 
 
-
-// let phoneNumb = user.phone_number;
-
-// const phoneFormater = (phoneNumb) => {
-//   let format = ('' + phoneNumb).replace(/\D/g,'');
-//   let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
-//   if (match){
-//     return '('+match[1]+')'+match[2]+'-'+match[3];
-//   }
-//   return null;
-// }
-
-{/* <div className="personInfoItem">Phone</div>                    <div className="personInfoItem">{edit ? <div>{phoneFormater()}</div> : <input defaultValue={user.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</div> */ }

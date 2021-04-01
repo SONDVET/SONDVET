@@ -55,10 +55,28 @@ function UserAdminView() {
     const setEditMode = () => {
         console.log('clicked edit mode', edit);
         if (edit === true) {
-            declare()
+          
             return setEdit(false);
         }
         else if (!edit === true) {
+            setPerson({
+                id: store.oneUser[0].id,
+            category: store.oneUser[0].category,
+            first_name: store.oneUser[0].first_name,
+            last_name: store.oneUser[0].last_name,
+            email: store.oneUser[0].email,
+            phone_number: store.oneUser[0].phone_number,
+            address: store.oneUser[0].address,
+            city: store.oneUser[0].city,
+            state: store.oneUser[0].state,
+            zip: store.oneUser[0].zip,
+            dob: store.oneUser[0].dob,
+            involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
+            college_id: store.oneUser[0].college_id,
+            password: store.oneUser[0].password,
+            access_level: store.oneUser[0].access_level,
+            archived: store.oneUser[0].archived
+        })
             return setEdit(true);
         }
     };
@@ -87,7 +105,7 @@ function UserAdminView() {
         if (match) {
             return '(' + match[1] + ')' + match[2] + '-' + match[3];
         }
-        return null;
+        return phoneNumb;
     }
 
     const isAMember = (userId, groupId) => {
@@ -152,7 +170,7 @@ function UserAdminView() {
 
     //get run when the edit button is pushed
     //to ensure oneUser store is populated before values are assinged       
-    const declare = () => {
+    if (store.oneUser[0] && person.id === 0){        
         setPerson({
             id: store.oneUser[0].id,
             category: store.oneUser[0].category,
@@ -174,10 +192,8 @@ function UserAdminView() {
     }
 
 
-    if (store.oneUser[0] && person.id === 0){
-        declare()
-        return;
-    }
+  
+      
 
     //used to convert access level number to readable title
     const accessRanks = ["Volunteer", "Officer", "Admin"]
@@ -187,12 +203,12 @@ function UserAdminView() {
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
-                    <Button onClick={declare}></Button>
+
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
                             <Grid item>
-                                <p className="name">{user.first_name} {user.last_name}</p>
-                                <p className="mail">{user.email}</p>
+                                <p className="name">{person.first_name} {person.last_name}</p>
+                                <p className="mail">{person.email}</p>
 
                                 {(store.user.access_level > 2) &&
                                     <div className="rankContainer">
@@ -207,7 +223,7 @@ function UserAdminView() {
                                 {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
                                 
                                 <div className="archive-control">
-                                    {!edit ? ((!user.archived) && <Button variant="contained" color="secondary" onClick={() => archiveUser()}>Archive User</Button>) : ''}
+                                    {!edit ? ((!user.archived) && <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => archiveUser()}>Archive User</Button>) : ''}
                                     {!edit ? ((user.archived) && <Button variant="contained" color="default" onClick={() => unarchiveUser()}>Restore User</Button>) : ''}
                                 </div>
                             </Grid>
@@ -243,7 +259,7 @@ function UserAdminView() {
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Phone</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="number" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} maxLength="10" onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="tel" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Address</b></StyledTableCell>
@@ -268,6 +284,10 @@ function UserAdminView() {
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
                                                 <StyledTableCell>{edit ? <div>{person.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
+                                            </StyledTableRow>
+                                            <StyledTableRow>
+                                                <StyledTableCell><b>Password</b></StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>--hidden--</div> : <input placeholder="Enter New Password" onChange={(e) => setPerson({ ...person, password: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                         </TableBody>
                                     </Table>

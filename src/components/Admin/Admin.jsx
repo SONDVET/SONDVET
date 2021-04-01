@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, TablePagination } from '@material-ui/core';
+import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, TablePagination, TextField } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -16,6 +16,8 @@ function Admin() {
   const store = useSelector(store => store);
 
   const classes = useStyles();
+  const [search, setSearch] = useState('');
+  const [searchArch, setSearchArch] = useState('')
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
   const [selected, setSelected] = React.useState([]);
@@ -51,14 +53,31 @@ function Admin() {
   }))(TableRow);
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ARCHIVED" })
-    dispatch({ type: "FETCH_ALL" })
-  }, [])
+    dispatch({ type: "FETCH_ARCHIVED", payload: searchArch}) 
+    console.log(searchArch)
+  }, [searchArch])
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_ALL", payload: search})
+    console.log(search)
+  }, [search])
+
 
   const goToUser = (user) => {
     console.log(`You want to view details for person with id of ${user}`)
     history.push(`/userdetails/${user}`)
   };
+
+
+  const phoneFormater = (phoneNumb) => {
+    let format = ('' + phoneNumb).replace(/\D/g, '');
+    let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return '(' + match[1] + ')' + match[2] + '-' + match[3];
+    }
+    return phoneNumb;
+  }
+
 
   return (
     <>
@@ -69,7 +88,8 @@ function Admin() {
                 </p>
         <div className="table_header">
           <h2>Active Users:</h2>
-        </div>
+        </div> <br/>
+        <TextField style ={{width:"35%", paddingBottom:"10px"}} label="Search Active Users by Last Name" value={search} onChange={(e) => setSearch(e.target.value)}/>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -89,7 +109,7 @@ function Admin() {
                 <StyledTableRow key={user.id} >
                   <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                   <StyledTableCell>{user.email}</StyledTableCell>
-                  <StyledTableCell>{user.phone_number}</StyledTableCell>
+                  <StyledTableCell>{phoneFormater(user.phone_number)}</StyledTableCell>
                   <StyledTableCell>{user.address}</StyledTableCell>
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>
@@ -115,6 +135,8 @@ function Admin() {
         <div className="table_header">
           <h2>Archived Users:</h2>
         </div>
+        <TextField style ={{width:"35%", paddingBottom:"10px"}} label="Search Archived Users by Last Name" value={searchArch} onChange={(e) => setSearchArch(e.target.value)}/>
+
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -134,7 +156,7 @@ function Admin() {
                 <StyledTableRow key={user.id} >
                   <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                   <StyledTableCell>{user.email}</StyledTableCell>
-                  <StyledTableCell>{user.phone_number}</StyledTableCell>
+                  <StyledTableCell>{phoneFormater(user.phone_number)}</StyledTableCell>
                   <StyledTableCell>{user.address}</StyledTableCell>
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>

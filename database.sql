@@ -97,7 +97,7 @@ INSERT INTO "affiliation" ("college_name") VALUES ('NDSU');
 INSERT INTO "affiliation" ("college_name") VALUES ('MSU');
 INSERT INTO "affiliation" ("college_name") VALUES ('U Mary');
 INSERT INTO "affiliation" ("college_name") VALUES ('UND');
-INSERT INTO "affiliation" ("college_name") VALUES ('VSCU');
+INSERT INTO "affiliation" ("college_name") VALUES ('VCSU');
 
 -- Create Starting Events
 INSERT INTO "event" ("name" , "description" , "special_inst" , "location" , "date" , "pic_url", "time")

@@ -140,7 +140,7 @@ function AddEvent() {
                         </Grid>
 
                         <div className="buttonBox">
-                            <Button type="reset" variant="contained" color="secondary">Clear Fields</Button>
+                            <Button type="reset" variant="contained" style={{backgroundColor: "#FF0000", color:"white"}}>Clear Fields</Button>
                             <Button type="submit" variant="contained" color="primary">Submit</Button>
                         </div>
                         <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>

@@ -279,15 +279,28 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
 // Event Id Will Need to be passed in the params
 router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     console.log('ingetallusers')
-    const queryText = `SELECT u."id", "category", "first_name", "last_name", "email", 
+    if(req.query.search.length === 0){
+    queryText = 
+    `SELECT u."id", "category", "first_name", "last_name", "email", 
     "phone_number", "college_name", ue."check_in", ue."check_out", 
     ue."total_time", ue."event_id"  FROM "user_event" as ue
     JOIN "user" AS u ON ue."user_id" = u."id"
     JOIN "affiliation" as a ON ue."group_id" = a."id"
-    WHERE ue."event_id" = ${req.params.id}`;
+    WHERE ue."event_id" = ${req.params.id}
+    ORDER BY "last_name"`;
+    }else{
+        console.log("in querry")
+    queryText = 
+    `SELECT u."id", "category", "first_name", "last_name", "email", 
+    "phone_number", "college_name", ue."check_in", ue."check_out", 
+    ue."total_time", ue."event_id"  FROM "user_event" as ue
+    JOIN "user" AS u ON ue."user_id" = u."id"
+    JOIN "affiliation" as a ON ue."group_id" = a."id"
+    WHERE ue."event_id" = ${req.params.id}
+    AND "last_name" ILIKE '${req.query.search}%' `;
+    }
     pool.query(queryText)
         .then(result => {
-            console.log(result.rows)
             res.send(result.rows);
         }).catch(err => {
             console.log(err);

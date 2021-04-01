@@ -25,6 +25,7 @@ function* registerUser(action) {
 
 function* reRegisterUser(action) {
   try {
+    console.log(action.payload);
     yield axios.put('/api/user/', action.payload);
     // yield put({ type: 'SET_ONE_USER', payload: response.data })
   } catch (error) {

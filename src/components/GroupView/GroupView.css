@@ -2,3 +2,10 @@
     font-family: ubuntu;
     src: url('../Font/Ubuntu-R.ttf');
 }
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+

@@ -37,7 +37,7 @@ function RegisterForm() {
 
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_AFFILIATE' });
+    dispatch({ type: 'FETCH_AFFILIATE', payload: ""});
   }, [])
 
   const useStyles = makeStyles({ // set stying for card and paper
@@ -65,12 +65,12 @@ function RegisterForm() {
         {errors.registrationMessage && (
           <h3 className="alert" role="alert">
             {errors.registrationMessage}
-          </h3>
+            </h3>  // InputProps={{ inputProps: { min: 0, max: 10}}}
         )}
         <TextField variant="filled" className={classes.input} label="First Name" onChange={(e) => setUser({ ...user, first_name: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="Last Name" onChange={(e) => setUser({ ...user, last_name: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="Email" onChange={(e) => setUser({ ...user, username: e.target.value })} type="email" required />
-        <TextField variant="filled" className={classes.input} label="Phone Number" onChange={(e) => setUser({ ...user, phone_number: e.target.value })} type="number" required />
+        <TextField variant="filled" className={classes.input} label="Phone Number" inputProps={{maxLength: 10}} onChange={(e) => setUser({ ...user, phone_number: e.target.value })} type="tel" required />
         <TextField variant="filled" className={classes.input} label="Street Address" onChange={(e) => setUser({ ...user, address: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="City" onChange={(e) => setUser({ ...user, city: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="State" onChange={(e) => setUser({ ...user, state: e.target.value })} required />

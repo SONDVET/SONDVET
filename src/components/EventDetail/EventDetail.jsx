@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './EventDetail.css';
@@ -44,26 +44,33 @@ const StyledTableRow = withStyles((theme) => ({
 function EventDetail() {
 
     const [open, setOpen] = React.useState(false);
+    const [userOpen, setUserOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-
+    const [selectedPerson, setSelectedPerson] = useState("")
     const history = useHistory();
 
     const params = useParams();
     const dispatch = useDispatch();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
+    const [search, setSearch] = useState('');
     const userEvent = useSelector((store) => store.userEvent);
     const event = useSelector((store) => store.event);
     const today = new Date();
 
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT_DETAILS', payload: params.id });
-        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id })
     }, []);
 
+    useEffect(() => {
+        console.log(search)
+        dispatch({ type: 'FETCH_USER_EVENT', payload: {params: params.id, search : search } })
+    }, [search]);
 
+
+    
     const archiveEvent = () => {
         dispatch({ type: 'ARCHIVE_EVENT', payload: params.id });
         history.push("/events");
@@ -83,6 +90,14 @@ function EventDetail() {
         setOpen(false);
     };
 
+    const handleClickOpener = (user) => {
+        setSelectedPerson(user)
+        setUserOpen(true);
+    };
+    const handleCloser = () => {
+        setUserOpen(false);
+    };
+
 
     const phoneFormater = (phoneNumb) => {
         let format = ('' + phoneNumb).replace(/\D/g, '');
@@ -90,7 +105,7 @@ function EventDetail() {
         if (match) {
             return '(' + match[1] + ')' + match[2] + '-' + match[3];
         }
-        return null;
+        return phoneNumb;
     }
 
     const shrink = useMediaQuery("(min-width: 800px)")
@@ -102,7 +117,7 @@ function EventDetail() {
                 <Container>
                     {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
                     <Card className={classes.mobileCard}>
-                        <CardHeader title={event[0].name} />
+                        <CardHeader title={event[0].name} className={classes.cardHead} />
                         <CardContent>
                             <img src={event[0].pic_url} height='100px' />
                         </CardContent>
@@ -124,6 +139,7 @@ function EventDetail() {
                     </Card>
 
                     <h2>Scheduled Participants</h2>
+                    <TextField style={{width:'25%', paddingBottom:'10px'}}label="Search Scheduled Participants" value={search} onChange={(e) => setSearch(e.target.value)}/>
                     <TableContainer component={Paper} >
                         <Table id="eventUser" className="eventUser">
                             <TableHead>
@@ -146,23 +162,51 @@ function EventDetail() {
                                             <StyledTableCell>{user.college_name}</StyledTableCell>
                                             <StyledTableCell>{user.email}</StyledTableCell>
                                             <StyledTableCell>{phoneFormater(user.phone_number)}</StyledTableCell>
-                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => dispatch({ type: 'CHECK_IN', payload: { user_id: user.id, event_id: user.event_id, params: params.id } })}>Check In</Button></StyledTableCell>
-                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id } })}>Check Out</Button></StyledTableCell>
-                                            <StyledTableCell><Button variant="contained" color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</Button></StyledTableCell>
+                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => dispatch({ type: 'CHECK_IN', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check In</Button></StyledTableCell>
+                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check Out</Button></StyledTableCell>
+                                            <StyledTableCell>
+                                                <div>
+                                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => handleClickOpener(user)}>
+                                                        Remove
+                                                    </Button>
+                                                    <Dialog
+                                                        
+                                                        fullScreen={fullScreen}
+                                                        open={userOpen}
+                                                        onClose={handleCloser}
+                                                        aria-labelledby="responsive-dialog-title"
+                                                    >
+                                                        <DialogTitle id="responsive-dialog-title">{`Are you sure you want to remove ${selectedPerson.first_name} ${selectedPerson.last_name}?`}</DialogTitle>
+                                                        <DialogContent >
+                                                            <DialogContentText>
+                                                                They will no longer be able to check into this event.
+                                                            </DialogContentText>
+                                                        </DialogContent>
+                                                        <DialogActions>
+                                                            <Button autoFocus onClick={handleCloser} variant="contained">
+                                                                Cancel
+                                                            </Button>
+                                                            <Button onClick={handleCloser, archiveEvent} style={{color:"white", backgroundColor:"#FF0000"}} autoFocus>
+                                                                Remove Volunteer
+                                                            </Button>
+                                                        </DialogActions>
+                                                    </Dialog>
+                                                </div>
+                                            </StyledTableCell>
                                         </StyledTableRow>
                                     )
                                 })}
                             </tbody>
                         </Table>
                     </TableContainer>
-                    <br/>
+                    <br />
 
                     {event[0] && user.access_level >= 2 &&
                         // <button onClick={() => archiveEvent()}>Archive Event</button>
-                       <Grid container justify="space-between">
+                        <Grid container justify="space-between">
                             <Grid item>
                                 <div>
-                                    <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
                                         Delete Event
                         </Button>
                                     <Dialog
@@ -189,16 +233,16 @@ function EventDetail() {
                                 </div>
                             </Grid>
                             <Grid item>
-                            <Button
-                        variant="contained"
-                        component={ReactHTMLTableToExcel}
-                        id="test-table-xls-button"
-                        className="download-table-xls-button"
-                        table="eventUser"
-                        filename="Event Registrants"
-                        sheet="eventUser.xls"
-                        buttonText="Download Event Registrants">
-                        </Button>
+                                <Button
+                                    variant="contained"
+                                    component={ReactHTMLTableToExcel}
+                                    id="test-table-xls-button"
+                                    className="download-table-xls-button"
+                                    table="eventUser"
+                                    filename="Event Registrants"
+                                    sheet="eventUser.xls"
+                                    buttonText="Download Event Registrants">
+                                </Button>
                             </Grid>
                         </Grid>
                         // <button onClick={() => unarchiveEvent()}>Unarchive Event</button>
@@ -210,3 +254,34 @@ function EventDetail() {
 }
 
 export default EventDetail;
+
+
+//  <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</Button>
+
+
+// <div>
+//     <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
+//             Remove
+//                         </Button>
+//   
+//         fullScreen={fullScreen}  <Dialog
+//         open={open}
+//         onClose={handleClose}
+//         aria-labelledby="responsive-dialog-title"
+//     >
+//         <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
+//         <DialogContent>
+//             <DialogContentText>
+//                     Are you sure you want to remove this volunteer from this event?
+//                             </DialogContentText>
+//         </DialogContent>
+//         <DialogActions>
+//             <Button autoFocus onClick={handleClose} color="primary">
+//                     Disagree and Cancel
+//                                 </Button>
+//             <Button onClick={handleClose, archiveEvent} color="primary" autoFocus>
+//                     Agree and Remove Volunteer
+//                                 </Button>
+//         </DialogActions>
+//     </Dialog>
+// </div>
