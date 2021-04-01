@@ -143,7 +143,7 @@ function Events() {
                                             <p >{event.special_inst} </p>
                                         </CardContent>
                                         {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button> : ''}
-                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) &&
+                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >=1) && ((store.userGroup[0]) && (store.userGroup.length >1) ?
                                             <>
                                                 <Button variant="contained" onClick={handleClickOpen}>Join Event</Button>
                                                 <Dialog
@@ -163,19 +163,19 @@ function Events() {
                                                     </DialogContent>
                                                     <DialogActions>
                                                         <Button autoFocus onClick={handleClose} color="primary">
-                                                            Disagree and Cancel
+                                                            Cancel
                                                         </Button>
                                                         <Button onClick={handleClose} color="primary" autoFocus>
-                                                            Agree and Archive Event
+                                                            Confirm and Join
                                                         </Button>
                                                     </DialogActions>
-                                                </Dialog></>}&nbsp;
+                                                </Dialog></> : 'just 1')}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => console.log('hello')}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>
 
-                                    // dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })
+                                    // dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, eventId: groupRep } })
                                     //dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })
 
 
