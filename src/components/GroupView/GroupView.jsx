@@ -70,8 +70,9 @@ function GroupView() {
             dispatch({ type: 'FETCH_USER_GROUP' });
             console.log(search)
         } else {
-            dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
+            dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
+            
         }
     }, [search]);
 
@@ -150,7 +151,7 @@ function GroupView() {
         <>
         <h1 className="header">Group View</h1>
             <Container>
-                {params.id != undefined ?
+                {store.affiliate.length === 1 ?
                     <>
                         <h1>{store.affiliate[0].college_name}</h1>
                         <div>
