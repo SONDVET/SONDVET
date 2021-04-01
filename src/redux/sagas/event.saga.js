@@ -37,6 +37,7 @@ function* unattendEvent(action) {
 
 function* fetchUserEvent(action) {
     try {
+        console.log()
         const response = yield axios.get(`/api/event/details/${action.payload.params}?search=${action.payload.search}`)
         yield put({ type: 'SET_USER_EVENT', payload: response.data })
     } catch (error) {
@@ -65,9 +66,9 @@ function* fetchAllUserEvent() {
 
 function* checkIn(action) {
     try {
-        console.log(action)
+        console.log(`check in ${action}`)
         yield axios.put('/api/event/checkin', action.payload)
-        yield put({ type: 'FETCH_USER_EVENT', payload: {params: action.payload.params, search: ""} })
+        yield put({ type: 'FETCH_USER_EVENT', payload: {params: action.payload.params, search: action.payload.search} })
     } catch (error) {
         console.log(`error checking in user, ${error}`);
     }
@@ -77,7 +78,7 @@ function* checkOut(action) {
         console.log(action)
         yield axios.put('/api/event/checkout', action.payload)
         yield axios.put('/api/event/addtotal', action.payload)
-        yield put({ type: 'FETCH_USER_EVENT', payload: {params: action.payload.params, search: "" } })
+        yield put({ type: 'FETCH_USER_EVENT', payload: {params: action.payload.params, search: action.payload.search } })
     } catch (error) {
         console.log(`error checking out user, ${error}`);
     }

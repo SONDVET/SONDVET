@@ -151,8 +151,8 @@ function EventDetail() {
                                             <StyledTableCell>{user.college_name}</StyledTableCell>
                                             <StyledTableCell>{user.email}</StyledTableCell>
                                             <StyledTableCell>{phoneFormater(user.phone_number)}</StyledTableCell>
-                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => dispatch({ type: 'CHECK_IN', payload: { user_id: user.id, event_id: user.event_id, params: params.id } })}>Check In</Button></StyledTableCell>
-                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id } })}>Check Out</Button></StyledTableCell>
+                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => dispatch({ type: 'CHECK_IN', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check In</Button></StyledTableCell>
+                                            <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check Out</Button></StyledTableCell>
                                             <StyledTableCell>
                                                 <div>
                                                     <Button variant="contained" color="secondary" onClick={handleClickOpen}>

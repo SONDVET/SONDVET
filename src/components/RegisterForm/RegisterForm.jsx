@@ -70,7 +70,7 @@ function RegisterForm() {
         <TextField variant="filled" className={classes.input} label="First Name" onChange={(e) => setUser({ ...user, first_name: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="Last Name" onChange={(e) => setUser({ ...user, last_name: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="Email" onChange={(e) => setUser({ ...user, username: e.target.value })} type="email" required />
-        <TextField variant="filled" className={classes.input} label="Phone Number" onChange={(e) => setUser({ ...user, phone_number: e.target.value })} type="number" required />
+        <TextField variant="filled" className={classes.input} inputProps={{ maxLength: 3 }} label="Phone Number" onChange={(e) => setUser({ ...user, phone_number: e.target.value })} type="number" required />
         <TextField variant="filled" className={classes.input} label="Street Address" onChange={(e) => setUser({ ...user, address: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="City" onChange={(e) => setUser({ ...user, city: e.target.value })} required />
         <TextField variant="filled" className={classes.input} label="State" onChange={(e) => setUser({ ...user, state: e.target.value })} required />
