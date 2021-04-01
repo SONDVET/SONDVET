@@ -49,7 +49,7 @@ function Events() {
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
     const today = new Date();
-    const [groupRep, setGroupRep] = useState((store.userGroup[0]) && store.userGroup[0].group_id); 
+    const [groupRep, setGroupRep] = useState(store.userGroup[0].group_id); 
 
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
@@ -165,12 +165,12 @@ function Events() {
                                                         <Button autoFocus onClick={handleClose} color="primary">
                                                             Cancel
                                                         </Button>
-                                                        <Button onClick={handleClose} color="primary" autoFocus>
+                                                        <Button onClick={() => {setOpen(false), dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: groupRep } })}} color="primary" autoFocus>
                                                             Confirm and Join
                                                         </Button>
                                                     </DialogActions>
                                                 </Dialog></> : 'just 1')}&nbsp;
-                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => console.log('hello')}>Can't make it</Button>}  &nbsp;
+                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>

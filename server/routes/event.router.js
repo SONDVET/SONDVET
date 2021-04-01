@@ -193,10 +193,11 @@ router.put('/addtotal', rejectUnauthenticated, (req, res) => {
 router.post('/attending', rejectUnauthenticated, (req, res) => {
     const userId = req.body.userId
     const eventId = req.body.eventId
+    const groupId = req.body.groupId
     const queryText = `
-    INSERT INTO "user_event" ("user_id" , "event_id") 
-    VALUES ($1 , $2)`;
-    pool.query(queryText, [userId, eventId])
+    INSERT INTO "user_event" ("user_id" , "event_id", "group_id") 
+    VALUES ($1 , $2, $3)`;
+    pool.query(queryText, [userId, eventId, groupId])
         .then((result) => {
             console.log(`Added user with id: ${userId} to event with id: ${eventId}`);
             res.sendStatus(201);
