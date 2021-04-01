@@ -37,7 +37,7 @@ function RegisterForm() {
 
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_AFFILIATE' });
+    dispatch({ type: 'FETCH_AFFILIATE', payload: ""});
   }, [])
 
   const useStyles = makeStyles({ // set stying for card and paper

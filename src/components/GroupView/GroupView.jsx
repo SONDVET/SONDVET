@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './GroupView.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper, TextField } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
@@ -44,7 +44,7 @@ function GroupView() {
     const [group, setGroup] = useState("");
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
+    const [search, setSearch] = useState ("")
 
     const goToDetails = (eventId) => {
         //TODO: this route may need to be updated 
@@ -64,17 +64,17 @@ function GroupView() {
 
     useEffect(() => {
         if (params.id === undefined) {
-            console.log('noParams')
-            dispatch({ type: 'FETCH_AFFILIATE' });
+            dispatch({ type: 'FETCH_AFFILIATE', payload: search });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_USER_GROUP' });
+            console.log(search)
         } else {
-            console.log("no bork")
-            dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
+            dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
+            
         }
-    }, []);
+    }, [search]);
 
     const memberCount = (groupId) => {
         let count = 0;
@@ -151,10 +151,9 @@ function GroupView() {
         <>
         <h1 className="header">Group View</h1>
             <Container>
-                {params.id != undefined ?
+                {store.affiliate.length === 1 ?
                     <>
                         <h1>{store.affiliate[0].college_name}</h1>
-
                         <div>
                             <Button
                                 variant="contained"
@@ -167,18 +166,18 @@ function GroupView() {
                                 onClose={handleClose}
                                 aria-labelledby="responsive-dialog-title"
                             >
-                                <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
+                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to delete ${store.affiliate[0].college_name} ?`}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
-                                        Are you sure you want to delete this group?  If you do they will be set to "archived" and only Admins will be able to retrive them.
+                                        If you do they will be set to "archived" and only Admins will be able to retrive them.
                         </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
-                                    <Button autoFocus onClick={handleClose} color="primary">
-                                        Disagree and Cancel
+                                    <Button autoFocus onClick={handleClose} variant="contained" style={{color:"white", backgroundColor:"#FF0000"}}>
+                                        Cancel
                         </Button>
-                                    <Button onClick={handleClose, removeGroup} color="primary" autoFocus>
-                                        Agree and Delete Group
+                                    <Button onClick={handleClose, removeGroup} variant="contained" color="primary" autoFocus>
+                                        Delete Group
                         </Button>
                                 </DialogActions>
                             </Dialog>
@@ -206,7 +205,7 @@ function GroupView() {
                                             <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View User</Button></StyledTableCell>
                                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                                             <StyledTableCell>
-                                                <Button variant="contained" color="secondary" onClick={handleClickOpener}>
+                                                <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpener}>
                                                     Remove From Group
                                 </Button>
                                                 <Dialog
@@ -239,7 +238,7 @@ function GroupView() {
                         </TableContainer>
                         <br></br>
                         <br></br>
-                        <Button variant="contained" color="secondary" onClick={() => handleClickOpen()}>
+                        <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => handleClickOpen()}>
                             Archive Group
                 </Button> &nbsp; &nbsp;
                         <Button
@@ -256,6 +255,7 @@ function GroupView() {
                     <>
                         {/* {store.affiliate[0] &&  */}
                         <div className="groupListContainer">
+                        <TextField label="Search Groups" value={search} onChange={(e) => setSearch(e.target.value)}/>
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>

@@ -135,7 +135,7 @@ function Events() {
                                         </CardContent>
                                         {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button>: ''}
                                         {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="primary" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Join</Button>}&nbsp;
-                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
+                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained"  onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>
@@ -144,6 +144,8 @@ function Events() {
                             })}
                         </div>
                         : <><h1 style={{ textAlign: 'center' }}>No Events Found</h1></>}
+                        <br></br>
+                        <br></br>
                     <div className="pageWrap">
                         <Pagination
                             className="pagination"

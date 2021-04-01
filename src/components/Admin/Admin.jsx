@@ -89,7 +89,7 @@ function Admin() {
         <div className="table_header">
           <h2>Active Users:</h2>
         </div> <br/>
-        <TextField label="Search Active Users" value={search} onChange={(e) => setSearch(e.target.value)}/>
+        <TextField style ={{width:"35%", paddingBottom:"10px"}} label="Search Active Users by Last Name" value={search} onChange={(e) => setSearch(e.target.value)}/>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -135,7 +135,7 @@ function Admin() {
         <div className="table_header">
           <h2>Archived Users:</h2>
         </div>
-        <TextField label="Search Active Users" value={searchArch} onChange={(e) => setSearchArch(e.target.value)}/>
+        <TextField style ={{width:"35%", paddingBottom:"10px"}} label="Search Archived Users by Last Name" value={searchArch} onChange={(e) => setSearchArch(e.target.value)}/>
 
         <TableContainer component={Paper}>
           <Table>

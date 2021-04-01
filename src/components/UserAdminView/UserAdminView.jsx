@@ -10,6 +10,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
 
 //Styling for material tables
 const StyledTableCell = withStyles((theme) => ({
@@ -206,7 +207,7 @@ function UserAdminView() {
                                 {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
                                 
                                 <div className="archive-control">
-                                    {!edit ? ((!user.archived) && <Button variant="contained" color="secondary" onClick={() => archiveUser()}>Archive User</Button>) : ''}
+                                    {!edit ? ((!user.archived) && <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => archiveUser()}>Archive User</Button>) : ''}
                                     {!edit ? ((user.archived) && <Button variant="contained" color="default" onClick={() => unarchiveUser()}>Restore User</Button>) : ''}
                                 </div>
                             </Grid>
@@ -320,12 +321,12 @@ function UserAdminView() {
                                             </StyledTableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {(store.oneUserEvent[1]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                                            {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
                                                 <StyledTableCell align="left">
                                                     <b>{item.name}</b>
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
-                                                    {item.date.substring(0, 10)}
+                                                    {moment(item.date).format('LL')}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
                                                     {(item.total_time.hours) ? (`${item.total_time.hours} hours `) : ''}
