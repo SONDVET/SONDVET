@@ -149,7 +149,7 @@ function GroupView() {
     const restoreGroup = () => {
         dispatch({ type: 'RESTORE_GROUP', payload: params.id })
         console.log(params.id);
-        
+        dispatch({ type: 'FETCH_AFFILIATE' });
         // history.push('/events');
     };
 
