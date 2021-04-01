@@ -55,6 +55,23 @@ router.get('/affiliation', (req, res) => {
         })
 });
 
+router.get('/affiliation/archived', (req, res) => {
+    console.log(req.query.search)
+    if(req.query.length === 0){
+    queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`
+    }else{
+    queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE '${req.query.search}%' AND "inactive"=FALSE;` 
+    }
+    pool.query(queryText)
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error getting affiliations, ${err}`);
+            res.sendStatus(500);
+        })
+});
+
 
 // PUT to make a new affiliation 
 router.post('/affiliation', (req, res) => {

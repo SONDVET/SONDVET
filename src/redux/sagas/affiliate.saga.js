@@ -85,8 +85,8 @@ function* postGroup(action) {
 // gets archived groups for view
 function* fetchArchivedGroups() {
     try {
-        const response = yield axios.get(`/api/volunteer/affiliation/archived'`)
-        yield put({ type: 'SET_ARCHIVED_GROUP', payload: response.data })
+        const response = yield axios.get(`/api/volunteer/affiliation/archived`);
+        yield put({ type: 'SET_ARCHIVED_GROUP', payload: response.data });
     } catch (error) {
         console.log(`Error GETTING archived groups, ${error}`);
     }
