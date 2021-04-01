@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './EventDetail.css';
@@ -49,7 +49,7 @@ function EventDetail() {
 
 
     const history = useHistory();
-
+    const [search, setSearch] = useState('');
     const params = useParams()
     const dispatch = useDispatch()
     const user = useSelector((store) => store.user)
@@ -59,10 +59,15 @@ function EventDetail() {
 
     useEffect(() => {
         dispatch({ type: 'FETCH_EVENT_DETAILS', payload: params.id });
-        dispatch({ type: 'FETCH_USER_EVENT', payload: params.id })
     }, []);
 
+    useEffect(() => {
+        console.log(search)
+        dispatch({ type: 'FETCH_USER_EVENT', payload: {params: params.id, search : search } })
+    }, [search]);
 
+
+    
     const archiveEvent = () => {
         dispatch({ type: 'ARCHIVE_EVENT', payload: params.id });
         history.push("/events");
@@ -123,6 +128,7 @@ function EventDetail() {
                     </Card>
 
                     <h2>Scheduled Participants</h2>
+                    <TextField label="Search Scheduled Participants" value={search} onChange={(e) => setSearch(e.target.value)}/>
                     <TableContainer component={Paper} >
                         <Table id="eventUser" className="eventUser">
                             <TableHead>
