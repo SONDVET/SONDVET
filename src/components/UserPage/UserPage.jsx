@@ -45,7 +45,7 @@ function UserPage() {
 
   //Grabs needed info on page load
   useEffect(() => {
-    dispatch({ type: 'FETCH_AFFILIATE' });
+    dispatch({ type: 'FETCH_AFFILIATE', payload: '' });
     dispatch({ type: 'FETCH_USER_GROUP' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
   }, [])
