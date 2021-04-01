@@ -68,6 +68,7 @@ function GroupView() {
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_USER_GROUP' });
+            dispatch({ type: 'FETCH_ARCHIVED_GROUPS' });
             console.log(search)
         } else {
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
