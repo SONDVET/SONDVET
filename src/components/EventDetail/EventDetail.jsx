@@ -44,6 +44,7 @@ const StyledTableRow = withStyles((theme) => ({
 function EventDetail() {
 
     const [open, setOpen] = React.useState(false);
+    const [userOpen, setUserOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -82,6 +83,13 @@ function EventDetail() {
         setOpen(false);
     };
 
+    const handleClickOpener = () => {
+        setUserOpen(true);
+    };
+    const handleCloser = () => {
+        setUserOpen(false);
+    };
+
 
     const phoneFormater = (phoneNumb) => {
         let format = ('' + phoneNumb).replace(/\D/g, '');
@@ -89,7 +97,7 @@ function EventDetail() {
         if (match) {
             return '(' + match[1] + ')' + match[2] + '-' + match[3];
         }
-        return null;
+        return phoneNumb;
     }
 
     const shrink = useMediaQuery("(min-width: 800px)")
@@ -149,13 +157,13 @@ function EventDetail() {
                                             <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id } })}>Check Out</Button></StyledTableCell>
                                             <StyledTableCell>
                                                 <div>
-                                                    <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                                                    <Button variant="contained" color="secondary" onClick={handleClickOpener}>
                                                         Remove
                                                     </Button>
                                                     <Dialog
                                                         fullScreen={fullScreen}
-                                                        open={open}
-                                                        onClose={handleClose}
+                                                        open={userOpen}
+                                                        onClose={handleCloser}
                                                         aria-labelledby="responsive-dialog-title"
                                                     >
                                                         <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
@@ -165,10 +173,10 @@ function EventDetail() {
                                                             </DialogContentText>
                                                         </DialogContent>
                                                         <DialogActions>
-                                                            <Button autoFocus onClick={handleClose} color="primary">
+                                                            <Button autoFocus onClick={handleCloser} color="primary">
                                                                 Disagree and Cancel
                                                             </Button>
-                                                            <Button onClick={handleClose, archiveEvent} color="primary" autoFocus>
+                                                            <Button onClick={handleCloser, archiveEvent} color="primary" autoFocus>
                                                                 Agree and Remove Volunteer
                                                             </Button>
                                                         </DialogActions>

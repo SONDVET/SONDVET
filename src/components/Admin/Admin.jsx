@@ -68,6 +68,17 @@ function Admin() {
     history.push(`/userdetails/${user}`)
   };
 
+
+  const phoneFormater = (phoneNumb) => {
+    let format = ('' + phoneNumb).replace(/\D/g, '');
+    let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return '(' + match[1] + ')' + match[2] + '-' + match[3];
+    }
+    return phoneNumb;
+  }
+
+
   return (
     <>
       <Container>
@@ -98,7 +109,7 @@ function Admin() {
                 <StyledTableRow key={user.id} >
                   <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                   <StyledTableCell>{user.email}</StyledTableCell>
-                  <StyledTableCell>{user.phone_number}</StyledTableCell>
+                  <StyledTableCell>{phoneFormater(user.phone_number)}</StyledTableCell>
                   <StyledTableCell>{user.address}</StyledTableCell>
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>
@@ -145,7 +156,7 @@ function Admin() {
                 <StyledTableRow key={user.id} >
                   <StyledTableCell>{user.first_name} {user.last_name}</StyledTableCell>
                   <StyledTableCell>{user.email}</StyledTableCell>
-                  <StyledTableCell>{user.phone_number}</StyledTableCell>
+                  <StyledTableCell>{phoneFormater(user.phone_number)}</StyledTableCell>
                   <StyledTableCell>{user.address}</StyledTableCell>
                   <StyledTableCell>{user.city}</StyledTableCell>
                   <StyledTableCell>{user.state}</StyledTableCell>
