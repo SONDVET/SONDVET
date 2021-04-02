@@ -27,7 +27,7 @@ function* reRegisterUser(action) {
   try {
     console.log(action.payload);
     yield axios.put('/api/user/', action.payload);
-    yield put({ type: 'FETCH_ONE_USER', payload: response.data })
+    yield put({ type: 'FETCH_ONE_USER', payload:action.payload.id  })
   } catch (error) {
     console.log('Error with user update:', error);
     yield put({ type: 'REGISTRATION_FAILED' });

@@ -154,8 +154,8 @@ function UserPage() {
       <Container maxWidth="xl">
         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
             <Grid item>
-              <p className="name">{user.first_name} {user.last_name}</p>
-              <p className="mail">{user.email}</p>
+              <p className="name">{person.first_name} {person.last_name}</p>
+              <p className="mail">{person.email}</p>
 
               {(user.access_level > 2) &&
                 <div className="rankContainer">
