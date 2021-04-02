@@ -157,8 +157,10 @@ function Events() {
                                                         <DialogContentText>
                                                             It looks like you are a member of more than one group.  Which group would you like to represent for this event?
                                                         </DialogContentText>
-                                                        <Select value={groupRep} onChange={(e) => setGroupRep(e.target.value) }>{(store.userGroup[0]) && store.userGroup.map((group) =>
-                                                            <MenuItem value={group.group_id}>{group.college_name}</MenuItem>
+                                                        <Select value={groupRep} onChange={(e) => setGroupRep(e.target.value) }>
+                                                            <MenuItem value='0' disabled >Select one</MenuItem>
+                                                            {(store.userGroup[0]) && store.userGroup.map((group) =>
+                                                            <MenuItem key={group.id} value={group.group_id}>{group.college_name}</MenuItem>
                                                         )}</Select>
                                                     </DialogContent>
                                                     <DialogActions>
