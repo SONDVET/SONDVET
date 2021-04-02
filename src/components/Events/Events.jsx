@@ -50,7 +50,8 @@ function Events() {
     const [search, setSearch] = useState('');
     const today = new Date();
     //TODO: FIX THIS
-    const [groupRep, setGroupRep] = useState(0); 
+    const [groupRep, setGroupRep] = useState(0);
+    const [eventId, setEventId] = useState(0);
 
     // updates whenever a search paramater is given,
     // this allows for live updates as you type a search query
@@ -99,7 +100,8 @@ function Events() {
     }
     const classes = useStyles()
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (selectId) => {
+        setEventId(selectId)
         setOpen(true);
     };
 
@@ -111,13 +113,40 @@ function Events() {
 
     return (
         <>
+            <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DialogTitle id="responsive-dialog-title">{"Pick a group"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        It looks like you are a member of more than one group.  Which group would you like to represent for this event?
+                                                        </DialogContentText>
+                    <Select value={groupRep} onChange={(e) => setGroupRep(e.target.value)}>
+                        <MenuItem value='0' disabled >Select one</MenuItem>
+                        {(store.userGroup[0]) && store.userGroup.map((group) =>
+                            <MenuItem key={group.id} value={group.group_id}>{group.college_name}</MenuItem>
+                        )}</Select>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={handleClose} color="primary">
+                        Cancel
+                                                        </Button>
+                    <Button onClick={() => { setOpen(false), dispatch({ type: 'ATTEND_EVENT', payload: { eventId: eventId, userId: user.id, groupId: groupRep } }) }} color="primary" autoFocus disabled={groupRep === 0}>
+                        Confirm and Join
+                    </Button>
+
+                </DialogActions>
+            </Dialog>
             <div className="eventsHead">
                 <h2 className="headText">Events</h2>
                 <p className="headText">Click on "Join" to volunteer for an event.  A list of events you have volunteered for will appear on your Profile. <br></br> Clicking  "Can't Make It" removes you as a volunteer for that event.
                 </p>
             </div>
             <div className='searchWrap'>
-                <TextField className={classes.searchBar} label="Search Events"  />
+                <TextField className={classes.searchBar} label="Search Events" />
             </div>
 
             <div className="eventListContainer">
@@ -143,35 +172,9 @@ function Events() {
                                             <p >{event.special_inst} </p>
                                         </CardContent>
                                         {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button> : ''}
-                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >=1) && ((store.userGroup[0]) && (store.userGroup.length >1) ?
-                                            <>
-                                                <Button variant="contained" onClick={handleClickOpen}>Join Event</Button>
-                                                <Dialog
-                                                    fullScreen={fullScreen}
-                                                    open={open}
-                                                    onClose={handleClose}
-                                                    aria-labelledby="responsive-dialog-title"
-                                                >
-                                                    <DialogTitle id="responsive-dialog-title">{"Pick a group"}</DialogTitle>
-                                                    <DialogContent>
-                                                        <DialogContentText>
-                                                            It looks like you are a member of more than one group.  Which group would you like to represent for this event?
-                                                        </DialogContentText>
-                                                        <Select value={groupRep} onChange={(e) => setGroupRep(e.target.value) }>
-                                                            <MenuItem value='0' disabled >Select one</MenuItem>
-                                                            {(store.userGroup[0]) && store.userGroup.map((group) =>
-                                                            <MenuItem key={group.id} value={group.group_id}>{group.college_name}</MenuItem>
-                                                        )}</Select>
-                                                    </DialogContent>
-                                                    <DialogActions>
-                                                        <Button autoFocus onClick={handleClose} color="primary">
-                                                            Cancel
-                                                        </Button>
-                                                        <Button onClick={() => {setOpen(false), dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: groupRep } })}} color="primary" autoFocus disabled={groupRep === 0}>
-                                                            Confirm and Join
-                                                        </Button>
-                                                    </DialogActions>
-                                                </Dialog></> : <Button variant="contained" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
+                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >= 1) && ((store.userGroup[0]) && (store.userGroup.length > 1) ? 
+                                        <Button variant="contained" onClick={() => handleClickOpen(event.id)}>Join Event</Button>
+                                        : <Button variant="contained" onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
