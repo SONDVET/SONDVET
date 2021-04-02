@@ -11,6 +11,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
+import { DirectionsWalkRounded } from '@material-ui/icons';
 
 //Styling for material tables
 const StyledTableCell = withStyles((theme) => ({
@@ -42,7 +43,7 @@ function UserAdminView() {
     const params = useParams()
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_AFFILIATE' });
+        dispatch({ type: 'FETCH_AFFILIATE', payload:"" });
         dispatch({ type: 'FETCH_ONE_USER', payload: params.id })
         dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: params.id });
     }, [])
@@ -52,13 +53,32 @@ function UserAdminView() {
 
     const [edit, setEdit] = useState(true);
 
+
     const setEditMode = () => {
         console.log('clicked edit mode', edit);
         if (edit === true) {
-            declare()
+          
             return setEdit(false);
         }
         else if (!edit === true) {
+            setPerson({
+            id: store.oneUser[0].id,
+            category: store.oneUser[0].category,
+            first_name: store.oneUser[0].first_name,
+            last_name: store.oneUser[0].last_name,
+            email: store.oneUser[0].email,
+            phone_number: store.oneUser[0].phone_number,
+            address: store.oneUser[0].address,
+            city: store.oneUser[0].city,
+            state: store.oneUser[0].state,
+            zip: store.oneUser[0].zip,
+            dob: store.oneUser[0].dob,
+            involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
+            college_id: store.oneUser[0].college_id,
+            password: store.oneUser[0].password,
+            access_level: store.oneUser[0].access_level,
+            archived: store.oneUser[0].archived
+        })
             return setEdit(true);
         }
     };
@@ -152,6 +172,7 @@ function UserAdminView() {
 
     //get run when the edit button is pushed
     //to ensure oneUser store is populated before values are assinged       
+   
     const declare = () => {
         setPerson({
             id: store.oneUser[0].id,
@@ -173,21 +194,21 @@ function UserAdminView() {
         })
     }
 
-
     if (store.oneUser[0] && person.id === 0){
         declare()
-        return;
-    }
-
+    } 
+  
+      
     //used to convert access level number to readable title
     const accessRanks = ["Volunteer", "Officer", "Admin"]
 
-    return (
 
+    return (
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
-                    <Button onClick={declare}></Button>
+                            <Button onClick={() => console.log(person)}>test</Button>
+
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
                             <Grid item>
@@ -227,19 +248,19 @@ function UserAdminView() {
                                         <TableBody>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Category</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.category}</div> : <input defaultValue={person.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.category}</div> : <input defaultValue={person.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>First Name</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.first_name}</div> : <input key="name" value={person.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.first_name}</div> : <input key="name" value={person.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Last Name</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.last_name}</div> : <input defaultValue={person.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.last_name}</div> : <input defaultValue={person.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Email</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.email}</div> : <input defaultValue={person.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.email}</div> : <input defaultValue={person.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Phone</b></StyledTableCell>
@@ -247,27 +268,27 @@ function UserAdminView() {
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Address</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.address}</div> : <input defaultValue={person.address} onChange={(e) => setPerson({ ...person, address: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.address}</div> : <input defaultValue={person.address} onChange={(e) => setPerson({ ...person, address: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>City</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.city}</div> : <input defaultValue={person.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.city}</div> : <input defaultValue={person.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>State</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.state}</div> : <input defaultValue={person.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.state}</div> : <input defaultValue={person.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Zip</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.zip}</div> : <input defaultValue={person.zip} onChange={(e) => setPerson({ ...person, zip: e.target.value })} type="number" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.zip}</div> : <input defaultValue={person.zip} onChange={(e) => setPerson({ ...person, zip: e.target.value })} type="number" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Date of Birth</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.dob.substring(0, 10)}</div> : <input defaultValue={person.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.dob.substring(0, 10)}</div> : <input defaultValue={person.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{person.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Password</b></StyledTableCell>

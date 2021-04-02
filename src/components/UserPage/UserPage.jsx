@@ -45,7 +45,7 @@ function UserPage() {
 
   //Grabs needed info on page load
   useEffect(() => {
-    dispatch({ type: 'FETCH_AFFILIATE' });
+    dispatch({ type: 'FETCH_AFFILIATE', payload:"" });
     dispatch({ type: 'FETCH_USER_GROUP' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
   }, [])
@@ -140,14 +140,22 @@ function UserPage() {
     }
   }
 
+  const groupName = (groupId) => {
+    for (let item of store.affiliate){
+      if (item.id === groupId){
+        return item.college_name
+      }
+    }
+    return 'N/A'
+  }
 
   return (
     <>
       <Container maxWidth="xl">
         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
             <Grid item>
-              <p className="name">{user.first_name} {user.last_name}</p>
-              <p className="mail">{user.email}</p>
+              <p className="name">{person.first_name} {person.last_name}</p>
+              <p className="mail">{person.email}</p>
 
               {(user.access_level > 2) &&
                 <div className="rankContainer">

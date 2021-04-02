@@ -61,6 +61,7 @@ function GroupView() {
     const store = useSelector(store => store);
     const user = useSelector((store) => store.user);
     const orgName = useSelector((store) => store.affiliate);
+    const [selectedPerson, setSelectedPerson] = useState("")
 
     useEffect(() => {
         if (params.id === undefined) {
@@ -91,17 +92,18 @@ function GroupView() {
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (user) => {
         console.log(`You want to view details for person with id of ${user}`)
+        dispatch({ type: 'FETCH_ONE_USER', payload: user.id })  
         history.push(`/userdetails/${user}`)
     };
 
 
     //  Click to remove a volunteer from that affiliation.    
-    const removeUser = (user_id, group_id) => {
+    const removeUser = () => {
         dispatch({
             type: 'REMOVE_USER_GROUP',
             payload: {
-                user_id: user_id,
-                group_id: group_id,
+                user_id: selectedPerson.id,
+                group_id: selectedPerson.group_id,
                 parameter: params.id
             }
         })
@@ -123,10 +125,12 @@ function GroupView() {
         setOpen(false);
     };
 
-    const handleClickOpener = () => {
+    const handleClickOpener = (user) => {
+        setSelectedPerson(user)
         setUserOpen(true);
     };
     const handleCloser = () => {
+
         setUserOpen(false);
     };
 
@@ -180,10 +184,10 @@ function GroupView() {
                         </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
-                                    <Button autoFocus onClick={handleClose} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }}>
+                                    <Button autoFocus onClick={handleClose} variant="contained" >
                                         Cancel
-                                    </Button>
-                                    <Button onClick={handleClose, removeGroup} variant="contained" color="primary" autoFocus>
+                        </Button>
+                                    <Button onClick={handleClose, removeGroup} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
                                         Delete Group
                                     </Button>
                                 </DialogActions>
@@ -212,37 +216,39 @@ function GroupView() {
                                             <StyledTableCell align="center"><Button variant="contained" onClick={() => goToUser(affiliates.id)}>View User</Button></StyledTableCell>
                                             {/* <StyledTableCell align="center"><button onClick={() => dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: affiliates.id, group_id: affiliates.group_id, parameter: params.id } })}>Remove</button></StyledTableCell> */}
                                             <StyledTableCell>
-                                                <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpener}>
+                                                <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpener(affiliates)}>
                                                     Remove From Group
-                                                </Button>
-                                                <Dialog
-                                                    fullScreen={fullScreen}
-                                                    open={userOpen}
-                                                    onClose={handleCloser}
-                                                    aria-labelledby="responsive-dialog-title"
-                                                >
-                                                    <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
-                                                    <DialogContent>
-                                                        <DialogContentText>
-                                                            Are you sure you want to remove this user from this affiliation?  If you do they will have to edit their user information before they can rejoin.
-                                                    </DialogContentText>
-                                                    </DialogContent>
-                                                    <DialogActions>
-                                                        <Button autoFocus onClick={handleCloser} color="primary">
-                                                            Disagree and Cancel
-                                                        </Button>
-                                                        <Button onClick={() => removeUser(affiliates.id, affiliates.group_id)} color="primary" autoFocus>
-                                                            Agree and Remove User
-                                                        </Button>
-                                                    </DialogActions>
-                                                </Dialog>
+                                </Button>
+
+
                                             </StyledTableCell>
                                         </StyledTableRow>
-
                                     )}
+
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        <Dialog
+                            fullScreen={fullScreen}
+                            open={userOpen}
+                            onClose={handleCloser}
+                            aria-labelledby="responsive-dialog-title"
+                        >
+                            <DialogTitle id="responsive-dialog-title">{`Are you sure you want to remove ${selectedPerson.first_name} ${selectedPerson.last_name}?`}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    Are you sure you want to remove this user from this affiliation?
+                                         </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button autoFocus onClick={handleCloser} variant="contained">
+                                    Cancel
+                                        </Button>
+                                <Button onClick={() => removeUser()} style={{ color: 'white', backgroundColor: '#FF0000' }} autoFocus>
+                                    Remove User
+                                        </Button>
+                            </DialogActions>
+                        </Dialog>
                         <br></br>
                         <br></br>
                         <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpen()}>
@@ -267,28 +273,6 @@ function GroupView() {
                                 <Table id="SO College Members">
                                     <TableHead>
                                         <StyledTableRow>
-                                            <StyledTableCell>Active Groups</StyledTableCell>
-                                            <StyledTableCell>Total Members</StyledTableCell>
-                                            <StyledTableCell></StyledTableCell>
-                                        </StyledTableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
-                                            <StyledTableRow key={affiliate.id}>
-                                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
-                                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
-                                            </StyledTableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <br></br>
-                            <TextField label="Search Groups" value={search} onChange={(e) => setSearch(e.target.value)} />
-                            <TableContainer component={Paper}>
-                                <Table id="SO College Members">
-                                    <TableHead>
-                                        <StyledTableRow>
                                             <StyledTableCell>Archived Groups</StyledTableCell>
                                             <StyledTableCell>Total Members</StyledTableCell>
                                             <StyledTableCell></StyledTableCell>
@@ -307,7 +291,7 @@ function GroupView() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                            
+                            <br></br>
                             <TableContainer component={Paper}>
                                 <Table id="addNewGroup">
                                     <TableHead>
