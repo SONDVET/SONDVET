@@ -87,13 +87,13 @@ function GroupView() {
         }
         return count;
     }
+
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (user) => {
         console.log(`You want to view details for person with id of ${user}`)
         dispatch({ type: 'FETCH_ONE_USER', payload: user.id })  
         history.push(`/userdetails/${user}`)
     };
-
 
     //  Click to remove a volunteer from that affiliation.    
     const removeUser = () => {
@@ -108,13 +108,19 @@ function GroupView() {
         handleCloser()
     };
 
-
-    // //  Click to remove an entire group/affiliation
+    // Click to remove an entire group/affiliation
     const removeGroup = () => {
-        dispatch({ type: 'REMOVE_GROUP', payload: store.affiliate.id });
-        console.log(store.affiliate.id);
+        dispatch({ type: 'REMOVE_GROUP', payload: params.id });
+        console.log(params.id);
         history.push('/events');
-    }
+    };
+
+    // Restores group from archived status
+    const restoreGroup = () => {
+        dispatch({ type: 'RESTORE_GROUP', payload: params.id })
+        console.log(params.id);
+        history.push('/group_view')
+    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -147,12 +153,6 @@ function GroupView() {
         setGroup("");
         dispatch({ type: 'FETCH_AFFILIATE' });
     }
-
-    const restoreGroup = (affiliate) => {
-        dispatch({ type: 'RESTORE_GROUP', payload: affiliate })
-        console.log(affiliate);
-        // dispatch({ type: 'FETCH_AFFILIATE' });
-    };
 
     return (
         <>
@@ -214,9 +214,7 @@ function GroupView() {
                                             <StyledTableCell>
                                                 <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpener(affiliates)}>
                                                     Remove From Group
-                                </Button>
-
-
+                                            </Button>
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )}
@@ -247,6 +245,7 @@ function GroupView() {
                         </Dialog>
                         <br></br>
                         <br></br>
+                        <StyledTableCell><Button variant="contained" color="default" onClick={() => restoreGroup()}>Unarchive Group</Button></StyledTableCell>
                         <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpen()}>
                             Archive Group
                         </Button> &nbsp; &nbsp;
@@ -303,8 +302,7 @@ function GroupView() {
                                             <StyledTableRow key={affiliate.id}>
                                                 <StyledTableCell>{affiliate.college_name}</StyledTableCell>
                                                 <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>
-                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => restoreGroup(affiliate.id)}>Unarchive</Button></StyledTableCell>
+                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>       
                                             </StyledTableRow>
                                         )}
                                     </TableBody>

@@ -72,14 +72,24 @@ function* removeGroup(action) {
     }
 }
 
+// used to restore a group from archived status
 function* restoreGroup(action) {
-    console.log('group to restored is:', action.payload)
+    console.log('group to be restored is:', action.payload)
     try {
-        yield axios.put(`/api/volunteer/affiliation/${action.payload}`)
+        yield axios.put(`/api/volunteer/affiliation/${action.payload}/archived`)
     } catch (error) {
         console.log(`error restoring group, ${error}`);
     }
 }
+
+// // Sets user archived status to FALSE
+// function* unarchiveUser(action) {
+//     try {
+//       yield axios.put(`/api/user/${action.payload}/archived`);
+//     } catch (error) {
+//       console.log(`Error unarchiving user, ${error}`);
+//     }
+//   }
 
 // used to create a new affiliation
 function* postGroup(action) {
