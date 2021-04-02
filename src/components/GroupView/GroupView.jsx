@@ -198,7 +198,7 @@ function GroupView() {
                                         Cancel
                         </Button>
                                     <Button onClick={handleClose, removeGroup} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
-                                        Delete Group
+                                        Archive Group
                                     </Button>
                                 </DialogActions>
                             </Dialog>
