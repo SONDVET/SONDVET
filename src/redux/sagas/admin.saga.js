@@ -20,10 +20,20 @@ function* fetchAll(action) {
     }
 }
 
+function* fetchArchivedEvents(action) {
+    try {
+        const response = yield axios.get(`/api/admin/archivedevents?search=${action.payload}`)
+        console.log(response)  
+        yield put({ type: 'SET_ARCHIVED_EVENTS', payload: response.data })  
+    } catch (error) {
+        console.log(`Error getting all Users, ${error}`);
+    }
+}
 
 function* adminSaga() {
     yield takeLatest('FETCH_ARCHIVED', fetchArchived);
     yield takeLatest('FETCH_ALL', fetchAll)
+    yield takeLatest('FETCH_ARCHIVED_EVENTS', fetchArchivedEvents)
     
 }
 
