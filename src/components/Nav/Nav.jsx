@@ -22,7 +22,7 @@ function Nav() {
     loginLinkData.text = 'My Profile';
   }
 
-  const shrink = useMediaQuery("(min-width: 800px)")
+  const shrink = useMediaQuery("(min-width: 1120px)")
   const [drawer, setDrawer] = useState(false);
   const useStyles = makeStyles((theme) => ({
     drawerLink: {
