@@ -99,7 +99,7 @@ function EventDetail() {
     };
     const removeUser = () => {
         console.log('inRemoveUser')
-        dispatch({type:'UNATTEND_EVENT', payload: {userId: selectedPerson.id, eventId: store.event[0].id }})
+        dispatch({type:'UNATTEND_EVENT', payload: {userId: selectedPerson.id, eventId: store.event[0].id, params: params.id }})
         handleCloser()
     }
 
