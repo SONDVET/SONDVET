@@ -43,7 +43,7 @@ function* fetchUserGroup() {
 function* addUserGroup(action) {
     try {
         yield axios.put(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
-        yield put({type: 'FETCH_USER_GROUP'})
+        yield put({ type: 'FETCH_USER_GROUP' })
     } catch (error) {
         console.log(`error creating new userGroup, ${error}`);
     }
@@ -53,9 +53,9 @@ function* removeUserGroup(action) {
     console.log('action.payload is:', action.payload, 'action.payload.params is', (action.payload.parameter == true));
     try {
         yield axios.delete(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
-        yield put({type: 'FETCH_USER_GROUP'})
-        if (action.payload.parameter){
-            yield put({type: 'FETCH_AFFILIATE_USER', payload: action.payload.parameter});
+        yield put({ type: 'FETCH_USER_GROUP' })
+        if (action.payload.parameter) {
+            yield put({ type: 'FETCH_AFFILIATE_USER', payload: action.payload.parameter });
         }
     } catch (error) {
         console.log(`error removing userGroup, ${error}`);
@@ -64,8 +64,8 @@ function* removeUserGroup(action) {
 
 // used to list a group/affiliation as inactive (archived)
 function* removeGroup(action) {
-    console.log('group to be inactive is:',action.payload)
-    try{
+    console.log('group to be inactive is:', action.payload)
+    try {
         yield axios.put(`/api/volunteer/affiliation/${action.payload}`)
     } catch (error) {
         console.log(`error removing group, ${error}`);
@@ -75,7 +75,7 @@ function* removeGroup(action) {
 // used to create a new affiliation
 function* postGroup(action) {
     console.log(action.payload); // correct
-    try{
+    try {
         const response = yield axios.post(`api/volunteer/affiliation`, action.payload);
         yield put({ type: 'FETCH_AFFILIATE', payload: response.data });
     } catch (error) {
@@ -90,10 +90,14 @@ function* fetchArchivedGroups(action) {
         yield put({ type: 'SET_ARCHIVED_GROUP', payload: response.data });
     } catch (error) {
         console.log(`Error GETTING archived groups, ${error}`);
+    }
+
+}
+
 function* fetchOneUserGroup(action) {
-    try{
+    try {
         const response = yield axios.get(`api/volunteer/usergroup/${action.payload}`);
-        yield put({type: 'SET_USER_GROUP', payload: response.data})
+        yield put({ type: 'SET_USER_GROUP', payload: response.data })
     } catch (error) {
         console.log(`error getting one user group, ${error}`);
     }
