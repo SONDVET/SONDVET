@@ -43,9 +43,10 @@ function UserAdminView() {
     const params = useParams()
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_AFFILIATE' });
+        dispatch({ type: 'FETCH_AFFILIATE', payload: "" });
         dispatch({ type: 'FETCH_ONE_USER', payload: params.id })
         dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: params.id });
+        dispatch({ type: 'FETCH_ONE_USER_GROUP', payload: params.id });
     }, [])
     useEffect(() => {
         grandTotalTime();
