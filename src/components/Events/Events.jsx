@@ -146,7 +146,7 @@ function Events() {
                 </p>
             </div>
             <div className='searchWrap'>
-                <TextField className={classes.searchBar} label="Search Events" />
+                <TextField className={classes.searchBar} label="Search Events" value ={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
 
             <div className="eventListContainer">
