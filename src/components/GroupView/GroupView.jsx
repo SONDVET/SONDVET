@@ -288,7 +288,7 @@ function GroupView() {
                                 </Table>
                             </TableContainer>
                             <br></br>
-                            <TextField label="Search Groups" value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <TextField label="Search Archived Groups" style={{ width: '15%' }} value={search} onChange={(e) => setSearch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
