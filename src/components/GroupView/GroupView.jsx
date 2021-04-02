@@ -343,12 +343,13 @@ function GroupView() {
                                     <TableBody>
                                         <StyledTableRow>
                                             <StyledTableCell>
-                                                <input
+                                                <TextField
+                                                    variant="outlined"
                                                     value={group}
                                                     type="text"
                                                     placeholder="Input New Group Name"
                                                     onChange={(e) => setGroup(e.target.value)}>
-                                                </input>
+                                                </TextField>
                                             </StyledTableCell>
                                             <StyledTableCell>
                                                 <Button
