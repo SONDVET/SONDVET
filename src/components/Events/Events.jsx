@@ -142,7 +142,7 @@ function Events() {
                                             <p >{event.description}</p>
                                             <p >{event.special_inst} </p>
                                         </CardContent>
-                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" disabled>event expired </Button> : ''}
+                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button variant="contained" className={classes.cardButton }disabled>event expired </Button> : ''}
                                         {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >=1) && ((store.userGroup[0]) && (store.userGroup.length >1) ?
                                             <>
                                                 
@@ -170,8 +170,8 @@ function Events() {
                                                         </Button>
                                                     </DialogActions>
                                                 </Dialog>
-                                                <Button variant="contained"className={classes.cardButton} onClick={handleClickOpen}>Join Event</Button></>
-                                                : <Button variant="contained" className={classes.cardButton} onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
+                                                <Button variant="contained"className={classes.cardButton} color="primary" onClick={handleClickOpen}>Join Event</Button></>
+                                                : <Button variant="contained" color="primary"className={classes.cardButton} onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
