@@ -55,9 +55,22 @@ router.get('/affiliation', (req, res) => {
         })
 });
 
+router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
+    console.log("In get archived affiliates.")
+    const queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`
+    pool.query(queryText)
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error getting affiliations, ${err}`);
+            res.sendStatus(500);
+        })
+});
+
 
 // PUT to make a new affiliation 
-router.post('/affiliation', (req, res) => {
+router.post('/affiliation', rejectUnauthenticated, (req, res) => {
     console.log(req.body.name);
     const queryText = `INSERT INTO "affiliation" ("college_name") VALUES ($1);`;
     pool.query(queryText, [req.body.name])
@@ -72,7 +85,7 @@ router.post('/affiliation', (req, res) => {
 
 
 // PUT to make an affiliation inactive(archived)
-router.put('/affiliation/:id', (req, res) => {
+router.put('/affiliation/:id', rejectUnauthenticated, (req, res) => {
     const queryText = `UPDATE "affiliation" SET "inactive"=TRUE WHERE "id"=$1;`;
     pool.query(queryText, [req.params.id])
         .then(result => {
@@ -80,6 +93,20 @@ router.put('/affiliation/:id', (req, res) => {
         })
         .catch((err) => {
             console.log(`Error archiving affiliation, ${err}`);
+            res.sendStatus(500);
+        })
+});
+
+// PUT to make an affiliation active again (unarchived)
+router.put('/affiliation/:id/archived', rejectUnauthenticated, (req, res) => {
+    const queryText = `UPDATE "affiliation" SET "inactive"=FALSE WHERE "id"=$1;`;
+    console.log(req.params.id)
+    pool.query(queryText, [req.params.id])
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error unarchiving affiliation, ${err}`);
             res.sendStatus(500);
         })
 });
