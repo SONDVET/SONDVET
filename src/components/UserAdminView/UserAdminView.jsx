@@ -11,6 +11,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
+import { DirectionsWalkRounded } from '@material-ui/icons';
 
 //Styling for material tables
 const StyledTableCell = withStyles((theme) => ({
@@ -171,7 +172,8 @@ function UserAdminView() {
 
     //get run when the edit button is pushed
     //to ensure oneUser store is populated before values are assinged       
-    if (store.oneUser[0] && person.id === 0){        
+   
+    const declare = () => {
         setPerson({
             id: store.oneUser[0].id,
             category: store.oneUser[0].category,
@@ -192,6 +194,10 @@ function UserAdminView() {
         })
     }
 
+    if (store.oneUser[0] && person.id === 0){
+        declare()
+    } 
+  
       
     //used to convert access level number to readable title
     const accessRanks = ["Volunteer", "Officer", "Admin"]
@@ -201,6 +207,8 @@ function UserAdminView() {
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
+                            <Button onClick={() => console.log(person)}>test</Button>
+
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
                             <Grid item>
