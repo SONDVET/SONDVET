@@ -72,6 +72,15 @@ function* removeGroup(action) {
     }
 }
 
+function* restoreGroup(action) {
+    console.log('group to restored is:', action.payload)
+    try {
+        yield axios.put(`/api/volunteer/affiliation/${action.payload}`)
+    } catch (error) {
+        console.log(`error restoring group, ${error}`);
+    }
+}
+
 // used to create a new affiliation
 function* postGroup(action) {
     console.log(action.payload); // correct
@@ -114,6 +123,7 @@ function* affiliateSaga() {
     yield takeLatest('REMOVE_GROUP', removeGroup);
     yield takeLatest('ADD_AFFILIATION', postGroup);
     yield takeLatest('FETCH_ARCHIVED_GROUPS', fetchArchivedGroups);
+    yield takeLatest('RESTORE_GROUP', restoreGroup);
 }
 
 export default affiliateSaga;
