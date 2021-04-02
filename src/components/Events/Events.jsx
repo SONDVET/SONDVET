@@ -7,7 +7,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 import moment from 'moment';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Grid } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -146,7 +146,7 @@ function Events() {
                 </p>
             </div>
             <div className='searchWrap'>
-                <TextField className={classes.searchBar} label="Search Events" value ={search} onChange={(e) => setSearch(e.target.value)} />
+                <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
 
             <div className="eventListContainer">
@@ -157,31 +157,23 @@ function Events() {
                             {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) => {
                                 return (
                                     <Card key={event.id} className={`${shrink ? classes.eventCard : classes.mobileCard}`}>
-                                        <CardHeader className={classes.cardHead} title={event.name} />
-                                        <CardContent>
-                                            <img src={event.pic_url} height='50px' />
+                                        <CardHeader className={classes.cardHead} title={<b>{event.name}</b>} subheader={<div className={classes.subheader}><p className={classes.subheader}>{moment(event.date).format("dddd, MMMM Do YYYY")}</p> <p className={classes.subheader}>{moment(event.time, "HH:mm").format('hh:mm A')}</p></div>}/>
+                                        <CardContent className={classes.descriptionText}>
+                                            <img src={event.pic_url} height='65px' />
+                                                    <p >{event.description}</p>
+                                                    <p >{event.special_inst} </p>
                                         </CardContent>
-                                        {/* {/* <Accordion>
-                                    <AccordionSummary><p>Details</p></AccordionSummary> */}
-
-                                        <CardContent className="descriptionText" >
-                                            {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
-
-                                            <p > {event.location}</p>
-                                            <p >{event.description}</p>
-                                            <p >{event.special_inst} </p>
-                                        </CardContent>
-                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button className={classes.cardButton}  variant="contained" disabled>event expired </Button> : ''}
-                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >= 1) && ((store.userGroup[0]) && (store.userGroup.length > 1) ? 
-                                        <Button variant="contained" color="primary" className={classes.cardButton}  onClick={() => handleClickOpen(event.id)}>Join Event</Button>
-                                        : <Button variant="contained" color="primary"className={classes.cardButton} onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
-                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} style={{backgroundColor: "#FF0000", color: "white"}} onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
+                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button className={classes.cardButton} variant="contained" disabled>event expired </Button> : ''}
+                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >= 1) && ((store.userGroup[0]) && (store.userGroup.length > 1) ?
+                                            <Button variant="contained" color="primary" className={classes.cardButton} onClick={() => handleClickOpen(event.id)}>Join Event</Button>
+                                            : <Button variant="contained" color="primary" className={classes.cardButton} onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
+                                        {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>
 
-                                    // dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, eventId: groupRep } })
-                                    //dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })
+                                    // dispatch({type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, eventId: groupRep } })
+                                    //dispatch({type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })
 
 
                                 )

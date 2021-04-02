@@ -34,7 +34,17 @@ const useStyles = makeStyles({
         color: "white",
         padding: "20px",
         borderBottom: "solid red 3px",
+    },
+    subheader: {
+        color: "white",
+        padding: 0,
+        margin: 0,
+    },
+    descriptionText: {
+        width: "70%",
+        margin: "auto",
     }
+
 
 });
 export { useStyles }
