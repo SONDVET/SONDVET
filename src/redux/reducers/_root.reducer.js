@@ -11,6 +11,7 @@ import oneUser from './oneUser.reducer';
 import userGroup from './userGroup.reducer';
 import archivedUsers from "./archivedUsers.reducer";
 import allUsers from './allUsers.reducer';
+import archivedGroups from "./archivedGroups.reducer";
 import archivedEvents from './archivedEvents.reducer'
 
 // rootReducer is the primary reducer for our entire project
@@ -31,6 +32,8 @@ const rootReducer = combineReducers({
   oneUser,
   userGroup,
   archivedUsers,
+  allUsers, 
+  archivedGroups,
   allUsers,
   archivedEvents
 });
