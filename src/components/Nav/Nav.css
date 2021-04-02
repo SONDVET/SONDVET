@@ -19,6 +19,9 @@
   margin: 0 0 30px 0px;
   background-color: #FF0000;
   overflow: hidden;
+  -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
 }
 
 .nav a {
@@ -38,10 +41,11 @@
   color: #f2f2f2;
   background-color: #FF0000;
   text-align: center;
-  padding: 24px 10px;
+  padding: 24px 15px;
   text-decoration: none;
   font-family: ubuntu;
-  font-size: 15px;
+  font-size: 20px;
+  font-weight: bold;  
 
   /* these last two make the logout button in
   the nav bar look like another link */

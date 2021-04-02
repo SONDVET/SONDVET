@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserPage.css";
 import { useHistory } from 'react-router-dom';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -45,7 +45,7 @@ function UserPage() {
 
   //Grabs needed info on page load
   useEffect(() => {
-    dispatch({ type: 'FETCH_AFFILIATE', payload:"" });
+    dispatch({ type: 'FETCH_AFFILIATE', payload: "" });
     dispatch({ type: 'FETCH_USER_GROUP' });
     dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: user.id });
   }, [])
@@ -85,6 +85,17 @@ function UserPage() {
     }
   };
 
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const updateInfo = () => {
     dispatch({ type: 'RE_REGISTER', payload: person });
@@ -141,8 +152,8 @@ function UserPage() {
   }
 
   const groupName = (groupId) => {
-    for (let item of store.affiliate){
-      if (item.id === groupId){
+    for (let item of store.affiliate) {
+      if (item.id === groupId) {
         return item.college_name
       }
     }
@@ -153,15 +164,15 @@ function UserPage() {
     <>
       <Container maxWidth="xl">
         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
-            <Grid item>
-              <p className="name">{person.first_name} {person.last_name}</p>
-              <p className="mail">{person.email}</p>
+          <Grid item>
+            <p className="name">{person.first_name} {person.last_name}</p>
+            <p className="mail">{person.email}</p>
 
-              {(user.access_level > 2) &&
-                <div className="rankContainer">
-                  <div>Rank: &nbsp;</div>  <div clasname="rank">{edit ? <div><b>{accessRanks[user.access_level - 1]}</b></div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
-                </div>}
-            </Grid>
+            {(user.access_level > 2) &&
+              <div className="rankContainer">
+                <div>Rank: &nbsp;</div>  <div clasname="rank">{edit ? <div><b>{accessRanks[user.access_level - 1]}</b></div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
+              </div>}
+          </Grid>
           <Grid item>
             <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Info' : 'cancel edit'}</Button> {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
           </Grid>
@@ -223,9 +234,9 @@ function UserPage() {
                     <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
                     <StyledTableCell>{edit ? <div>{person.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                   </StyledTableRow>
-                   <StyledTableRow>
+                  <StyledTableRow>
                     <StyledTableCell><b>Password</b></StyledTableCell>
-                    <StyledTableCell>{edit ? <div>--hidden--</div> : <input placeholder="Enter New Password" onChange={(e) => setPerson({ ...person, password: e.target.value })}/>}</StyledTableCell>
+                    <StyledTableCell>{edit ? <div>--hidden--</div> : <input placeholder="Enter New Password" onChange={(e) => setPerson({ ...person, password: e.target.value })} />}</StyledTableCell>
                   </StyledTableRow>
                 </TableBody>
               </Table>
@@ -248,13 +259,22 @@ function UserPage() {
                     <StyledTableCell><b>Joined?</b></StyledTableCell>
                     <StyledTableCell></StyledTableCell>
                   </StyledTableRow>
-                  {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow key={group.id}>
+                  {(store.affiliate[0]) && store.affiliate.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((group) => <StyledTableRow key={group.id}>
                     <StyledTableCell><b>{group.college_name}</b></StyledTableCell>
                     <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} </StyledTableCell>
                     <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</Button> : <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</Button>)}</StyledTableCell>
                   </StyledTableRow>)}
                 </TableBody>
               </Table>
+              <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={store.affiliate.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
             </TableContainer>
           </Grid>
         </Grid>
@@ -275,7 +295,7 @@ function UserPage() {
                   </StyledTableRow>
                 </TableHead>
                 <TableBody>
-                  {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                  {(store.oneUserEvent[0]) && store.oneUserEvent.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => <StyledTableRow key={item.id}>
                     <StyledTableCell align="left">
                       <b>{item.name}</b>
                     </StyledTableCell>
@@ -305,6 +325,15 @@ function UserPage() {
                   </StyledTableRow>
                 </TableBody>
               </Table>
+              <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={store.oneUserEvent.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
             </TableContainer>
           </Grid>
         </Grid>

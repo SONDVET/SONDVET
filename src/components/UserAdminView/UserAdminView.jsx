@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserAdminView.css";
 import { useHistory, useParams } from 'react-router-dom'
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -43,7 +43,7 @@ function UserAdminView() {
     const params = useParams()
 
     useEffect(() => {
-        dispatch({ type: 'FETCH_AFFILIATE', payload:"" });
+        dispatch({ type: 'FETCH_AFFILIATE', payload: "" });
         dispatch({ type: 'FETCH_ONE_USER', payload: params.id })
         dispatch({ type: 'FETCH_ONE_USER_EVENT', payload: params.id });
         dispatch({ type: 'FETCH_ONE_USER_GROUP', payload: params.id });
@@ -58,28 +58,28 @@ function UserAdminView() {
     const setEditMode = () => {
         console.log('clicked edit mode', edit);
         if (edit === true) {
-          
+
             return setEdit(false);
         }
         else if (!edit === true) {
             setPerson({
-            id: store.oneUser[0].id,
-            category: store.oneUser[0].category,
-            first_name: store.oneUser[0].first_name,
-            last_name: store.oneUser[0].last_name,
-            email: store.oneUser[0].email,
-            phone_number: store.oneUser[0].phone_number,
-            address: store.oneUser[0].address,
-            city: store.oneUser[0].city,
-            state: store.oneUser[0].state,
-            zip: store.oneUser[0].zip,
-            dob: store.oneUser[0].dob,
-            involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
-            college_id: store.oneUser[0].college_id,
-            password: store.oneUser[0].password,
-            access_level: store.oneUser[0].access_level,
-            archived: store.oneUser[0].archived
-        })
+                id: store.oneUser[0].id,
+                category: store.oneUser[0].category,
+                first_name: store.oneUser[0].first_name,
+                last_name: store.oneUser[0].last_name,
+                email: store.oneUser[0].email,
+                phone_number: store.oneUser[0].phone_number,
+                address: store.oneUser[0].address,
+                city: store.oneUser[0].city,
+                state: store.oneUser[0].state,
+                zip: store.oneUser[0].zip,
+                dob: store.oneUser[0].dob,
+                involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
+                college_id: store.oneUser[0].college_id,
+                password: store.oneUser[0].password,
+                access_level: store.oneUser[0].access_level,
+                archived: store.oneUser[0].archived
+            })
             return setEdit(true);
         }
     };
@@ -128,6 +128,18 @@ function UserAdminView() {
         }
     }
 
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
+
     const [grandTotalHours, setGrandTotalHours] = useState(0)
     const [grandTotalMinutes, setGrandTotalMinutes] = useState(0)
 
@@ -152,7 +164,7 @@ function UserAdminView() {
         access_level: 1,
         archived: false
     })
-   
+
     const grandTotalTime = (time) => {
         let hours = 0
         let minutes = 0
@@ -173,7 +185,7 @@ function UserAdminView() {
 
     //get run when the edit button is pushed
     //to ensure oneUser store is populated before values are assinged       
-   
+
     const declare = () => {
         setPerson({
             id: store.oneUser[0].id,
@@ -195,11 +207,11 @@ function UserAdminView() {
         })
     }
 
-    if (store.oneUser[0] && person.id === 0){
+    if (store.oneUser[0] && person.id === 0) {
         declare()
-    } 
-  
-      
+    }
+
+
     //used to convert access level number to readable title
     const accessRanks = ["Volunteer", "Officer", "Admin"]
 
@@ -208,7 +220,7 @@ function UserAdminView() {
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
-                            <Button onClick={() => console.log(person)}>test</Button>
+                    <Button onClick={() => console.log(person)}>test</Button>
 
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
@@ -224,12 +236,12 @@ function UserAdminView() {
                             </Grid>
                             <Grid item>
                                 {store.user.access_level > 2 &&
-                                <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Info' : 'cancel edit'}</Button> 
+                                    <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Info' : 'cancel edit'}</Button>
                                 }
                                 {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateInfo()} >save</Button> : ''}
-                                
+
                                 <div className="archive-control">
-                                    {!edit ? ((!user.archived) && <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => archiveUser()}>Archive User</Button>) : ''}
+                                    {!edit ? ((!user.archived) && <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => archiveUser()}>Archive User</Button>) : ''}
                                     {!edit ? ((user.archived) && <Button variant="contained" color="default" onClick={() => unarchiveUser()}>Restore User</Button>) : ''}
                                 </div>
                             </Grid>
@@ -316,13 +328,22 @@ function UserAdminView() {
                                                 <StyledTableCell><b>Joined?</b></StyledTableCell>
                                                 <StyledTableCell></StyledTableCell>
                                             </StyledTableRow>
-                                            {(store.affiliate[0]) && store.affiliate.map((group) => <StyledTableRow key={group.id}>
+                                            {(store.affiliate[0]) && store.affiliate.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((group) => <StyledTableRow key={group.id}>
                                                 <StyledTableCell><b>{group.college_name}</b></StyledTableCell>
                                                 <StyledTableCell>{(store.userGroup[0]) && isAMember(user.id, group.id) ? <CheckCircleIcon color='primary' /> : <HighlightOffIcon />} </StyledTableCell>
                                                 <StyledTableCell>{((store.userGroup[0]) && isAMember(user.id, group.id) ? <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'leave')}>Leave</Button> : <Button variant="contained" onClick={() => toggleJoin(user.id, group.id, 'join')}>Join</Button>)}</StyledTableCell>
                                             </StyledTableRow>)}
                                         </TableBody>
                                     </Table>
+                                    <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25]}
+                                        component="div"
+                                        count={store.affiliate.length}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        onChangePage={handleChangePage}
+                                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                                    />
                                 </TableContainer>
                             </Grid>
                         </Grid>
@@ -343,7 +364,7 @@ function UserAdminView() {
                                             </StyledTableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {(store.oneUserEvent[0]) && store.oneUserEvent.map((item) => <StyledTableRow key={item.id}>
+                                            {(store.oneUserEvent[0]) && store.oneUserEvent.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => <StyledTableRow key={item.id}>
                                                 <StyledTableCell align="left">
                                                     <b>{item.name}</b>
                                                 </StyledTableCell>
@@ -373,6 +394,15 @@ function UserAdminView() {
                                             </StyledTableRow>
                                         </TableBody>
                                     </Table>
+                                    <TablePagination
+                                        rowsPerPageOptions={[5, 10, 25]}
+                                        component="div"
+                                        count={store.oneUserEvent.length}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        onChangePage={handleChangePage}
+                                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                                    />
                                 </TableContainer>
                             </Grid>
                         </Grid>
