@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import './GroupView.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper, TextField } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper, TextField, TablePagination } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
@@ -13,6 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useTheme } from '@material-ui/core/styles';
+import { FullscreenExitTwoTone } from '@material-ui/icons';
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -45,6 +46,9 @@ function GroupView() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [search, setSearch] = useState("")
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
 
     const goToDetails = (eventId) => {
         //TODO: this route may need to be updated 
@@ -62,6 +66,16 @@ function GroupView() {
     const user = useSelector((store) => store.user);
     const orgName = useSelector((store) => store.affiliate);
     const [selectedPerson, setSelectedPerson] = useState("")
+
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     useEffect(() => {
         if (params.id === undefined) {
@@ -275,7 +289,8 @@ function GroupView() {
                                         </StyledTableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {(store.affiliate[0]) && store.affiliate.map((affiliate) =>
+                                        {/* {(store.allUsers[0] && store.allUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user) => */}
+                                        {(store.affiliate[0]) && store.affiliate.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((affiliate) =>
                                             <StyledTableRow key={affiliate.id}>
                                                 <StyledTableCell>{affiliate.college_name}</StyledTableCell>
                                                 <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
@@ -284,6 +299,15 @@ function GroupView() {
                                         )}
                                     </TableBody>
                                 </Table>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 50]}
+                                    component="div"
+                                    count={store.affiliate.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onChangePage={handleChangePage}
+                                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                                />
                             </TableContainer>
                             <br></br>
                             <TextField label="Search Archived Groups" style={{ width: '15%' }} value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -345,34 +369,3 @@ function GroupView() {
 }
 
 export default GroupView;
-
-
-
-{/* <div>
-    <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Delete Group
-      </Button>
-    <Dialog
-        fullScreen={fullScreen}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-    >
-        <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
-        <DialogContent>
-            <DialogContentText>
-                Are you sure you want to delete this group?  If you do they will be set to "archived" and only Admins will be able to retrive them.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button autoFocus onClick={handleClose} color="primary">
-                Disagree and Cancel
-          </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
-                Agree and Delete Group
-          </Button>
-        </DialogActions>
-    </Dialog>
-</div> */}
-
-//            <button onClick={() => removeGroup()}>Delete Group</button>

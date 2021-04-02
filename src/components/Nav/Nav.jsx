@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
-import Logo from '../Images/WhiteLogo.png';  //src/components/Images/SONDLogo.png
+import Logo from '../Images/WhiteLogo.png';  
 import { useMediaQuery, Drawer, Button, makeStyles, Toolbar, AppBar, FormControl } from '@material-ui/core'
 import MenuIcon from "@material-ui/icons/Menu";
+
+
 function Nav() {
   const user = useSelector((store) => store.user);
 
@@ -20,7 +22,7 @@ function Nav() {
     loginLinkData.text = 'My Profile';
   }
 
-  const shrink = useMediaQuery("(min-width: 800px)")
+  const shrink = useMediaQuery("(min-width: 1120px)")
   const [drawer, setDrawer] = useState(false);
   const useStyles = makeStyles((theme) => ({
     drawerLink: {

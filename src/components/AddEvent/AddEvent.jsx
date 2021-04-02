@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './AddEvent.css';
 import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, MenuItem, makeStyles, Container, Grid } from "@material-ui/core";
+import Image from '../Images/SONDLogo.png'; //src / components / Images / SONDLogo.png
 import moment from 'moment';
 
 
@@ -23,7 +24,7 @@ function AddEvent() {
         location: "",
         date: "",
         time: "",
-        pic_url: "https://news.prairiepublic.org/sites/ndpr/files/201906/NDSO.jpg", // default SOND logo
+        pic_url: `${Image}`, // default SOND logo
     })
 
     const addNewEvent = (event) => {
