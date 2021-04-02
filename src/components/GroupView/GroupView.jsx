@@ -87,8 +87,6 @@ function GroupView() {
         }
         return count;
     }
-
-
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (user) => {
         console.log(`You want to view details for person with id of ${user}`)
@@ -143,7 +141,6 @@ function GroupView() {
         return phoneNumb;
     }
 
-
     function handleSubmit() {
         console.log(group);
         dispatch({ type: 'ADD_AFFILIATION', payload: { name: group } });
@@ -155,7 +152,7 @@ function GroupView() {
         dispatch({ type: 'RESTORE_GROUP', payload: params.id })
         console.log(params.id);
         dispatch({ type: 'FETCH_AFFILIATE' });
-        // history.push('/events');
+        history.push('/group_view');
     };
 
     return (
