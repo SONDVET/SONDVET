@@ -82,15 +82,6 @@ function* restoreGroup(action) {
     }
 }
 
-// // Sets user archived status to FALSE
-// function* unarchiveUser(action) {
-//     try {
-//       yield axios.put(`/api/user/${action.payload}/archived`);
-//     } catch (error) {
-//       console.log(`Error unarchiving user, ${error}`);
-//     }
-//   }
-
 // used to create a new affiliation
 function* postGroup(action) {
     console.log(action.payload); // correct

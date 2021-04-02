@@ -11,16 +11,16 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     console.log('getting all users');
     console.log(req.query.search)
     // Send back user object from the session (previously queried from the database)
-    if (req.query.search.length === 0){
-    query = 
-    `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
+    if (req.query.search.length === 0) {
+        query =
+            `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
     FROM "user" 
     WHERE "archived" = false 
     ORDER BY "last_name" ASC `;
     }
-    else{
-        query=
-        `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
+    else {
+        query =
+            `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
         FROM "user" 
         WHERE "last_name" ILIKE '${req.query.search}%'
         AND "archived" = false 
@@ -40,10 +40,10 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 // GETS all affiliations
 router.get('/affiliation', (req, res) => {
     console.log(req.query.search)
-    if(req.query.length === 0){
-    queryText = `SELECT * FROM "affiliation" WHERE "inactive"=FALSE;`
-    }else{
-    queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE '${req.query.search}%' AND "inactive"=FALSE;` 
+    if (req.query.length === 0) {
+        queryText = `SELECT * FROM "affiliation" WHERE "inactive"=FALSE;`
+    } else {
+        queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE '${req.query.search}%' AND "inactive"=FALSE;`
     }
     pool.query(queryText)
         .then(result => {
@@ -184,13 +184,13 @@ router.get('/usergroup', rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT * FROM "user_group"
     JOIN "affiliation" ON "affiliation"."id" = "user_group"."group_id";`
     pool.query(queryText)
-    .then(result => {
-        res.send(result.rows)
-    })
-    .catch((err) => {
-        console.log(`Error getting user_group, ${err}`);
-        res.sendStatus(500);
-    })
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error getting user_group, ${err}`);
+            res.sendStatus(500);
+        })
 });
 
 //GET oneUserGroup
@@ -200,13 +200,13 @@ router.get('/usergroup/:id', rejectUnauthenticated, (req, res) => {
     JOIN "affiliation" ON "affiliation"."id" = "user_group"."group_id"
     WHERE "user_group".user_id = $1;`
     pool.query(queryText, [req.params.id])
-    .then(result => {
-        res.send(result.rows)
-    })
-    .catch((err) => {
-        console.log(`Error getting user_group, ${err}`);
-        res.sendStatus(500);
-    })
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error getting user_group, ${err}`);
+            res.sendStatus(500);
+        })
 });
 
 //create new entry in user_group
@@ -214,24 +214,24 @@ router.put('/usergroup/:userid/:groupid', rejectUnauthenticated, (req, res) => {
     const queryText = `INSERT INTO "user_group" ("user_id", "group_id")
     VALUES ($1, $2);`;
     pool.query(queryText, [req.params.userid, req.params.groupid])
-    .then (result => {
-        res.sendStatus(201);
-    })
-    .catch((err) => {
-        res.sendStatus(500);
-    })
+        .then(result => {
+            res.sendStatus(201);
+        })
+        .catch((err) => {
+            res.sendStatus(500);
+        })
 });
 
 //remove entry from user_group
 router.delete('/usergroup/:userid/:groupid', rejectUnauthenticated, (req, res) => {
     const queryText = `DELETE FROM "user_group" WHERE "user_id" = $1 AND "group_id" = $2;`
     pool.query(queryText, [req.params.userid, req.params.groupid])
-    .then (result => {
-        res.sendStatus(200);
-    })
-    .catch((err) => {
-        res.sendStatus(500)
-    })
+        .then(result => {
+            res.sendStatus(200);
+        })
+        .catch((err) => {
+            res.sendStatus(500)
+        })
 })
 
 
