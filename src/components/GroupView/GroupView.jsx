@@ -133,7 +133,7 @@ function GroupView() {
     const restoreGroup = () => {
         dispatch({ type: 'RESTORE_GROUP', payload: params.id })
         console.log(params.id);
-        history.push('/group_view')
+        history.push('/events')
     };
 
     const handleClickOpen = () => {
@@ -191,7 +191,7 @@ function GroupView() {
                                 <DialogContent>
                                     <DialogContentText>
                                         If you do they will be set to "archived" and only Admins will be able to retrive them.
-                        </DialogContentText>
+                            </DialogContentText>
                                 </DialogContent>
                                 <DialogActions>
                                     <Button autoFocus onClick={handleClose} variant="contained" >
@@ -259,7 +259,7 @@ function GroupView() {
                         </Dialog>
                         <br></br>
                         <br></br>
-                        <StyledTableCell><Button variant="contained" color="default" onClick={() => restoreGroup()}>Unarchive Group</Button></StyledTableCell>
+                        <Button variant="contained" color="default" onClick={() => restoreGroup()}>Unarchive Group</Button>
                         <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpen()}>
                             Archive Group
                         </Button> &nbsp; &nbsp;

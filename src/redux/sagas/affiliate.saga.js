@@ -101,7 +101,6 @@ function* fetchArchivedGroups(action) {
     } catch (error) {
         console.log(`Error GETTING archived groups, ${error}`);
     }
-
 }
 
 function* fetchOneUserGroup(action) {
