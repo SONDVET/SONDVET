@@ -53,6 +53,7 @@ function UserAdminView() {
 
     const [edit, setEdit] = useState(true);
 
+
     const setEditMode = () => {
         console.log('clicked edit mode', edit);
         if (edit === true) {
@@ -61,7 +62,7 @@ function UserAdminView() {
         }
         else if (!edit === true) {
             setPerson({
-                id: store.oneUser[0].id,
+            id: store.oneUser[0].id,
             category: store.oneUser[0].category,
             first_name: store.oneUser[0].first_name,
             last_name: store.oneUser[0].last_name,
@@ -198,12 +199,11 @@ function UserAdminView() {
     } 
   
       
-
     //used to convert access level number to readable title
     const accessRanks = ["Volunteer", "Officer", "Admin"]
 
-    return (
 
+    return (
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
