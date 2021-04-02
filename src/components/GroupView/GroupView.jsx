@@ -111,8 +111,8 @@ function GroupView() {
 
     // //  Click to remove an entire group/affiliation
     const removeGroup = () => {
-        dispatch({ type: 'REMOVE_GROUP', payload: params.id });
-        console.log(params.id);
+        dispatch({ type: 'REMOVE_GROUP', payload: store.affiliate.id });
+        console.log(store.affiliate.id);
         history.push('/events');
     }
 
@@ -148,11 +148,10 @@ function GroupView() {
         dispatch({ type: 'FETCH_AFFILIATE' });
     }
 
-    const restoreGroup = () => {
-        dispatch({ type: 'RESTORE_GROUP', payload: params.id })
-        console.log(params.id);
-        dispatch({ type: 'FETCH_AFFILIATE' });
-        history.push('/group_view');
+    const restoreGroup = (affiliate) => {
+        dispatch({ type: 'RESTORE_GROUP', payload: affiliate })
+        console.log(affiliate);
+        // dispatch({ type: 'FETCH_AFFILIATE' });
     };
 
     return (
