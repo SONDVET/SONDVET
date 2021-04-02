@@ -146,7 +146,7 @@ function Events() {
                 </p>
             </div>
             <div className='searchWrap'>
-                <TextField className={classes.searchBar} label="Search Events" value ={search} onChange={(e) => setSearch(e.target.value)} />
+                <TextField className={classes.searchBar} label="Search Events" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
 
             <div className="eventListContainer">
@@ -157,32 +157,16 @@ function Events() {
                             {(store.event[0]) && store.event.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((event) => {
                                 return (
                                     <Card key={event.id} className={`${shrink ? classes.eventCard : classes.mobileCard}`}>
-                                        <CardHeader className={classes.cardHead} title={event.name} />
-                                        <CardContent>
-                                            <img src={event.pic_url} height='50px' />
+                                        <CardHeader className={classes.cardHead} title={<b>{event.name}</b>} subheader={<div className={classes.subheader}><p className={classes.subheader}>{moment(event.date).format("dddd, MMMM Do YYYY")}</p> <p className={classes.subheader}>{moment(event.time, "HH:mm").format('hh:mm A')}</p></div>}/>
+                                        <CardContent className={classes.descriptionText}>
+                                            <img src={event.pic_url} height='65px' />
+                                                    <p >{event.description}</p>
+                                                    <p >{event.special_inst} </p>
                                         </CardContent>
-                                        {/* {/* <Accordion>
-                                    <AccordionSummary><p>Details</p></AccordionSummary> */}
-
-                                        <CardContent className="descriptionText" >
-                                        <Grid container direction="row" justify="space-around">
-                                            <Grid item>
-                                                <p><b>WHEN:</b></p>
-                                                {moment(event.date).format("dddd, MMMM Do YYYY")} <br /> {moment(event.time, "HH:mm").format('hh:mm A')}
-                                                </Grid>
-                                                <Grid item>
-                                                    <p><b>WHERE:</b></p>
-                                                    <p> {event.location}</p>
-                                                </Grid>
-                                                </Grid>
-                                                <p><b>Description:</b></p>
-                                                <p >{event.description}</p>
-                                                <p >{event.special_inst} </p>
-                                        </CardContent>
-                                            {((moment(event.date) + 86400000) < moment(today)) ? <Button className={classes.cardButton} variant="contained" disabled>event expired </Button> : ''}
-                                            {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >= 1) && ((store.userGroup[0]) && (store.userGroup.length > 1) ?
-                                                <Button variant="contained" color="primary" className={classes.cardButton} onClick={() => handleClickOpen(event.id)}>Join Event</Button>
-                                                : <Button variant="contained" color="primary" className={classes.cardButton} onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
+                                        {((moment(event.date) + 86400000) < moment(today)) ? <Button className={classes.cardButton} variant="contained" disabled>event expired </Button> : ''}
+                                        {((checkForAttend(user.id, event.id) || !store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today)) && store.userGroup.length >= 1) && ((store.userGroup[0]) && (store.userGroup.length > 1) ?
+                                            <Button variant="contained" color="primary" className={classes.cardButton} onClick={() => handleClickOpen(event.id)}>Join Event</Button>
+                                            : <Button variant="contained" color="primary" className={classes.cardButton} onClick={() => dispatch({ type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, groupId: store.userGroup[0].group_id } })}>Join Event</Button>)}&nbsp;
                                         {((!checkForAttend(user.id, event.id) && store.allUserEvent) && ((moment(event.date) + 86400000) > moment(today))) && <Button variant="contained" className={classes.cardButton} color="secondary" onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })}>Can't make it</Button>}  &nbsp;
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
@@ -197,19 +181,19 @@ function Events() {
                         </div>
                         : <><h1 style={{ textAlign: 'center' }}>No Events Found</h1></>}
                     <br></br>
-                            <br></br>
-                            <div className="pageWrap">
-                                <Pagination
-                                    className="pagination"
-                                    count={noOfPages}
-                                    shape="rounded"
-                                    variant="outlined"
-                                    onChange={handleChange}
-                                    defaultPage={1}
-                                    showFirstButton
-                                    showLastButton />
-                            </div>
-                        </div>
+                    <br></br>
+                    <div className="pageWrap">
+                        <Pagination
+                            className="pagination"
+                            count={noOfPages}
+                            shape="rounded"
+                            variant="outlined"
+                            onChange={handleChange}
+                            defaultPage={1}
+                            showFirstButton
+                            showLastButton />
+                    </div>
+                </div>
             </div>
         </>
     );
