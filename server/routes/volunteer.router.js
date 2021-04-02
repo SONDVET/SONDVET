@@ -22,7 +22,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         query=
         `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
         FROM "user" 
-        
+        WHERE "last_name" ILIKE '${req.query.search}%'
         AND "archived" = false 
         ORDER BY "last_name" ASC `;
     }
