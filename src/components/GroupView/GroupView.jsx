@@ -91,6 +91,7 @@ function GroupView() {
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (user) => {
         console.log(`You want to view details for person with id of ${user}`)
+        dispatch({ type: 'FETCH_ONE_USER', payload: user.id })  
         history.push(`/userdetails/${user}`)
     };
 
