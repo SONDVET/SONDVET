@@ -97,7 +97,11 @@ function EventDetail() {
     const handleCloser = () => {
         setUserOpen(false);
     };
-
+    const removeUser = () => {
+        console.log('inRemoveUser')
+        dispatch({type:'UNATTEND_EVENT', payload: {userId: selectedPerson.id, eventId: store.event[0].id }})
+        handleCloser()
+    }
 
     const phoneFormater = (phoneNumb) => {
         let format = ('' + phoneNumb).replace(/\D/g, '');
@@ -186,7 +190,7 @@ function EventDetail() {
                                                             <Button autoFocus onClick={handleCloser} variant="contained">
                                                                 Cancel
                                                             </Button>
-                                                            <Button onClick={handleCloser, archiveEvent} style={{color:"white", backgroundColor:"#FF0000"}} autoFocus>
+                                                            <Button onClick={() => removeUser()} style={{color:"white", backgroundColor:"#FF0000"}} autoFocus>
                                                                 Remove Volunteer
                                                             </Button>
                                                         </DialogActions>
