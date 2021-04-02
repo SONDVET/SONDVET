@@ -81,7 +81,7 @@ function* postGroup(action) {
     console.log(action.payload); // correct
     try{
         const response = yield axios.post(`api/volunteer/affiliation`, action.payload);
-        // yield put({ type: 'SET_AFFILIATE', payload: response.data });
+        yield put({ type: 'FETCH_AFFILIATE', payload: response.data });
     } catch (error) {
         console.log(`error adding group, ${error}`);
     }
