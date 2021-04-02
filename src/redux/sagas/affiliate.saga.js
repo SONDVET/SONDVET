@@ -89,7 +89,7 @@ function* postGroup(action) {
 
 function* fetchOneUserGroup(action) {
     try{
-        const response = yield axios.post(`api/volunteer/usergroup/${action.payload}`);
+        const response = yield axios.get(`api/volunteer/usergroup/${action.payload}`);
         yield put({type: 'SET_USER_GROUP', payload: response.data})
     } catch (error) {
         console.log(`error getting one user group, ${error}`);
