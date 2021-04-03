@@ -250,8 +250,6 @@ function UserAdminView() {
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
-                    <Button onClick={() => console.log(person)}>test</Button>
-
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
                             <Grid item>
