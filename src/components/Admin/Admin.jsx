@@ -7,6 +7,7 @@ import { useStyles } from '../EventCardStyle/EventCadStyle'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import moment from 'moment';
 import './Admin.css';
 
 function Admin() {
@@ -18,6 +19,7 @@ function Admin() {
   const classes = useStyles();
   const [search, setSearch] = useState('');
   const [searchArch, setSearchArch] = useState('')
+  const [searchArchEvents, setSearchArchEvents] = useState('')
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
   const [selected, setSelected] = React.useState([]);
@@ -62,12 +64,19 @@ function Admin() {
     console.log(search)
   }, [search])
 
+  useEffect(() => {
+    dispatch({ type: "FETCH_ARCHIVED_EVENTS", payload: searchArchEvents}) 
+    console.log("arch events")
+  }, [searchArchEvents])
 
   const goToUser = (user) => {
     console.log(`You want to view details for person with id of ${user}`)
     history.push(`/userdetails/${user}`)
   };
 
+  const goToEvent = (event) => {
+    history.push(`/details/${event}`)
+  }
 
   const phoneFormater = (phoneNumb) => {
     let format = ('' + phoneNumb).replace(/\D/g, '');
@@ -162,6 +171,41 @@ function Admin() {
                   <StyledTableCell>{user.state}</StyledTableCell>
                   <StyledTableCell>{user.zip}</StyledTableCell>
                   <StyledTableCell><Button variant="contained" onClick={() => goToUser(user.id)}>View User</Button></StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={store.archivedUsers.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+
+        <div className="table_header">
+          <h2>Archived Events:</h2>
+        </div>
+        <TextField style ={{width:"35%", paddingBottom:"10px"}} label="Search Archived Events" value={searchArchEvents} onChange={(e) => setSearchArchEvents(e.target.value)}/>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <StyledTableRow>
+                <StyledTableCell> Event </StyledTableCell>
+                <StyledTableCell> Date </StyledTableCell>
+                <StyledTableCell></StyledTableCell>
+              </StyledTableRow>
+            </TableHead>
+            <TableBody>
+              {(store.archivedEvents[0] && store.archivedEvents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((event) =>
+                <StyledTableRow key={event.id} >
+                  <StyledTableCell>{event.name}</StyledTableCell>
+                  <StyledTableCell>{moment(event.date).format(" MMMM Do YYYY")}</StyledTableCell>
+                  <StyledTableCell><Button variant="contained" onClick={() => goToEvent(event.id)}>View Details</Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>

@@ -113,6 +113,7 @@ function UserAdminView() {
 
     // Sends dispatch to user router.put to unarchive user
     const unarchiveUser = () => {
+        console.log(params.id)
         dispatch({ type: 'UNARCHIVE_USER', payload: params.id });
         history.push("/admin");
     }

@@ -40,46 +40,61 @@ function* fetchUserGroup() {
     }
 }
 
-
 function* addUserGroup(action) {
     try {
         yield axios.put(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
-        yield put({type: 'FETCH_USER_GROUP'})
+        yield put({ type: 'FETCH_USER_GROUP' })
     } catch (error) {
         console.log(`error creating new userGroup, ${error}`);
     }
 }
 
-
 function* removeUserGroup(action) {
     console.log('action.payload is:', action.payload, 'action.payload.params is', (action.payload.parameter == true));
     try {
         yield axios.delete(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
-        yield put({type: 'FETCH_USER_GROUP'})
-        if (action.payload.parameter){
-            yield put({type: 'FETCH_AFFILIATE_USER', payload: action.payload.parameter});
+        yield put({ type: 'FETCH_USER_GROUP' })
+        if (action.payload.parameter) {
+            yield put({ type: 'FETCH_AFFILIATE_USER', payload: action.payload.parameter });
         }
     } catch (error) {
         console.log(`error removing userGroup, ${error}`);
     }
 }
 
-
 // used to list a group/affiliation as inactive (archived)
 function* removeGroup(action) {
-    console.log('group to be inactive is:',action.payload)
-    try{
+    console.log('group to be inactive is:', action.payload)
+    try {
         yield axios.put(`/api/volunteer/affiliation/${action.payload}`)
     } catch (error) {
         console.log(`error removing group, ${error}`);
     }
 }
 
+// used to restore a group from archived status
+function* restoreGroup(action) {
+    console.log('group to be restored is:', action.payload)
+    try {
+        yield axios.put(`/api/volunteer/affiliation/${action.payload}/archived`)
+    } catch (error) {
+        console.log(`error restoring group, ${error}`);
+    }
+}
+
+// // Sets user archived status to FALSE
+// function* unarchiveUser(action) {
+//     try {
+//       yield axios.put(`/api/user/${action.payload}/archived`);
+//     } catch (error) {
+//       console.log(`Error unarchiving user, ${error}`);
+//     }
+//   }
 
 // used to create a new affiliation
 function* postGroup(action) {
     console.log(action.payload); // correct
-    try{
+    try {
         const response = yield axios.post(`api/volunteer/affiliation`, action.payload);
         yield put({ type: 'FETCH_AFFILIATE', payload: response.data });
     } catch (error) {
@@ -87,10 +102,21 @@ function* postGroup(action) {
     }
 }
 
+// gets archived groups for view
+function* fetchArchivedGroups(action) {
+    try {
+        const response = yield axios.get(`/api/volunteer/affiliation/archived`, action.payload);
+        yield put({ type: 'SET_ARCHIVED_GROUP', payload: response.data });
+    } catch (error) {
+        console.log(`Error GETTING archived groups, ${error}`);
+    }
+
+}
+
 function* fetchOneUserGroup(action) {
-    try{
+    try {
         const response = yield axios.get(`api/volunteer/usergroup/${action.payload}`);
-        yield put({type: 'SET_USER_GROUP', payload: response.data})
+        yield put({ type: 'SET_USER_GROUP', payload: response.data })
     } catch (error) {
         console.log(`error getting one user group, ${error}`);
     }
@@ -105,7 +131,9 @@ function* affiliateSaga() {
     yield takeLatest('ADD_USER_GROUP', addUserGroup);
     yield takeLatest('REMOVE_USER_GROUP', removeUserGroup);
     yield takeLatest('REMOVE_GROUP', removeGroup);
-    yield takeLatest('ADD_AFFILIATION', postGroup)
+    yield takeLatest('ADD_AFFILIATION', postGroup);
+    yield takeLatest('FETCH_ARCHIVED_GROUPS', fetchArchivedGroups);
+    yield takeLatest('RESTORE_GROUP', restoreGroup);
 }
 
 export default affiliateSaga;
