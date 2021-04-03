@@ -120,7 +120,7 @@ function* removeEvent(action) {
 
 function* unremoveEvent(action) {
     try {
-        yield axios.put(`/api/event/details/${action.payload}`);
+        yield axios.put(`/api/event/details/${action.payload}/archived`);
     } catch (error) {
         console.log(`error unremoving event, ${error}`)
     }

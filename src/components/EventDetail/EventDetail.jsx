@@ -46,7 +46,7 @@ function EventDetail() {
     const [open, setOpen] = React.useState(false);
     const [userOpen, setUserOpen] = React.useState(false);
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const fullScreen = useMediaQuery("(min-width: 600px)");
 
     const [selectedPerson, setSelectedPerson] = useState("")
     const history = useHistory();
@@ -66,11 +66,11 @@ function EventDetail() {
 
     useEffect(() => {
         console.log(search)
-        dispatch({ type: 'FETCH_USER_EVENT', payload: {params: params.id, search : search } })
+        dispatch({ type: 'FETCH_USER_EVENT', payload: { params: params.id, search: search } })
     }, [search]);
 
 
-    
+
     const archiveEvent = () => {
         dispatch({ type: 'ARCHIVE_EVENT', payload: params.id });
         history.push("/events");
@@ -99,7 +99,7 @@ function EventDetail() {
     };
     const removeUser = () => {
         console.log('inRemoveUser')
-        dispatch({type:'UNATTEND_EVENT', payload: {userId: selectedPerson.id, eventId: store.event[0].id, params: params.id }})
+        dispatch({ type: 'UNATTEND_EVENT', payload: { userId: selectedPerson.id, eventId: store.event[0].id, params: params.id } })
         handleCloser()
     }
 
@@ -143,7 +143,7 @@ function EventDetail() {
                     </Card>
 
                     <h2>Scheduled Participants</h2>
-                    <TextField style={{width:'25%', paddingBottom:'10px'}}label="Search Scheduled Participants" value={search} onChange={(e) => setSearch(e.target.value)}/>
+                    <TextField style={{ width: '25%', paddingBottom: '10px' }} label="Search Scheduled Participants" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <TableContainer component={Paper} >
                         <Table id="eventUser" className="eventUser">
                             <TableHead>
@@ -169,33 +169,10 @@ function EventDetail() {
                                             <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? false : true} onClick={() => dispatch({ type: 'CHECK_IN', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check In</Button></StyledTableCell>
                                             <StyledTableCell><Button variant="contained" disabled={(user.check_in < user.check_out || user.check_in === null) ? true : false} onClick={() => dispatch({ type: 'CHECK_OUT', payload: { user_id: user.id, event_id: user.event_id, params: params.id, search: search } })}>Check Out</Button></StyledTableCell>
                                             <StyledTableCell>
-                                                <div>
-                                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => handleClickOpener(user)}>
-                                                        Remove
+                                                <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpener(user)}>
+                                                    Remove
                                                     </Button>
-                                                    <Dialog
-                                                        
-                                                        fullScreen={fullScreen}
-                                                        open={userOpen}
-                                                        onClose={handleCloser}
-                                                        aria-labelledby="responsive-dialog-title"
-                                                    >
-                                                        <DialogTitle id="responsive-dialog-title">{`Are you sure you want to remove ${selectedPerson.first_name} ${selectedPerson.last_name}?`}</DialogTitle>
-                                                        <DialogContent >
-                                                            <DialogContentText>
-                                                                They will no longer be able to check into this event.
-                                                            </DialogContentText>
-                                                        </DialogContent>
-                                                        <DialogActions>
-                                                            <Button autoFocus onClick={handleCloser} variant="contained">
-                                                                Cancel
-                                                            </Button>
-                                                            <Button onClick={() => removeUser()} style={{color:"white", backgroundColor:"#FF0000"}} autoFocus>
-                                                                Remove Volunteer
-                                                            </Button>
-                                                        </DialogActions>
-                                                    </Dialog>
-                                                </div>
+
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )
@@ -204,34 +181,57 @@ function EventDetail() {
                         </Table>
                     </TableContainer>
                     <br />
-
+                    <Dialog
+                        open={userOpen}
+                        onClose={handleCloser}
+                        aria-labelledby="responsive-dialog-title"
+                    >
+                        <DialogTitle id="responsive-dialog-title">{`Are you sure you want to remove ${selectedPerson.first_name} ${selectedPerson.last_name}?`}</DialogTitle>
+                        <DialogContent >
+                            <DialogContentText>
+                                They will no longer be able to check into this event.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button autoFocus onClick={handleCloser} variant="contained">
+                                Cancel
+                            </Button>
+                            <Button onClick={() => removeUser()} style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
+                                Remove Volunteer
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                     {event[0] && user.access_level >= 2 &&
                         // <button onClick={() => archiveEvent()}>Archive Event</button>
                         <Grid container justify="space-between">
                             <Grid item>
                                 <div>
-                                    <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
-                                        Delete Event
-                        </Button>
+                                    {store.event[0].archived === false ?
+                                    <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpen}>
+                                        Archive Event
+                                    </Button>
+                                    :
+                                    <Button variant='contained' color="primary" onClick={() => unarchiveEvent()}>
+                                        Restore Event
+                                    </Button>}
                                     <Dialog
-                                        fullScreen={fullScreen}
                                         open={open}
                                         onClose={handleClose}
                                         aria-labelledby="responsive-dialog-title"
                                     >
-                                        <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
+                                        <DialogTitle id="responsive-dialog-title">{`Are you sure you want to archive ${store.event[0].name}`}</DialogTitle>
                                         <DialogContent>
                                             <DialogContentText>
-                                                Are you sure you want to delete this event?  If you do they will be set to "archived" and only Admins will be able to retrive them.
-                            </DialogContentText>
+                                                This event will no longer be visible to volunteers.
+                                        </DialogContentText>
                                         </DialogContent>
                                         <DialogActions>
-                                            <Button autoFocus onClick={handleClose} color="primary">
-                                                Disagree and Cancel
-                                </Button>
-                                            <Button onClick={handleClose, archiveEvent} color="primary" autoFocus>
-                                                Agree and Archive Event
-                                </Button>
+                                            <Button autoFocus onClick={handleClose} variant="contained">
+                                                Cancel
+                                        </Button>
+                                            <Button onClick={handleClose, archiveEvent} variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }}>
+                                                Archive Event
+                                    </Button>
                                         </DialogActions>
                                     </Dialog>
                                 </div>
