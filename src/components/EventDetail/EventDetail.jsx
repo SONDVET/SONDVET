@@ -206,9 +206,13 @@ function EventDetail() {
                         <Grid container justify="space-between">
                             <Grid item>
                                 <div>
-                                    {store.event[0].archived === false &&
+                                    {store.event[0].archived === false ?
                                     <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpen}>
                                         Archive Event
+                                    </Button>
+                                    :
+                                    <Button variant='contained' color="primary" onClick={() => unarchiveEvent()}>
+                                        Restore Event
                                     </Button>}
                                     <Dialog
                                         open={open}
@@ -218,7 +222,7 @@ function EventDetail() {
                                         <DialogTitle id="responsive-dialog-title">{`Are you sure you want to archive ${store.event[0].name}`}</DialogTitle>
                                         <DialogContent>
                                             <DialogContentText>
-                                                Archived Events Can Only be Viewed by Admins
+                                                This event will no longer be visible to volunteers.
                                         </DialogContentText>
                                         </DialogContent>
                                         <DialogActions>
