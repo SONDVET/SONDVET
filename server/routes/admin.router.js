@@ -4,6 +4,7 @@ const router = express.Router();
 const {
     rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
+const encryptLib = require('../modules/encryption');
 
 
 router.get('/archivedusers', (req, res) => {
@@ -28,5 +29,25 @@ router.get('/archivedusers', (req, res) => {
             res.sendStatus(500)
         })
 });
+
+
+// UPDATE password
+router.put('/else', rejectUnauthenticated, (req, res) => {
+    console.log(req.body)
+    const userEdit = {
+        id: req.body.id,
+        password: encryptLib.encryptPassword(req.body.password)
+    }
+    const query = `UPDATE "user" SET "password" = $1 WHERE "id" = $2;`;
+    pool.query(query, [userEdit.password, userEdit.id])
+        .then((result) => {
+            console.log(`Updated user password for user with id: ${userEdit.id}`);
+            res.sendStatus(200);
+        }).catch((err) => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+});
+
 
 module.exports = router

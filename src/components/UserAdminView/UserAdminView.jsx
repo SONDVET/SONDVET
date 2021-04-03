@@ -5,11 +5,18 @@ import { useHistory, useParams } from 'react-router-dom'
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { useTheme } from '@material-ui/core/styles';
 import moment from 'moment';
 import { DirectionsWalkRounded } from '@material-ui/icons';
 
@@ -40,7 +47,10 @@ function UserAdminView() {
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.oneUser[0]);
-    const params = useParams()
+    const params = useParams();
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
 
     useEffect(() => {
         dispatch({ type: 'FETCH_AFFILIATE', payload: "" });
@@ -52,7 +62,13 @@ function UserAdminView() {
         grandTotalTime();
     }, [store.oneUserEvent])
 
+
     const [edit, setEdit] = useState(true);
+    const [open, setOpen] = React.useState(false);
+    const [secDetail, setSecDetail] = useState({
+        id: params.id,
+        password: ''
+    });
 
 
     const setEditMode = () => {
@@ -76,7 +92,6 @@ function UserAdminView() {
                 dob: store.oneUser[0].dob,
                 involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
                 college_id: store.oneUser[0].college_id,
-                password: store.oneUser[0].password,
                 access_level: store.oneUser[0].access_level,
                 archived: store.oneUser[0].archived
             })
@@ -160,7 +175,6 @@ function UserAdminView() {
         dob: "",
         involved_w_sond_since: "",
         college_id: 1,
-        password: "",
         access_level: 1,
         archived: false
     })
@@ -201,7 +215,6 @@ function UserAdminView() {
             dob: store.oneUser[0].dob,
             involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
             college_id: store.oneUser[0].college_id,
-            password: store.oneUser[0].password,
             access_level: store.oneUser[0].access_level,
             archived: store.oneUser[0].archived
         })
@@ -209,6 +222,22 @@ function UserAdminView() {
 
     if (store.oneUser[0] && person.id === 0) {
         declare()
+    }
+
+    // functions to open and close the password modal
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
+    // function to change a user's password.
+    const changePass = () => {
+        console.log(secDetail);
+        dispatch({ type: 'UPDATE_PASSWORD', payload: secDetail })
+        handleClose();
     }
 
 
@@ -303,16 +332,35 @@ function UserAdminView() {
                                                 <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
                                                 <StyledTableCell>{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                                             </StyledTableRow>
-                                            <StyledTableRow>
-                                                <StyledTableCell><b>Password</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>--hidden--</div> : <input placeholder="Enter New Password" onChange={(e) => setPerson({ ...person, password: e.target.value })} />}</StyledTableCell>
-                                            </StyledTableRow>
                                         </TableBody>
                                     </Table>
-
                                 </TableContainer>
                             </Grid>
 
+                            <Button 
+                                variant="contained" 
+                                onClick={handleClickOpen}
+                                >Change User Password
+                            </Button>
+                            <Dialog
+                                fullScreen={fullScreen}
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="responsive-dialog-title"
+                            >
+                                <DialogTitle id="responsive-dialog-title">{`Change password for ${store.oneUser[0].email} ?`}</DialogTitle>
+                                <DialogContent>
+                                    <input type="text" placeholder="enter new password" onChange={(e) => setSecDetail({ ...secDetail, password: e.target.value })}/>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button autoFocus onClick={handleClose} variant="contained" >
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={changePass} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
+                                        Change User Password
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
                             {/* Group Table */}
                             <Grid item md={4}>
                                 <TableContainer component={Paper}>
@@ -390,7 +438,7 @@ function UserAdminView() {
                                                 </StyledTableCell>
                                                 <StyledTableCell colSpan="3" align="center">
                                                     {grandTotalHours} hours {grandTotalMinutes} minutes
-                  </StyledTableCell>
+                                                </StyledTableCell>
                                             </StyledTableRow>
                                         </TableBody>
                                     </Table>
