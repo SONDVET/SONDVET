@@ -35,9 +35,20 @@ function* reRegisterUser(action) {
 }
 
 
+function* updatePassword(action) {
+  try{
+    console.log('password saga', action.payload);
+    yield axios.put(`/api/admin/else`, action.payload);
+  } catch (error) {
+    console.log('Error with password update:', error);
+  }
+}
+
+
 function* registrationSaga() {
   yield takeLatest('REGISTER', registerUser);
   yield takeLatest('RE_REGISTER', reRegisterUser);
+  yield takeLatest('UPDATE_PASSWORD', updatePassword);
 }
 
 export default registrationSaga;
