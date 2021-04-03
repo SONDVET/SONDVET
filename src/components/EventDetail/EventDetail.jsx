@@ -206,9 +206,10 @@ function EventDetail() {
                         <Grid container justify="space-between">
                             <Grid item>
                                 <div>
+                                    {store.event[0].archived === false &&
                                     <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpen}>
-                                        Delete Event
-                                    </Button>
+                                        Archive Event
+                                    </Button>}
                                     <Dialog
                                         open={open}
                                         onClose={handleClose}
@@ -226,7 +227,7 @@ function EventDetail() {
                                         </Button>
                                             <Button onClick={handleClose, archiveEvent} variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }}>
                                                 Archive Event
-                                        </Button>
+                                    </Button>
                                         </DialogActions>
                                     </Dialog>
                                 </div>
