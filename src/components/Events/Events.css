@@ -22,6 +22,10 @@ h2 {
     margin: 0.5em;
 }
 
+img {
+    width: auto;
+}
+
 .headText{
     text-align: center;
     display: flex;
