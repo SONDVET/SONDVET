@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserAdminView.css";
 import { useHistory, useParams } from 'react-router-dom'
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -337,26 +337,26 @@ function UserAdminView() {
                                     </Table>
                                 </TableContainer>
                                 <Button
+                                    style={{marginTop: "10px"}}
                                     variant="contained"
                                     onClick={handleClickOpen}
-                                >Change User Password
+                                >Update User Password
                                 </Button>
                                 <Dialog
-                                    fullScreen={fullScreen}
                                     open={open}
                                     onClose={handleClose}
                                     aria-labelledby="responsive-dialog-title"
                                 >
                                     <DialogTitle id="responsive-dialog-title">{`Change password for ${store.oneUser[0].email} ?`}</DialogTitle>
                                     <DialogContent>
-                                        <input type="text" placeholder="enter new password" onChange={(e) => setSecDetail({ ...secDetail, password: e.target.value })} />
+                                        <TextField style={{width:"60%"}} variant="filled" type="text" label="enter new password" onChange={(e) => setSecDetail({ ...secDetail, password: e.target.value })} />
                                     </DialogContent>
                                     <DialogActions>
                                         <Button autoFocus onClick={handleClose} variant="contained" >
                                             Cancel
                                     </Button>
-                                        <Button onClick={changePass} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
-                                            Change User Password
+                                        <Button onClick={changePass} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }}>
+                                            Update Password
                                     </Button>
                                     </DialogActions>
                                 </Dialog>
