@@ -294,7 +294,6 @@ function GroupView() {
                                             <StyledTableCell>Active Groups</StyledTableCell>
                                             <StyledTableCell>Total Members</StyledTableCell>
                                             <StyledTableCell></StyledTableCell>
-                                            <StyledTableCell></StyledTableCell>
                                         </StyledTableRow>
                                     </TableHead>
                                     <TableBody>
@@ -358,7 +357,6 @@ function GroupView() {
                                         <StyledTableRow>
                                             <StyledTableCell>Archived Groups</StyledTableCell>
                                             <StyledTableCell>Total Members</StyledTableCell>
-                                            <StyledTableCell></StyledTableCell>
                                             <StyledTableCell></StyledTableCell>
                                         </StyledTableRow>
                                     </TableHead>
