@@ -182,7 +182,6 @@ function EventDetail() {
                     </TableContainer>
                     <br />
                     <Dialog
-                        fullScreen={fullScreen}
                         open={userOpen}
                         onClose={handleCloser}
                         aria-labelledby="responsive-dialog-title"
@@ -209,7 +208,7 @@ function EventDetail() {
                                 <div>
                                     <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpen}>
                                         Delete Event
-                        </Button>
+                                    </Button>
                                     <Dialog
                                         open={open}
                                         onClose={handleClose}
@@ -219,15 +218,15 @@ function EventDetail() {
                                         <DialogContent>
                                             <DialogContentText>
                                                 Archived Events Can Only be Viewed by Admins
-                            </DialogContentText>
+                                        </DialogContentText>
                                         </DialogContent>
                                         <DialogActions>
                                             <Button autoFocus onClick={handleClose} variant="contained">
                                                 Cancel
-                                </Button>
+                                        </Button>
                                             <Button onClick={handleClose, archiveEvent} variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }}>
                                                 Archive Event
-                                </Button>
+                                        </Button>
                                         </DialogActions>
                                     </Dialog>
                                 </div>
