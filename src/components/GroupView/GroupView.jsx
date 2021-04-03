@@ -360,7 +360,7 @@ function GroupView() {
                                         </StyledTableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {(store.archivedGroups[0]) && store.archivedGroups.map((affiliate) =>
+                                        {(store.archivedGroups[0]) && store.archivedGroups.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((affiliate) =>
                                             <StyledTableRow key={affiliate.id}>
                                                 <StyledTableCell>{affiliate.college_name}</StyledTableCell>
                                                 <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
@@ -369,6 +369,15 @@ function GroupView() {
                                         )}
                                     </TableBody>
                                 </Table>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 50]}
+                                    component="div"
+                                    count={store.archivedGroups.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onChangePage={handleChangePage}
+                                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                                />
                             </TableContainer>
                             <br></br>
                             
