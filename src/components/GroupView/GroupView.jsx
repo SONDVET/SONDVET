@@ -310,6 +310,38 @@ function GroupView() {
                                 />
                             </TableContainer>
                             <br></br>
+                            <TableContainer component={Paper}>
+                                <Table id="addNewGroup">
+                                    <TableHead>
+                                        <StyledTableRow>
+                                            <StyledTableCell colSpan="3">Add a New Group</StyledTableCell>
+                                        </StyledTableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <StyledTableRow>
+                                            <StyledTableCell>
+                                                <TextField
+                                                    style={{width:'60%'}}
+                                                    value={group}
+                                                    type="text"
+                                                    label="Input New Group Name"
+                                                    onChange={(e) => setGroup(e.target.value)}
+                                                />
+                                                
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    onClick={handleSubmit}>
+                                                    Add Group to List
+                                        </Button>
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <br/><br/>
                             <TextField label="Search Archived Groups" style={{ width: '15%' }} value={search} onChange={(e) => setSearch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
@@ -333,35 +365,7 @@ function GroupView() {
                                 </Table>
                             </TableContainer>
                             <br></br>
-                            <TableContainer component={Paper}>
-                                <Table id="addNewGroup">
-                                    <TableHead>
-                                        <StyledTableRow>
-                                            <StyledTableCell colSpan="3">Add a New Group</StyledTableCell>
-                                        </StyledTableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        <StyledTableRow>
-                                            <StyledTableCell>
-                                                <input
-                                                    value={group}
-                                                    type="text"
-                                                    placeholder="Input New Group Name"
-                                                    onChange={(e) => setGroup(e.target.value)}>
-                                                </input>
-                                            </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Button
-                                                    type="submit"
-                                                    variant="contained"
-                                                    onClick={handleSubmit}>
-                                                    Add Group to List
-                                        </Button>
-                                            </StyledTableCell>
-                                        </StyledTableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            
                         </div>
                     </>}
             </Container></>
