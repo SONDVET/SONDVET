@@ -132,7 +132,7 @@ function GroupView() {
     const removeGroup = () => {
         dispatch({ type: 'REMOVE_GROUP', payload: params.id });
         console.log(params.id);
-        history.push('/events');
+        history.push('/group_view');
     };
 
     // Restores group from archived status
@@ -265,10 +265,13 @@ function GroupView() {
                         </Dialog>
                         <br></br>
                         <br></br>
-                        <StyledTableCell><Button variant="contained" color="default" onClick={() => restoreGroup()}>Unarchive Group</Button></StyledTableCell>
+                        {store.affiliate[0].inactive === true ?
+                        <Button variant="contained" color="default" onClick={() => restoreGroup()}>Unarchive Group</Button>
+                        :
                         <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpen()}>
                             Archive Group
-                        </Button> &nbsp; &nbsp;
+                        </Button>} &nbsp; &nbsp;
+
                         <Button
                             component={ReactHTMLTableToExcel}
                             variant="contained"

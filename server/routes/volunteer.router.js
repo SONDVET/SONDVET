@@ -172,7 +172,7 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
 //  GET a specific affiliation by id
 router.get('/organization/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id
-    const queryText = `SELECT "college_name" FROM "affiliation" WHERE "id" = ${id}`
+    const queryText = `SELECT * FROM "affiliation" WHERE "id" = ${id}`
     pool.query(queryText)
         .then(result => {
             res.send(result.rows)
