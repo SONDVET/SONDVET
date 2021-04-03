@@ -335,32 +335,31 @@ function UserAdminView() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                            </Grid>
-
-                            <Button 
-                                variant="contained" 
-                                onClick={handleClickOpen}
+                                <Button
+                                    variant="contained"
+                                    onClick={handleClickOpen}
                                 >Change User Password
-                            </Button>
-                            <Dialog
-                                fullScreen={fullScreen}
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="responsive-dialog-title"
-                            >
-                                <DialogTitle id="responsive-dialog-title">{`Change password for ${store.oneUser[0].email} ?`}</DialogTitle>
-                                <DialogContent>
-                                    <input type="text" placeholder="enter new password" onChange={(e) => setSecDetail({ ...secDetail, password: e.target.value })}/>
-                                </DialogContent>
-                                <DialogActions>
-                                    <Button autoFocus onClick={handleClose} variant="contained" >
-                                        Cancel
+                                </Button>
+                                <Dialog
+                                    fullScreen={fullScreen}
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="responsive-dialog-title"
+                                >
+                                    <DialogTitle id="responsive-dialog-title">{`Change password for ${store.oneUser[0].email} ?`}</DialogTitle>
+                                    <DialogContent>
+                                        <input type="text" placeholder="enter new password" onChange={(e) => setSecDetail({ ...secDetail, password: e.target.value })} />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button autoFocus onClick={handleClose} variant="contained" >
+                                            Cancel
                                     </Button>
-                                    <Button onClick={changePass} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
-                                        Change User Password
+                                        <Button onClick={changePass} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
+                                            Change User Password
                                     </Button>
-                                </DialogActions>
-                            </Dialog>
+                                    </DialogActions>
+                                </Dialog>
+                            </Grid>
                             {/* Group Table */}
                             <Grid item md={4}>
                                 <TableContainer component={Paper}>
