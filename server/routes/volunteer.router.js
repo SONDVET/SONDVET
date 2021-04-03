@@ -57,7 +57,11 @@ router.get('/affiliation', (req, res) => {
 
 router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
     console.log("In get archived affiliates.")
-    const queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`
+    if(req.query.search.length===0){
+        queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`
+    }else{
+        queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE '${req.query.search}%' AND "inactive"=TRUE;`
+    }
     pool.query(queryText)
         .then(result => {
             res.send(result.rows)

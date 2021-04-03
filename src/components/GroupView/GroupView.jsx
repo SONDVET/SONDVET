@@ -13,7 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useTheme } from '@material-ui/core/styles';
-import { FullscreenExitTwoTone } from '@material-ui/icons';
+import { FullscreenExitTwoTone, PanoramaSharp } from '@material-ui/icons';
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -22,7 +22,6 @@ const StyledTableRow = withStyles((theme) => ({
         },
     },
 }))(TableRow);
-
 //Styling for material tables
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -46,6 +45,7 @@ function GroupView() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [search, setSearch] = useState("")
+    const [searchArch, setSearchArch] =useState("")
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -83,7 +83,6 @@ function GroupView() {
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_USER_GROUP' });
-            dispatch({ type: 'FETCH_ARCHIVED_GROUPS' });
             console.log(search)
         } else {
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
@@ -92,7 +91,14 @@ function GroupView() {
         }
     }, [search]);
 
-    const memberCount = (groupId) => {
+    useEffect(() => {
+    dispatch({ type: 'FETCH_ALL_USER_EVENT' });
+            dispatch({ type: 'FETCH_ALL_USER_EVENT' });
+            dispatch({ type: 'FETCH_USER_GROUP' });
+            dispatch({ type: 'FETCH_ARCHIVED_GROUPS', payload: searchArch });
+    }, [searchArch]);
+    
+            const memberCount = (groupId) => {
         let count = 0;
         for (let item of store.userGroup) {
             if (groupId === item.group_id) {
@@ -172,7 +178,7 @@ function GroupView() {
         <>
             <h1 className="header">Group View</h1>
             <Container>
-                {store.affiliate.length === 1 ?
+                {store.affiliate.length === 1 && params.id != undefined ?
                     <>
                         <h1>{store.affiliate[0].college_name}</h1>
                         <div>
@@ -342,7 +348,7 @@ function GroupView() {
                                 </Table>
                             </TableContainer>
                             <br/><br/>
-                            <TextField label="Search Archived Groups" style={{ width: '15%' }} value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <TextField label="Search Archived Groups" style={{ width: '15%' }} value={searchArch} onChange={(e) => setSearchArch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
