@@ -2,8 +2,7 @@ import { makeStyles} from "@material-ui/core"
 
 const useStyles = makeStyles({
     eventCard: {
-        minWidth: '25%',
-        maxWidth: '30%',
+        width: '25%',
         minHeight: 375,
         maxHeight: '100%',
         overflow: 'auto',
