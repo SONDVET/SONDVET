@@ -350,6 +350,8 @@ function GroupView() {
                                 </Table>
                             </TableContainer>
                             <br/><br/>
+                            {store.user.access_level > 2 &&
+                            <>
                             <TextField label="Search Archived Groups" style={{ width: '50%',paddingBottom:"10px" }} value={searchArch} onChange={(e) => setSearchArch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
@@ -380,6 +382,7 @@ function GroupView() {
                                     onChangeRowsPerPage={handleChangeRowsPerPage}
                                 />
                             </TableContainer>
+                            </>}
                             <br></br>
                             
                         </div>
