@@ -286,7 +286,7 @@ function GroupView() {
                     <>
                         {/* {store.affiliate[0] &&  */}
                         <div className="groupListContainer">
-                            <TextField label="Search Active Groups" value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <TextField label="Search Active Groups" style={{width:"50%", paddingBottom:"10px"}} value={search} onChange={(e) => setSearch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
@@ -350,7 +350,7 @@ function GroupView() {
                                 </Table>
                             </TableContainer>
                             <br/><br/>
-                            <TextField label="Search Archived Groups" style={{ width: '15%' }} value={searchArch} onChange={(e) => setSearchArch(e.target.value)} />
+                            <TextField label="Search Archived Groups" style={{ width: '50%',paddingBottom:"10px" }} value={searchArch} onChange={(e) => setSearchArch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
