@@ -69,7 +69,6 @@ function UserPage() {
     dob: user.dob,
     involved_w_sond_since: user.involved_w_sond_since,
     college_id: user.college_id,
-    password: user.password,
     access_level: user.access_level,
     archived: user.archived
   })

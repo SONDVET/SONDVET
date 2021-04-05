@@ -7,6 +7,14 @@ import { useSelector } from 'react-redux';
 import Logo from '../Images/WhiteLogo.png';  
 import { useMediaQuery, Drawer, Button, makeStyles, Toolbar, AppBar, FormControl } from '@material-ui/core'
 import MenuIcon from "@material-ui/icons/Menu";
+import Typography from '@material-ui/core/Typography';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const navButtonFont = createMuiTheme({
+  typography: {
+    fontFamily: "ubuntu" 
+  }
+})
 
 
 function Nav() {
@@ -30,6 +38,7 @@ function Nav() {
       backgroundColor: "#FF0000",
       borderRadius: 0,
       padding: "20px  5px 20px 5px",
+      fontFamilty: "ubuntu", 
     },
     drawerPaper: {
       backgroundColor: "#FF0000"
@@ -84,6 +93,7 @@ function Nav() {
         </>
         :
         <>
+        <ThemeProvider theme={navButtonFont}>
           <Link to="/events">
             <img className="mainLogo" src={Logo} />
           </Link>
@@ -159,6 +169,7 @@ function Nav() {
               </Button>}
             {user.id && <LogOutButton className="navLink" />}
           </Drawer>
+          </ThemeProvider>
         </>
       }
     </div>

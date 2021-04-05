@@ -2,14 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserAdminView.css";
 import { useHistory, useParams } from 'react-router-dom'
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SaveIcon from '@material-ui/icons/Save';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { useTheme } from '@material-ui/core/styles';
 import moment from 'moment';
 import { DirectionsWalkRounded } from '@material-ui/icons';
 
@@ -40,7 +47,10 @@ function UserAdminView() {
     const history = useHistory();
     const store = useSelector(store => store);
     const user = useSelector((store) => store.oneUser[0]);
-    const params = useParams()
+    const params = useParams();
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
 
     useEffect(() => {
         dispatch({ type: 'FETCH_AFFILIATE', payload: "" });
@@ -52,7 +62,13 @@ function UserAdminView() {
         grandTotalTime();
     }, [store.oneUserEvent])
 
+
     const [edit, setEdit] = useState(true);
+    const [open, setOpen] = React.useState(false);
+    const [secDetail, setSecDetail] = useState({
+        id: params.id,
+        password: ''
+    });
 
 
     const setEditMode = () => {
@@ -76,7 +92,6 @@ function UserAdminView() {
                 dob: store.oneUser[0].dob,
                 involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
                 college_id: store.oneUser[0].college_id,
-                password: store.oneUser[0].password,
                 access_level: store.oneUser[0].access_level,
                 archived: store.oneUser[0].archived
             })
@@ -161,7 +176,6 @@ function UserAdminView() {
         dob: "",
         involved_w_sond_since: "",
         college_id: 1,
-        password: "",
         access_level: 1,
         archived: false
     })
@@ -202,7 +216,6 @@ function UserAdminView() {
             dob: store.oneUser[0].dob,
             involved_w_sond_since: store.oneUser[0].involved_w_sond_since,
             college_id: store.oneUser[0].college_id,
-            password: store.oneUser[0].password,
             access_level: store.oneUser[0].access_level,
             archived: store.oneUser[0].archived
         })
@@ -210,6 +223,22 @@ function UserAdminView() {
 
     if (store.oneUser[0] && person.id === 0) {
         declare()
+    }
+
+    // functions to open and close the password modal
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
+    // function to change a user's password.
+    const changePass = () => {
+        console.log(secDetail);
+        dispatch({ type: 'UPDATE_PASSWORD', payload: secDetail })
+        handleClose();
     }
 
 
@@ -221,8 +250,6 @@ function UserAdminView() {
         <>
             {store.oneUser[0] && store.user.access_level > 1 ?
                 <>
-                    <Button onClick={() => console.log(person)}>test</Button>
-
                     <Container maxWidth="xl">
                         <Grid container direction="row" spacing={3} justify="space-between" alignItems="center">
                             <Grid item>
@@ -262,58 +289,80 @@ function UserAdminView() {
                                         <TableBody>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Category</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.category}</div> : <input defaultValue={person.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.category}</div> : <TextField defaultValue={person.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>First Name</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.first_name}</div> : <input key="name" value={person.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.first_name}</div> : <TextField key="name" value={person.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Last Name</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.last_name}</div> : <input defaultValue={person.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.last_name}</div> : <TextField defaultValue={person.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Email</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.email}</div> : <input defaultValue={person.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.email}</div> : <TextField defaultValue={person.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Phone</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <input defaultValue={person.phone_number.split('-').join('')} maxLength="10" onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="tel" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{phoneFormater(user.phone_number)}</div> : <TextField defaultValue={person.phone_number.split('-').join('')} maxLength="10" onChange={(e) => setPerson({ ...person, phone_number: e.target.value })} type="tel" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Address</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.address}</div> : <input defaultValue={person.address} onChange={(e) => setPerson({ ...person, address: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.address}</div> : <TextField defaultValue={person.address} onChange={(e) => setPerson({ ...person, address: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>City</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.city}</div> : <input defaultValue={person.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.city}</div> : <TextField defaultValue={person.city} onChange={(e) => setPerson({ ...person, city: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>State</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.state}</div> : <input defaultValue={person.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.state}</div> : <TextField defaultValue={person.state} onChange={(e) => setPerson({ ...person, state: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Zip</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.zip}</div> : <input defaultValue={person.zip} onChange={(e) => setPerson({ ...person, zip: e.target.value })} type="number" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.zip}</div> : <TextField defaultValue={person.zip} onChange={(e) => setPerson({ ...person, zip: e.target.value })} type="number" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Date of Birth</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.dob.substring(0, 10)}</div> : <input defaultValue={person.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.dob.substring(0, 10)}</div> : <TextField defaultValue={person.dob.substring(0, 10)} onChange={(e) => setPerson({ ...person, dob: e.target.value })} type="date" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <input defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
-                                            </StyledTableRow>
-                                            <StyledTableRow>
-                                                <StyledTableCell><b>Password</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>--hidden--</div> : <input placeholder="Enter New Password" onChange={(e) => setPerson({ ...person, password: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.involved_w_sond_since.substring(0, 10)}</div> : <TextField defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                                             </StyledTableRow>
                                         </TableBody>
                                     </Table>
-
                                 </TableContainer>
+                                {store.user.access_level > 2 &&
+                                <>
+                                <Button
+                                    style={{marginTop: "10px"}}
+                                    variant="contained"
+                                    onClick={handleClickOpen}
+                                >Update User Password
+                                </Button>
+                                <Dialog
+                                    open={open}
+                                    onClose={handleClose}
+                                    aria-labelledby="responsive-dialog-title"
+                                >
+                                    <DialogTitle id="responsive-dialog-title">{`Change password for ${store.oneUser[0].email} ?`}</DialogTitle>
+                                    <DialogContent>
+                                        <TextField style={{width:"60%"}} variant="filled" type="text" label="enter new password" onChange={(e) => setSecDetail({ ...secDetail, password: e.target.value })} />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button autoFocus onClick={handleClose} variant="contained" >
+                                            Cancel
+                                    </Button>
+                                    
+                                        <Button onClick={changePass} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }}>
+                                            Update Password
+                                    </Button>
+                                    
+                                    </DialogActions>
+                                </Dialog> </>}
                             </Grid>
-
                             {/* Group Table */}
                             <Grid item md={4}>
                                 <TableContainer component={Paper}>
@@ -391,7 +440,7 @@ function UserAdminView() {
                                                 </StyledTableCell>
                                                 <StyledTableCell colSpan="3" align="center">
                                                     {grandTotalHours} hours {grandTotalMinutes} minutes
-                  </StyledTableCell>
+                                                </StyledTableCell>
                                             </StyledTableRow>
                                         </TableBody>
                                     </Table>

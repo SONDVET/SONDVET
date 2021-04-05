@@ -13,7 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { useTheme } from '@material-ui/core/styles';
-import { FullscreenExitTwoTone } from '@material-ui/icons';
+import { FullscreenExitTwoTone, PanoramaSharp } from '@material-ui/icons';
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -22,7 +22,6 @@ const StyledTableRow = withStyles((theme) => ({
         },
     },
 }))(TableRow);
-
 //Styling for material tables
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -46,6 +45,7 @@ function GroupView() {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [search, setSearch] = useState("")
+    const [searchArch, setSearchArch] =useState("")
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -83,7 +83,6 @@ function GroupView() {
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_USER_GROUP' });
-            dispatch({ type: 'FETCH_ARCHIVED_GROUPS' });
             console.log(search)
         } else {
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
@@ -92,7 +91,14 @@ function GroupView() {
         }
     }, [search]);
 
-    const memberCount = (groupId) => {
+    useEffect(() => {
+    dispatch({ type: 'FETCH_ALL_USER_EVENT' });
+            dispatch({ type: 'FETCH_ALL_USER_EVENT' });
+            dispatch({ type: 'FETCH_USER_GROUP' });
+            dispatch({ type: 'FETCH_ARCHIVED_GROUPS', payload: searchArch });
+    }, [searchArch]);
+    
+            const memberCount = (groupId) => {
         let count = 0;
         for (let item of store.userGroup) {
             if (groupId === item.group_id) {
@@ -126,7 +132,7 @@ function GroupView() {
     const removeGroup = () => {
         dispatch({ type: 'REMOVE_GROUP', payload: params.id });
         console.log(params.id);
-        history.push('/events');
+        history.push('/group_view');
     };
 
     // Restores group from archived status
@@ -172,7 +178,7 @@ function GroupView() {
         <>
             <h1 className="header">Group View</h1>
             <Container>
-                {store.affiliate.length === 1 ?
+                {store.affiliate.length === 1 && params.id != undefined ?
                     <>
                         <h1>{store.affiliate[0].college_name}</h1>
                         <div>
@@ -187,7 +193,7 @@ function GroupView() {
                                 onClose={handleClose}
                                 aria-labelledby="responsive-dialog-title"
                             >
-                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to delete ${store.affiliate[0].college_name} ?`}</DialogTitle>
+                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to archive ${store.affiliate[0].college_name} ?`}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
                                         If you do they will be set to "archived" and only Admins will be able to retrive them.
@@ -259,10 +265,13 @@ function GroupView() {
                         </Dialog>
                         <br></br>
                         <br></br>
-                        <StyledTableCell><Button variant="contained" color="default" onClick={() => restoreGroup()}>Unarchive Group</Button></StyledTableCell>
+                        {store.affiliate[0].inactive === true ?
+                        <Button variant="contained" color="default" onClick={() => restoreGroup()}>Unarchive Group</Button>
+                        :
                         <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={() => handleClickOpen()}>
                             Archive Group
-                        </Button> &nbsp; &nbsp;
+                        </Button>} &nbsp; &nbsp;
+
                         <Button
                             component={ReactHTMLTableToExcel}
                             variant="contained"
@@ -277,14 +286,13 @@ function GroupView() {
                     <>
                         {/* {store.affiliate[0] &&  */}
                         <div className="groupListContainer">
-                            <TextField label="Search Active Groups" value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <TextField label="Search Active Groups" style={{width:"50%", paddingBottom:"10px"}} value={search} onChange={(e) => setSearch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
                                         <StyledTableRow>
                                             <StyledTableCell>Active Groups</StyledTableCell>
                                             <StyledTableCell>Total Members</StyledTableCell>
-                                            <StyledTableCell></StyledTableCell>
                                             <StyledTableCell></StyledTableCell>
                                         </StyledTableRow>
                                     </TableHead>
@@ -310,29 +318,6 @@ function GroupView() {
                                 />
                             </TableContainer>
                             <br></br>
-                            <TextField label="Search Archived Groups" style={{ width: '15%' }} value={search} onChange={(e) => setSearch(e.target.value)} />
-                            <TableContainer component={Paper}>
-                                <Table id="SO College Members">
-                                    <TableHead>
-                                        <StyledTableRow>
-                                            <StyledTableCell>Archived Groups</StyledTableCell>
-                                            <StyledTableCell>Total Members</StyledTableCell>
-                                            <StyledTableCell></StyledTableCell>
-                                            <StyledTableCell></StyledTableCell>
-                                        </StyledTableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {(store.archivedGroups[0]) && store.archivedGroups.map((affiliate) =>
-                                            <StyledTableRow key={affiliate.id}>
-                                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
-                                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
-                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>       
-                                            </StyledTableRow>
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <br></br>
                             <TableContainer component={Paper}>
                                 <Table id="addNewGroup">
                                     <TableHead>
@@ -344,12 +329,13 @@ function GroupView() {
                                         <StyledTableRow>
                                             <StyledTableCell>
                                                 <TextField
-                                                    variant="outlined"
+                                                    style={{width:'60%'}}
                                                     value={group}
                                                     type="text"
-                                                    placeholder="Input New Group Name"
-                                                    onChange={(e) => setGroup(e.target.value)}>
-                                                </TextField>
+                                                    label="Input New Group Name"
+                                                    onChange={(e) => setGroup(e.target.value)}
+                                                />
+                                                
                                             </StyledTableCell>
                                             <StyledTableCell>
                                                 <Button
@@ -363,6 +349,42 @@ function GroupView() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            <br/><br/>
+                            {store.user.access_level > 2 &&
+                            <>
+                            <TextField label="Search Archived Groups" style={{ width: '50%',paddingBottom:"10px" }} value={searchArch} onChange={(e) => setSearchArch(e.target.value)} />
+                            <TableContainer component={Paper}>
+                                <Table id="SO College Members">
+                                    <TableHead>
+                                        <StyledTableRow>
+                                            <StyledTableCell>Archived Groups</StyledTableCell>
+                                            <StyledTableCell>Total Members</StyledTableCell>
+                                            <StyledTableCell></StyledTableCell>
+                                        </StyledTableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {(store.archivedGroups[0]) && store.archivedGroups.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((affiliate) =>
+                                            <StyledTableRow key={affiliate.id}>
+                                                <StyledTableCell>{affiliate.college_name}</StyledTableCell>
+                                                <StyledTableCell>{(store.userGroup[0]) && memberCount(affiliate.id)}</StyledTableCell>
+                                                <StyledTableCell><Button variant="contained" color="default" onClick={() => goToGroup(affiliate.id)}>View</Button></StyledTableCell>       
+                                            </StyledTableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 50]}
+                                    component="div"
+                                    count={store.archivedGroups.length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onChangePage={handleChangePage}
+                                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                                />
+                            </TableContainer>
+                            </>}
+                            <br></br>
+                            
                         </div>
                     </>}
             </Container></>
