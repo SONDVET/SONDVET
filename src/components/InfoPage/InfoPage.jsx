@@ -23,16 +23,16 @@ function InfoPage() {
         <p>On the Event List page you, as an Officer, will have access to the "Details" button.  Clicking on this will take you to the Event Details page.
         At the bottom of this page you will see a table listing all the volunteers participating in this event.  The “Remove” button will remove that volunteer from the list of participants.  Clicking “Check-in” for a volunteer will start a timer that records time spent volunteering for this event.  “Check-out” stops the timer and records total hours volunteered.  “Check-in” and “Check-out” can be clicked multiple times over the course of an event.  If, for example, a volunteer was checked out for a lunch break you could check them back in when they return and the app will add hours as normal.
         </p>
-        <p>At the end of your event click the “Download Event Registrants” button.  This will create an XLS file.  Email this file to your administrator contact at SOND so that your volunteers and event can be  recorded. </p>
+        <p>At the end of your event click the “Download Event Registrants” button.  This will create an XLS file.  Email this file to your administrator contact at SOND so that your volunteers and event can be  recorded.  Be sure to adjust the number of participants visable at the bottom of the page as only the volunteers viewed in that table will be downloaded.</p>
       </div>
       <div className="container">
         <h1 className="adminInst">Instructions for Administrators</h1>
         <p>Features available to Administrators:</p>
         <ul>
-          <li>Access to Group view (well, officers can too...)</li>
-          <li>Access to user details from group view</li>
           <li>Access to Admin view</li>
-
+          <li>Access to Group view</li>
+          <li>Access to user details from group view</li>
+          <li>Ability to change password for users - select a user through the Admin page</li>
         </ul>
       </div>
     </>
