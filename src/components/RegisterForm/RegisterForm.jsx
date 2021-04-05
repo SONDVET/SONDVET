@@ -30,7 +30,6 @@ function RegisterForm() {
 
   const registerUser = (event) => {
     event.preventDefault();
-    console.log(user)
     dispatch({ type: 'REGISTER', payload: user });
     history.push("/events");
   }; // end registerUser
@@ -52,11 +51,10 @@ function RegisterForm() {
 
   return (
     <>
-    <div className="formBox">
       <div className="regWelcome">
         <h2>Welcome New Volunteers</h2>
         <p>For people who want to volunteer with Special Olympics North Dakota, please take a moment to register before viewing our events.  
-          <i><b>Your email address will be used as your username going forward.</b></i> Be sure to include any affiliation or school you are associated with.  Thanks for volunteering!</p>
+          <i><b>Your email address will be used as your username going forward.</b></i> Be sure to include any affiliation or school you are associated with. </p> <p>Thanks for volunteering!</p>
       </div>
 
 
@@ -99,7 +97,6 @@ function RegisterForm() {
           <input className="btn" type="submit" name="submit" value="Register" />
         </div>
       </form>
-      </div>
     </>
   );
 }

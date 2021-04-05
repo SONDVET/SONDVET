@@ -8,8 +8,6 @@ const router = express.Router();
 
 // GETS all users
 router.get('/', rejectUnauthenticated, (req, res) => {
-    console.log('getting all users');
-    console.log(req.query.search)
     // Send back user object from the session (previously queried from the database)
     if (req.query.search.length === 0){
     query = 
@@ -39,7 +37,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 // GETS all affiliations
 router.get('/affiliation', (req, res) => {
-    console.log(req.query.search)
     if(req.query.length === 0){
     queryText = `SELECT * FROM "affiliation" WHERE "inactive"=FALSE;`
     }else{
@@ -56,7 +53,6 @@ router.get('/affiliation', (req, res) => {
 });
 
 router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
-    console.log("In get archived affiliates.")
     if(req.query.search.length===0){
         queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`
     }else{
@@ -75,7 +71,6 @@ router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
 
 // PUT to make a new affiliation 
 router.post('/affiliation', rejectUnauthenticated, (req, res) => {
-    console.log(req.body.name);
     const queryText = `INSERT INTO "affiliation" ("college_name") VALUES ($1);`;
     pool.query(queryText, [req.body.name])
         .then(result => {
@@ -104,7 +99,6 @@ router.put('/affiliation/:id', rejectUnauthenticated, (req, res) => {
 // PUT to make an affiliation active again (unarchived)
 router.put('/affiliation/:id/archived', rejectUnauthenticated, (req, res) => {
     const queryText = `UPDATE "affiliation" SET "inactive"=FALSE WHERE "id"=$1;`;
-    console.log(req.params.id)
     pool.query(queryText, [req.params.id])
         .then(result => {
             res.send(result.rows)
@@ -145,7 +139,6 @@ router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
     SET "access_level" = ${req.body.access_level} 
     WHERE "id"= $1;`
     pool.query(query, [id]).then(() => {
-        console.log(`User ${req.params.id} access level set to ${req.body.access_level}`);
         res.sendStatus(200);
     }).catch(err => {
         console.log('Error updating user access level', err);
@@ -157,7 +150,6 @@ router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
 // ADMIN DELETE user 
 // available at /api/volunteer/:id 
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
-    console.log('Deleting user id', req.params.id);
     const id = req.params.id;
     const query = `DELETE FROM "user" WHERE "id" = $1;`
     pool.query(query, [id])
@@ -199,7 +191,6 @@ router.get('/usergroup', rejectUnauthenticated, (req, res) => {
 
 //GET oneUserGroup
 router.get('/usergroup/:id', rejectUnauthenticated, (req, res) => {
-    console.log(`params are, ${req.params}`);
     const queryText = `SELECT * FROM "user_group"
     JOIN "affiliation" ON "affiliation"."id" = "user_group"."group_id"
     WHERE "user_group".user_id = $1;`

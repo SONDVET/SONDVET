@@ -65,7 +65,6 @@ function EventDetail() {
     }, []);
 
     useEffect(() => {
-        console.log(search)
         dispatch({ type: 'FETCH_USER_EVENT', payload: { params: params.id, search: search } })
     }, [search]);
 
@@ -98,7 +97,6 @@ function EventDetail() {
         setUserOpen(false);
     };
     const removeUser = () => {
-        console.log('inRemoveUser')
         dispatch({ type: 'UNATTEND_EVENT', payload: { userId: selectedPerson.id, eventId: store.event[0].id, params: params.id } })
         handleCloser()
     }

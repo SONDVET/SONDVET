@@ -29,7 +29,6 @@ function AddEvent() {
 
     const addNewEvent = (event) => {
         event.preventDefault();
-        console.log(newEvent)
         dispatch({ type: 'ADD_NEW_EVENT', payload: newEvent });
         history.push('/events')
     };

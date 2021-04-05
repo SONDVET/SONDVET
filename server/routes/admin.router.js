@@ -33,7 +33,6 @@ router.get('/archivedusers', rejectUnauthenticated, (req, res) => {
 
 // UPDATE password
 router.put('/else', rejectUnauthenticated, (req, res) => {
-    console.log(req.body)
     const userEdit = {
         id: req.body.id,
         password: encryptLib.encryptPassword(req.body.password)
@@ -41,7 +40,6 @@ router.put('/else', rejectUnauthenticated, (req, res) => {
     const query = `UPDATE "user" SET "password" = $1 WHERE "id" = $2;`;
     pool.query(query, [userEdit.password, userEdit.id])
         .then((result) => {
-            console.log(`Updated user password for user with id: ${userEdit.id}`);
             res.sendStatus(200);
         }).catch((err) => {
             console.log(err);

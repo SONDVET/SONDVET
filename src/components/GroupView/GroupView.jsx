@@ -83,7 +83,6 @@ function GroupView() {
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_USER_GROUP' });
-            console.log(search)
         } else {
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
             dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
@@ -110,7 +109,6 @@ function GroupView() {
 
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (user) => {
-        console.log(`You want to view details for person with id of ${user}`)
         dispatch({ type: 'FETCH_ONE_USER', payload: user.id })  
         history.push(`/userdetails/${user}`)
     };
@@ -131,14 +129,12 @@ function GroupView() {
     // Click to remove an entire group/affiliation
     const removeGroup = () => {
         dispatch({ type: 'REMOVE_GROUP', payload: params.id });
-        console.log(params.id);
         history.push('/group_view');
     };
 
     // Restores group from archived status
     const restoreGroup = () => {
         dispatch({ type: 'RESTORE_GROUP', payload: params.id })
-        console.log(params.id);
         history.push('/group_view')
     };
 
@@ -168,7 +164,6 @@ function GroupView() {
     }
 
     function handleSubmit() {
-        console.log(group);
         dispatch({ type: 'ADD_AFFILIATION', payload: { name: group } });
         setGroup("");
         dispatch({ type: 'FETCH_AFFILIATE' });
@@ -193,7 +188,7 @@ function GroupView() {
                                 onClose={handleClose}
                                 aria-labelledby="responsive-dialog-title"
                             >
-                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to delete ${store.affiliate[0].college_name} ?`}</DialogTitle>
+                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to archive ${store.affiliate[0].college_name} ?`}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
                                         If you do they will be set to "archived" and only Admins will be able to retrive them.
@@ -204,7 +199,7 @@ function GroupView() {
                                         Cancel
                         </Button>
                                     <Button onClick={handleClose, removeGroup} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
-                                        Delete Group
+                                        Archive Group
                                     </Button>
                                 </DialogActions>
                             </Dialog>
@@ -286,7 +281,7 @@ function GroupView() {
                     <>
                         {/* {store.affiliate[0] &&  */}
                         <div className="groupListContainer">
-                            <TextField label="Search Active Groups" value={search} onChange={(e) => setSearch(e.target.value)} />
+                            <TextField label="Search Active Groups" style={{width:"50%", paddingBottom:"10px"}} value={search} onChange={(e) => setSearch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
@@ -350,7 +345,9 @@ function GroupView() {
                                 </Table>
                             </TableContainer>
                             <br/><br/>
-                            <TextField label="Search Archived Groups" style={{ width: '15%' }} value={searchArch} onChange={(e) => setSearchArch(e.target.value)} />
+                            {store.user.access_level > 2 &&
+                            <>
+                            <TextField label="Search Archived Groups" style={{ width: '50%',paddingBottom:"10px" }} value={searchArch} onChange={(e) => setSearchArch(e.target.value)} />
                             <TableContainer component={Paper}>
                                 <Table id="SO College Members">
                                     <TableHead>
@@ -380,6 +377,7 @@ function GroupView() {
                                     onChangeRowsPerPage={handleChangeRowsPerPage}
                                 />
                             </TableContainer>
+                            </>}
                             <br></br>
                             
                         </div>
