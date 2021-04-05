@@ -63,7 +63,9 @@ function* removeUserGroup(action) {
 function* removeGroup(action) {
     console.log('group to be inactive is:', action.payload)
     try {
-        yield axios.put(`/api/volunteer/affiliation/${action.payload}`)
+        yield axios.put(`/api/volunteer/affiliation/${action.payload}`);
+        // yield put({ type: 'FETCH_AFFILIATE' });
+        // yield put({ type: 'FETCH_ARCHIVED_GROUPS' });
     } catch (error) {
         console.log(`error removing group, ${error}`);
     }
@@ -74,6 +76,8 @@ function* restoreGroup(action) {
     console.log('group to be restored is:', action.payload)
     try {
         yield axios.put(`/api/volunteer/affiliation/${action.payload}/archived`)
+        // yield put({ type: 'FETCH_AFFILIATE' });
+        // yield put({ type: 'FETCH_ARCHIVED_GROUPS' });
     } catch (error) {
         console.log(`error restoring group, ${error}`);
     }
