@@ -233,10 +233,6 @@ function UserPage() {
                     <StyledTableCell><b>Involved with SOND Since</b></StyledTableCell>
                     <StyledTableCell>{edit ? <div>{person.involved_w_sond_since.substring(0, 10)}</div> : <TextField defaultValue={person.involved_w_sond_since.substring(0, 10)} onChange={(e) => setPerson({ ...person, involved_w_sond_since: e.target.value })} type="date" />}</StyledTableCell>
                   </StyledTableRow>
-                  <StyledTableRow>
-                    <StyledTableCell><b>Password</b></StyledTableCell>
-                    <StyledTableCell>{edit ? <div>--hidden--</div> : <TextField placeholder="Enter New Password" onChange={(e) => setPerson({ ...person, password: e.target.value })} />}</StyledTableCell>
-                  </StyledTableRow>
                 </TableBody>
               </Table>
 
