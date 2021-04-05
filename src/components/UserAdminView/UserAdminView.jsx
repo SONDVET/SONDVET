@@ -72,6 +72,7 @@ function UserAdminView() {
 
 
     const setEditMode = () => {
+        declare()
         console.log('clicked edit mode', edit);
         if (edit === true) {
 
@@ -202,6 +203,7 @@ function UserAdminView() {
     //to ensure oneUser store is populated before values are assinged       
 
     const declare = () => {
+        console.log('setperson')
         setPerson({
             id: store.oneUser[0].id,
             category: store.oneUser[0].category,
@@ -227,6 +229,7 @@ function UserAdminView() {
 
     // functions to open and close the password modal
     const handleClickOpen = () => {
+        declare()
         setOpen(true);
     };
     const handleClose = () => {
@@ -289,19 +292,19 @@ function UserAdminView() {
                                         <TableBody>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Category</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.category}</div> : <TextField defaultValue={person.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.category}</div> : <TextField defaultValue={user.category} onChange={(e) => setPerson({ ...person, category: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>First Name</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.first_name}</div> : <TextField key="name" value={person.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.first_name}</div> : <TextField key="name" defaultValue={user.first_name} onChange={(e) => setPerson({ ...person, first_name: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Last Name</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.last_name}</div> : <TextField defaultValue={person.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.last_name}</div> : <TextField defaultValue={user.last_name} onChange={(e) => setPerson({ ...person, last_name: e.target.value })} />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Email</b></StyledTableCell>
-                                                <StyledTableCell>{edit ? <div>{user.email}</div> : <TextField defaultValue={person.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
+                                                <StyledTableCell>{edit ? <div>{user.email}</div> : <TextField defaultValue={user.email} onChange={(e) => setPerson({ ...person, username: e.target.value })} type="email" />}</StyledTableCell>
                                             </StyledTableRow>
                                             <StyledTableRow>
                                                 <StyledTableCell><b>Phone</b></StyledTableCell>
