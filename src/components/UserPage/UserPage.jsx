@@ -75,7 +75,6 @@ function UserPage() {
 
 
   const setEditMode = () => {
-    console.log('clicked edit mode', edit);
     if (edit === true) {
       return setEdit(false);
     }

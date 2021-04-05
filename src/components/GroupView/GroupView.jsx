@@ -83,7 +83,6 @@ function GroupView() {
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_ALL_USER_EVENT' });
             dispatch({ type: 'FETCH_USER_GROUP' });
-            console.log(search)
         } else {
             dispatch({ type: 'GET_AFFILIATION', payload: params.id });
             dispatch({ type: 'FETCH_AFFILIATE_USER', payload: params.id });
@@ -110,7 +109,6 @@ function GroupView() {
 
     //  Clicking on a volunteer will history/push you to their user page.
     const goToUser = (user) => {
-        console.log(`You want to view details for person with id of ${user}`)
         dispatch({ type: 'FETCH_ONE_USER', payload: user.id })  
         history.push(`/userdetails/${user}`)
     };
@@ -131,14 +129,12 @@ function GroupView() {
     // Click to remove an entire group/affiliation
     const removeGroup = () => {
         dispatch({ type: 'REMOVE_GROUP', payload: params.id });
-        console.log(params.id);
         history.push('/group_view');
     };
 
     // Restores group from archived status
     const restoreGroup = () => {
         dispatch({ type: 'RESTORE_GROUP', payload: params.id })
-        console.log(params.id);
         history.push('/group_view')
     };
 
@@ -168,7 +164,6 @@ function GroupView() {
     }
 
     function handleSubmit() {
-        console.log(group);
         dispatch({ type: 'ADD_AFFILIATION', payload: { name: group } });
         setGroup("");
         dispatch({ type: 'FETCH_AFFILIATE' });

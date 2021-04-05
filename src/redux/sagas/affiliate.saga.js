@@ -4,7 +4,6 @@ import axios from 'axios';
 
 function* fetchAffiliate(action) {
     try {
-        console.log(action.payload)
         const response = yield axios.get(`api/volunteer/affiliation?search=${action.payload}`)
         yield put({ type: 'SET_AFFILIATE', payload: response.data })
     } catch (error) {
@@ -22,7 +21,6 @@ function* fetchAffiliateUser(action) {
 }
 
 function* fetchAffiliation(action) {
-    console.log(`getting all affiliates for id, ${action.payload}`);
     try {
         const response = yield axios.get(`api/volunteer/organization/${action.payload}`)
         yield put({ type: 'SET_AFFILIATE', payload: response.data })
@@ -50,7 +48,6 @@ function* addUserGroup(action) {
 }
 
 function* removeUserGroup(action) {
-    console.log('action.payload is:', action.payload, 'action.payload.params is', (action.payload.parameter == true));
     try {
         yield axios.delete(`/api/volunteer/usergroup/${action.payload.user_id}/${action.payload.group_id}`)
         yield put({ type: 'FETCH_USER_GROUP' })
@@ -93,7 +90,6 @@ function* restoreGroup(action) {
 
 // used to create a new affiliation
 function* postGroup(action) {
-    console.log(action.payload); // correct
     try {
         const response = yield axios.post(`api/volunteer/affiliation`, action.payload);
         yield put({ type: 'FETCH_AFFILIATE', payload: response.data });

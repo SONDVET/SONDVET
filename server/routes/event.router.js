@@ -7,7 +7,6 @@ const {
 
 //GET route for retrieving all events
 router.get('/', rejectUnauthenticated, (req, res) => {
-    console.log('getting all events');
     // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
         queryText = `
@@ -31,7 +30,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 //GET rout for retrieving all user_events
 router.get('/aue', rejectUnauthenticated, (req, res) => {
-    console.log('getting all userevents');
     const queryText = `SELECT * FROM "user_event" 
     JOIN "event" ON "user_event"."event_id"="event"."id" 
     JOIN "affiliation" ON "affiliation"."id" = "user_event"."group_id"
@@ -47,7 +45,6 @@ router.get('/aue', rejectUnauthenticated, (req, res) => {
 
 //GET rout for retrieving one user_events
 router.get('/oneuserevent/:id', (req, res) => {
-    console.log('getting one userevents, id of', req.params.id);
     const queryText = `SELECT * FROM "user_event"
     JOIN "event" ON "user_event"."event_id" = "event"."id"
     WHERE "user_event"."user_id" = $1 AND "archived"='FALSE';`;
@@ -63,7 +60,6 @@ router.get('/oneuserevent/:id', (req, res) => {
 //GET route for one user
 //Used on /userdetails for admins to edit user info
 router.get('/oneuser/:id', (req, res) => {
-    console.log('getting one user, id of', req.params.id);
     const queryText = `
     SELECT "user"."id", "category", "first_name", "last_name", "email",
     "phone_number", "address", "city", "state", "zip", "dob",
@@ -83,7 +79,6 @@ router.get('/oneuser/:id', (req, res) => {
 // reqs: name, description, special_inst, location, date, pic_url
 // SERVER SIDE DONE, but untested.
 router.post('/', rejectUnauthenticated, (req, res) => {
-    console.log('router posting new event');
     const newEvent = req.body.name;
     const newDesc = req.body.description;
     const newSpec = req.body.special_inst;
@@ -95,7 +90,6 @@ router.post('/', rejectUnauthenticated, (req, res) => {
      VALUES ($1, $2, $3, $4, $5, $6, $7);`;
     pool.query(queryText, [newEvent, newDesc, newSpec, newLoc, newDate, newPic, newTime])
         .then(async result => {
-            console.log('new event made', result);
             res.sendStatus(201);
         }).catch(err => {
             // catch 
@@ -123,7 +117,6 @@ router.put('/', rejectUnauthenticated, (req, res) => {
     pool.query(queryText, [eventEdit.name, eventEdit.description, eventEdit.special_inst, eventEdit.location, 
         eventEdit.date, eventEdit.image, eventEdit.id])
         .then((result) => {
-            console.log(`Updated information for event with id: ${eventEdit.id}`);
             res.sendStatus(200);
         }).catch((err) => {
             console.log(err);
@@ -136,14 +129,12 @@ router.put('/', rejectUnauthenticated, (req, res) => {
 router.put('/checkin', rejectUnauthenticated, (req, res) => {
     const userId = req.body.user_id;
     const eventId = req.body.event_id;
-    console.log('hello,', userId, eventId);
     const queryText = `
     UPDATE "user_event"
     SET "check_in" = CURRENT_TIMESTAMP
     WHERE "user_id" = $1 AND "event_id" = $2;`
     pool.query(queryText, [userId, eventId])
         .then((result) => {
-            console.log(`user with id: ${userId} has been checked into event with id: ${eventId}`);
             res.sendStatus(200);
         }).catch((err) => {
             console.log(err);
@@ -162,7 +153,6 @@ router.put('/checkout', rejectUnauthenticated, (req, res) => {
     WHERE "user_id" = $1 AND "event_id" = $2;`
     pool.query(queryText, [userId, eventId])
         .then((result) => {
-            console.log(`user with id: ${userId} has been checked out of event with id ${eventId}`);
             res.sendStatus(200);
         }).catch((err) => {
             console.log(err);
@@ -182,7 +172,6 @@ router.put('/addtotal', rejectUnauthenticated, (req, res) => {
     //After a checkout has been submitted, a second query is sent to update the total time for that user
     pool.query(differenceQuery, [userId, eventId])
         .then((result) => {
-            console.log(`user with id: ${userId} has had their total updated for event with id ${eventId}`);
             res.sendStatus(200);
         }).catch((err) => {
             console.log(err);
@@ -202,7 +191,6 @@ router.post('/attending', rejectUnauthenticated, (req, res) => {
     VALUES ($1 , $2, $3)`;
     pool.query(queryText, [userId, eventId, groupId])
         .then((result) => {
-            console.log(`Added user with id: ${userId} to event with id: ${eventId}`);
             res.sendStatus(201);
         }).catch((err) => {
             console.log(err);
@@ -223,7 +211,6 @@ router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) =
     AND "event_id" = $2;`
     pool.query(queryText, [userId, eventId])
         .then((result) => {
-            console.log(`Removed user with id: ${userId} from event with id: ${eventId}`);
             res.sendStatus(204);
         }).catch((err) => {
             console.log(err);
@@ -235,7 +222,6 @@ router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) =
 // PUT route archives event
 // Used on Event Details page
 router.put(`/details/:id`, rejectUnauthenticated, (req, res) => {
-    console.log('Archiving event with an id of:', req.params.id);
     const queryText = `UPDATE "event" SET "archived" = 'TRUE' WHERE "id"=$1;`
     pool.query(queryText, [req.params.id])
         .then((result) => {
@@ -249,7 +235,6 @@ router.put(`/details/:id`, rejectUnauthenticated, (req, res) => {
 // PUT route unarchives event
 // Used on Event Details page
 router.put(`/details/:id/archived`, rejectUnauthenticated, (req, res) => {
-    console.log('Unarchiving event with an id of:', req.params.id);
     const queryText = `UPDATE "event" SET "archived" = 'FALSE' WHERE "id"=$1;`
     pool.query(queryText, [req.params.id])
         .then((result) => {
@@ -278,7 +263,6 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
 router.get('/details/:id', rejectUnauthenticated, (req, res) => {
-    console.log('ingetallusers')
     if(req.query.search.length === 0){
     queryText = 
     `SELECT u."id", "category", "first_name", "last_name", "email", 
@@ -289,7 +273,6 @@ router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     WHERE ue."event_id" = ${req.params.id}
     ORDER BY "last_name"`;
     }else{
-        console.log("in querry")
     queryText = 
     `SELECT u."id", "category", "first_name", "last_name", "email", 
     "phone_number", "college_name", ue."check_in", ue."check_out", 
