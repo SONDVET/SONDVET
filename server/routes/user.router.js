@@ -17,7 +17,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 // Updates user data at http://localhost:5000/api/user/
 router.put('/', rejectUnauthenticated, (req, res) => {
-  console.log(req.body)
   const userEdit = {
     id: req.body.id,
     category: req.body.category,
@@ -47,7 +46,6 @@ router.put('/', rejectUnauthenticated, (req, res) => {
   userEdit.state, userEdit.zip, userEdit.dob, userEdit.involved_w_sond_since,
   userEdit.college_id, userEdit.access_level, userEdit.archived, userEdit.id])
     .then((result) => {
-      console.log(`Updated user information for ${userEdit.email}`);
       res.sendStatus(200);
     }).catch((err) => {
       console.log(err);
@@ -58,7 +56,6 @@ router.put('/', rejectUnauthenticated, (req, res) => {
 // ADMIN PUT sets user to archived 
 // available at /api/user/:id
 router.put('/:id', rejectUnauthenticated, (req, res) => {
-  console.log('Archiving user id', req.params.id);
   const id = req.params.id;
   const query = `
   UPDATE "user"
@@ -76,7 +73,6 @@ router.put('/:id', rejectUnauthenticated, (req, res) => {
 // ADMIN PUT sets user to unarchived 
 // available at /api/user/:id
 router.put('/:id/archived', rejectUnauthenticated, (req, res) => {
-  console.log('Unarchiving user id', req.params.id);
   const id = req.params.id;
   const query = `
   UPDATE "user"
@@ -121,7 +117,6 @@ router.post('/register', async (req, res, next) => {
   } finally {
     client.release()
   }
-  console.log(`User ${req.body.college_id} created`);
 });
 
 // Handles login form authenticate/login POST

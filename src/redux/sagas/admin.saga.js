@@ -23,7 +23,6 @@ function* fetchAll(action) {
 function* fetchArchivedEvents(action) {
     try {
         const response = yield axios.get(`/api/admin/archivedevents?search=${action.payload}`)
-        console.log(response)  
         yield put({ type: 'SET_ARCHIVED_EVENTS', payload: response.data })  
     } catch (error) {
         console.log(`Error getting all Users, ${error}`);

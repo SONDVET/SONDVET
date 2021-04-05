@@ -25,7 +25,6 @@ function* registerUser(action) {
 
 function* reRegisterUser(action) {
   try {
-    console.log(action.payload);
     yield axios.put('/api/user/', action.payload);
     yield put({ type: 'FETCH_ONE_USER', payload:action.payload.id  })
   } catch (error) {
@@ -37,7 +36,6 @@ function* reRegisterUser(action) {
 
 function* updatePassword(action) {
   try{
-    console.log('password saga', action.payload);
     yield axios.put(`/api/admin/else`, action.payload);
   } catch (error) {
     console.log('Error with password update:', error);

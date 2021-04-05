@@ -30,7 +30,6 @@ function RegisterForm() {
 
   const registerUser = (event) => {
     event.preventDefault();
-    console.log(user)
     dispatch({ type: 'REGISTER', payload: user });
     history.push("/events");
   }; // end registerUser

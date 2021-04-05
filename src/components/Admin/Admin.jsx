@@ -55,22 +55,18 @@ function Admin() {
   }))(TableRow);
 
   useEffect(() => {
-    dispatch({ type: "FETCH_ARCHIVED", payload: searchArch}) 
-    console.log(searchArch)
+    dispatch({ type: "FETCH_ARCHIVED", payload: searchArch})
   }, [searchArch])
 
   useEffect(() => {
     dispatch({ type: "FETCH_ALL", payload: search})
-    console.log(search)
   }, [search])
 
   useEffect(() => {
     dispatch({ type: "FETCH_ARCHIVED_EVENTS", payload: searchArchEvents}) 
-    console.log("arch events")
   }, [searchArchEvents])
 
   const goToUser = (user) => {
-    console.log(`You want to view details for person with id of ${user}`)
     history.push(`/userdetails/${user}`)
   };
 

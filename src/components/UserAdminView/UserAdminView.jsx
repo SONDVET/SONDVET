@@ -73,7 +73,6 @@ function UserAdminView() {
 
     const setEditMode = () => {
         declare()
-        console.log('clicked edit mode', edit);
         if (edit === true) {
 
             return setEdit(false);
@@ -101,7 +100,6 @@ function UserAdminView() {
     };
 
     const updateInfo = () => {
-        console.log(person)
         dispatch({ type: 'RE_REGISTER', payload: person })
         setEdit(true);
     }
@@ -114,7 +112,6 @@ function UserAdminView() {
 
     // Sends dispatch to user router.put to unarchive user
     const unarchiveUser = () => {
-        console.log(params.id)
         dispatch({ type: 'UNARCHIVE_USER', payload: params.id });
         history.push("/admin");
     }
@@ -203,7 +200,6 @@ function UserAdminView() {
     //to ensure oneUser store is populated before values are assinged       
 
     const declare = () => {
-        console.log('setperson')
         setPerson({
             id: store.oneUser[0].id,
             category: store.oneUser[0].category,
@@ -239,7 +235,6 @@ function UserAdminView() {
 
     // function to change a user's password.
     const changePass = () => {
-        console.log(secDetail);
         dispatch({ type: 'UPDATE_PASSWORD', payload: secDetail })
         handleClose();
     }
