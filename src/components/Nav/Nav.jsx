@@ -49,9 +49,15 @@ function Nav() {
     <div className="nav">
       {shrink ?
         <>
+        {user.id ?
           <Link to="/events">
             <img className="mainLogo" src={Logo} />
           </Link>
+          :
+          <Link to="/">
+          <img className="mainLogo" src={Logo} />
+          </Link>
+          }
           <div>
             <Link className="navLink" to={loginLinkData.path}>
               {loginLinkData.text}
