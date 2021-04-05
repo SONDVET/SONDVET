@@ -334,6 +334,8 @@ function UserAdminView() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                                {store.user.access_level > 2 &&
+                                <>
                                 <Button
                                     style={{marginTop: "10px"}}
                                     variant="contained"
@@ -353,11 +355,13 @@ function UserAdminView() {
                                         <Button autoFocus onClick={handleClose} variant="contained" >
                                             Cancel
                                     </Button>
+                                    
                                         <Button onClick={changePass} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }}>
                                             Update Password
                                     </Button>
+                                    
                                     </DialogActions>
-                                </Dialog>
+                                </Dialog> </>}
                             </Grid>
                             {/* Group Table */}
                             <Grid item md={4}>
