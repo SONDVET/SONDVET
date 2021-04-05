@@ -193,7 +193,7 @@ function GroupView() {
                                 onClose={handleClose}
                                 aria-labelledby="responsive-dialog-title"
                             >
-                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to delete ${store.affiliate[0].college_name} ?`}</DialogTitle>
+                                <DialogTitle id="responsive-dialog-title">{`Are you sure you want to archive ${store.affiliate[0].college_name} ?`}</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
                                         If you do they will be set to "archived" and only Admins will be able to retrive them.
@@ -204,7 +204,7 @@ function GroupView() {
                                         Cancel
                         </Button>
                                     <Button onClick={handleClose, removeGroup} variant="contained" style={{ color: "white", backgroundColor: "#FF0000" }} autoFocus>
-                                        Delete Group
+                                        Archive Group
                                     </Button>
                                 </DialogActions>
                             </Dialog>
