@@ -86,3 +86,18 @@ Grid
     align-items: center;
     justify-content: center;
 }
+
+.introText{
+  font-size: 25px;
+  color:white;
+}
+
+.headText{
+color: white;
+}
+
+.intro{
+  background-color:rgba(0, 0, 0, 0.8);
+  padding: 50px;
+  border-radius: 10px;
+}

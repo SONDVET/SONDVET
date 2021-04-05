@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserPage.css";
 import { useHistory } from 'react-router-dom';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField } from '@material-ui/core';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField, Select, MenuItem } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -169,7 +169,7 @@ function UserPage() {
 
             {(user.access_level > 2) &&
               <div className="rankContainer">
-                <div>Rank: &nbsp;</div>  <div clasname="rank">{edit ? <div><b>{accessRanks[user.access_level - 1]}</b></div> : <select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><option value="1">Volunteer</option><option value="2">Officer</option><option value="3">Admin</option></select>}</div>
+                <div>Rank: &nbsp;</div>  <div clasname="rank">{edit ? <div><b>{accessRanks[user.access_level - 1]}</b></div> : <Select defaultValue={user.access_level} onChange={(e) => setPerson({ ...person, access_level: e.target.value })}><MenuItem value="1">Volunteer</MenuItem><MenuItem value="2">Officer</MenuItem><MenuItem value="3">Admin</MenuItem></Select>}</div>
               </div>}
           </Grid>
           <Grid item>
