@@ -109,7 +109,7 @@ function Events() {
         setOpen(false);
     };
 
-    const shrink = useMediaQuery("(min-width: 800px)")
+    const shrink = useMediaQuery("(min-width: 1120px)")
 
     return (
         <>
