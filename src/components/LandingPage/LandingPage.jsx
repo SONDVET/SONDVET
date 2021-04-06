@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
+import Splash from '../Images/Volunteers.jpg';
+
 
 // CUSTOM COMPONENTS
 import RegisterForm from '../RegisterForm/RegisterForm';
@@ -16,9 +18,6 @@ function LandingPage() {
 
   return (
     <div className="container">
-
-
-
       <div className="grid">
         <div className="grid-col grid-col_8">
           <div className="intro">
