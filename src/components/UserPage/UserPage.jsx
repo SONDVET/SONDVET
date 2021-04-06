@@ -115,6 +115,8 @@ function UserPage() {
         minutes += item.total_time.minutes
       }
     }
+    hours += Math.floor(minutes / 60)
+    minutes = minutes % 60;
     setGrandTotalHours(hours);
     setGrandTotalMinutes(minutes);
   }
