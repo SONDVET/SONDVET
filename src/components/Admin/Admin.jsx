@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, TablePagination, TextField } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import { useStyles } from '../EventCardStyle/EventCadStyle'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import './Admin.css';
 
@@ -16,15 +13,10 @@ function Admin() {
   const history = useHistory();
   const store = useSelector(store => store);
 
-  const classes = useStyles();
   const [search, setSearch] = useState('');
   const [searchArch, setSearchArch] = useState('')
   const [searchArchEvents, setSearchArchEvents] = useState('')
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('name');
-  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleChangePage = (event, newPage) => {
