@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import './LandingPage.css';
-import Splash from '../Images/Volunteers.jpg';
 
 
 // CUSTOM COMPONENTS

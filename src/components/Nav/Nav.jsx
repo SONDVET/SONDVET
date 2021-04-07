@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
-import Logo from '../Images/WhiteLogo.png';  
+import Logo from '../Images/WhiteLogo.png';
 import { useMediaQuery, Drawer, Button, makeStyles, Toolbar, AppBar, FormControl } from '@material-ui/core'
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +12,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const navButtonFont = createMuiTheme({
   typography: {
-    fontFamily: "ubuntu" 
+    fontFamily: "ubuntu"
   }
 })
 
@@ -38,7 +38,7 @@ function Nav() {
       backgroundColor: "#FF0000",
       borderRadius: 0,
       padding: "20px  5px 20px 5px",
-      fontFamilty: "ubuntu", 
+      fontFamilty: "ubuntu",
     },
     drawerPaper: {
       backgroundColor: "#FF0000"
@@ -49,14 +49,14 @@ function Nav() {
     <div className="nav">
       {shrink ?
         <>
-        {user.id ?
-          <Link to="/events">
-            <img className="mainLogo" src={Logo} />
-          </Link>
-          :
-          <Link to="/">
-          <img className="mainLogo" src={Logo} />
-          </Link>
+          {user.id ?
+            <Link to="/events">
+              <img className="mainLogo" src={Logo} />
+            </Link>
+            :
+            <Link to="/">
+              <img className="mainLogo" src={Logo} />
+            </Link>
           }
           <div>
             <Link className="navLink" to={loginLinkData.path}>
@@ -86,7 +86,7 @@ function Nav() {
                   Admin
               </Link>
               </>}
-            {user.id && (
+            {user.id && user.access_level >= 2 && (
               <>
                 <Link className="navLink" to="/info">
                   Info Page
@@ -99,82 +99,84 @@ function Nav() {
         </>
         :
         <>
-        <ThemeProvider theme={navButtonFont}>
-          <Link to="/events">
-            <img className="mainLogo" src={Logo} />
-          </Link>
-          <Button style={{ color: "white" }} onClick={() => !drawer ? setDrawer(true) : setDrawer(false)} >
-            Menu
+          <ThemeProvider theme={navButtonFont}>
+            <Link to="/events">
+              <img className="mainLogo" src={Logo} />
+            </Link>
+            <Button style={{ color: "white" }} onClick={() => !drawer ? setDrawer(true) : setDrawer(false)} >
+              Menu
             <MenuIcon />
-          </Button>
-          <Drawer
-            anchor='top'
-            open={drawer}
-            className={classes.drawer}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            onClick={() => setDrawer(false)}
-          >
-
-            <img className="mainLogo" src={Logo} style={{ backgroundColor: "#FF0000" }} />
-
-            <Button
-              component={Link}
-              to={loginLinkData.path}
-              onClick={() => setDrawer(false)}
-              className={classes.drawerLink}
-            >
-              {loginLinkData.text}
             </Button>
-            <Button
-              className={classes.drawerLink}
-              component={Link}
-              to="/info"
+            <Drawer
+              anchor='top'
+              open={drawer}
+              className={classes.drawer}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
               onClick={() => setDrawer(false)}
             >
-              Info Page
-            </Button>
-            {user.id && user.access_level >= 2 && (
+
+              <img className="mainLogo" src={Logo} style={{ backgroundColor: "#FF0000" }} />
+
               <Button
-                className={classes.drawerLink}
                 component={Link}
-                to="/addevent"
+                to={loginLinkData.path}
                 onClick={() => setDrawer(false)}
-            >
-                Add Event
-              </Button>
-            )}
-            {user.id &&
-              <Button
                 className={classes.drawerLink}
-                component={Link}
-                to="/events"
-                onClick={() => setDrawer(false)}
               >
-                Events
+                {loginLinkData.text}
+              </Button>
+              {user.id && user.access_level >= 2 && (
+                <Button
+                  className={classes.drawerLink}
+                  component={Link}
+                  to="/info"
+                  onClick={() => setDrawer(false)}
+                >
+                  Info Page
+                </Button>
+              )}
+              {user.id && user.access_level >= 2 && (
+                <Button
+                  className={classes.drawerLink}
+                  component={Link}
+                  to="/addevent"
+                  onClick={() => setDrawer(false)}
+                >
+                  Add Event
+                </Button>
+              )}
+              {user.id &&
+                <Button
+                  className={classes.drawerLink}
+                  component={Link}
+                  to="/events"
+                  onClick={() => setDrawer(false)}
+                >
+                  Events
              </Button>
-            }
-            {user.id && user.access_level > 1 &&
-              <Button
-                className={classes.drawerLink}
-                component={Link}
-                to="/group_view"
-              >
-                All Groups
+              }
+              {user.id && user.access_level > 1 &&
+                <Button
+                  className={classes.drawerLink}
+                  component={Link}
+                  to="/group_view"
+                >
+                  All Groups
               </Button>
-            }
-            {user.id && user.access_level >= 3 &&
-              <Button
-                className={classes.drawerLink}
-                component={Link}
-                to="/admin"
-                onClick={() => setDrawer(false)}
-              >
-                Admin
+              }
+              {user.id && user.access_level >= 3 &&
+                <Button
+                  className={classes.drawerLink}
+                  component={Link}
+                  to="/admin"
+                  onClick={() => setDrawer(false)}
+                >
+                  Admin
               </Button>}
-            {user.id && <LogOutButton className="navLink" />}
-          </Drawer>
+              {user.id && <LogOutButton className="navLink" />}
+            </Drawer>
           </ThemeProvider>
         </>
       }
