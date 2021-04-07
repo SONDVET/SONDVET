@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserPage.css";
 import { useHistory } from 'react-router-dom';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField, Select, MenuItem } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField, Select, MenuItem, Paper } from '@material-ui/core';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
@@ -133,7 +132,6 @@ function UserPage() {
     return phoneNumb;
   }
 
-
   const isAMember = (userId, groupId) => {
     for (let item of store.userGroup) {
       if (item.user_id === userId && item.group_id === groupId)
@@ -149,15 +147,6 @@ function UserPage() {
     if (command === 'leave') {
       dispatch({ type: 'REMOVE_USER_GROUP', payload: { user_id: userId, group_id: groupId } })
     }
-  }
-
-  const groupName = (groupId) => {
-    for (let item of store.affiliate) {
-      if (item.id === groupId) {
-        return item.college_name
-      }
-    }
-    return 'N/A'
   }
 
   return (
@@ -339,7 +328,6 @@ function UserPage() {
 }
 
 
-// this allows us to use <App /> in index.js
 export default UserPage;
 
 

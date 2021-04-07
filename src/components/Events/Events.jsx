@@ -2,42 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './Events.css';
-import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Button, Accordion, AccordionSummary, Typography, useMediaQuery, Select, MenuItem } from '@material-ui/core';
+import { Card, CardHeader, CardContent, TextField, Button, useMediaQuery, Select, MenuItem, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 import moment from 'moment';
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Grid } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 
 
 //  This page lists all posted events
 function Events() {
-
-    //Styling for material tables
-    const StyledTableCell = withStyles((theme) => ({
-        head: {
-            backgroundColor: theme.palette.common.black,
-            color: theme.palette.common.white,
-        },
-        body: {
-            fontSize: 14,
-        },
-    }))(TableCell);
-
-    const StyledTableRow = withStyles((theme) => ({
-        root: {
-            '&:nth-of-type(odd)': {
-                backgroundColor: theme.palette.action.hover,
-            },
-        },
-    }))(TableRow);
 
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
@@ -49,7 +22,6 @@ function Events() {
     const user = useSelector((store) => store.user);
     const [search, setSearch] = useState('');
     const today = new Date();
-    //TODO: FIX THIS
     const [groupRep, setGroupRep] = useState(0);
     const [eventId, setEventId] = useState(0);
 
@@ -72,14 +44,8 @@ function Events() {
 
     //button which will take a user to that event's details page
     const goToDetails = (eventId) => {
-        //TODO: this route may need to be updated 
         history.push(`/details/${eventId}`)
     }
-
-    // const goToGroup = (groupId) => {
-    //     //TODO: this route may need to be updated 
-    //     history.push(`/group_view/${groupId}`)
-    // }
 
     const checkForAttend = (userId, eventId) => {
         for (let item of store.allUserEvent) {
@@ -171,11 +137,6 @@ function Events() {
 
                                         {(user.access_level >= 2) && <Button className={classes.cardButton} variant="contained" onClick={() => goToDetails(event.id)}>Details</Button>}
                                     </Card>
-
-                                    // dispatch({type: 'ATTEND_EVENT', payload: { eventId: event.id, userId: user.id, eventId: groupRep } })
-                                    //dispatch({type: 'UNATTEND_EVENT', payload: { eventId: event.id, userId: user.id } })
-
-
                                 )
                             })}
                         </div>

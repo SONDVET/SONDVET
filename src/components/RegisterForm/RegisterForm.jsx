@@ -83,15 +83,8 @@ function RegisterForm() {
             )}
           </Select>
         </FormControl>
-        {/* <select defaultValue="none" onChange={(e) => setUser({ ...user, college_id: e.target.value })}>
-      <option value="none" disabled hidden>Select Your School</option>
-        {(affiliates[0]) && affiliates.map((school) => 
-        <option key={school.id} value={school.id}>{school.college_name}</option>
-        )}
-      </select> */}
 
       <TextField required variant="filled" className={classes.input} label="New Password" onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" />
-
 
         <div>
           <input className="btn" type="submit" name="submit" value="Register" />
