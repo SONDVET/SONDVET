@@ -4,6 +4,7 @@
 
 ![Landing Page](/README_screenshots/Landing_Page.png)
 
+
 ## Description
 
 The intent of this application is to enable Special Olympics North Dakota and its volunteers to track their involvement with SOND events. This application will gather and collate volunteer data and also record volunteer hours by event. Data will be exported for interaction with Excel.
