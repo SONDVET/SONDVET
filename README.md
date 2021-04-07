@@ -2,7 +2,7 @@
 
 ## Special Olympics North Dakota: Volunteer and Events Tracker
 
-![Landing Page](README screenshots/Landing Page.png)
+![Landing Page](./Landing Page.png)
 
 ## Description
 
