@@ -60,13 +60,13 @@ function App() {
             <UserAdminView />
           </ProtectedRoute>
 
-          <ProtectedRoute
+          <ProtectedOfficerRoute
             // logged in shows InfoPage else shows LoginPage
             exact
             path="/info"
           >
             <InfoPage />
-          </ProtectedRoute>
+          </ProtectedOfficerRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will
             be redirected to the path supplied when logged in, otherwise they will
