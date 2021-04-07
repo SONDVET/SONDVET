@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,16 +5,14 @@ import { useParams, useHistory } from 'react-router-dom';
 import './EventDetail.css';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import moment from 'moment';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { useTheme } from '@material-ui/core/styles';
-import { Card, CardMedia, CardHeader, CardContent, CardActions, CardActionsArea, TextField, Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, Grid, Paper } from '@material-ui/core';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { Card, CardHeader, CardContent,TextField, Table, TableContainer, TableHead, TableRow, TableCell, Container, Grid, Paper } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 
 
@@ -43,10 +40,8 @@ const StyledTableRow = withStyles((theme) => ({
 //  This page lists the details for a specific event
 function EventDetail() {
 
-    const [open, setOpen] = React.useState(false);
-    const [userOpen, setUserOpen] = React.useState(false);
-    const theme = useTheme();
-    const fullScreen = useMediaQuery("(min-width: 600px)");
+    const [open, setOpen] = useState(false);
+    const [userOpen, setUserOpen] = useState(false);
 
     const [selectedPerson, setSelectedPerson] = useState("")
     const history = useHistory();
@@ -110,7 +105,6 @@ function EventDetail() {
         return phoneNumb;
     }
 
-    const shrink = useMediaQuery("(min-width: 800px)")
     const classes = useStyles()
 
     return (
@@ -256,34 +250,3 @@ function EventDetail() {
 }
 
 export default EventDetail;
-
-
-//  <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={() => dispatch({ type: 'UNATTEND_EVENT', payload: { eventId: user.event_id, userId: user.id, params: params.id } })}>Remove</Button>
-
-
-// <div>
-//     <Button variant="contained" style={{backgroundColor: "#FF0000", color:"white"}} onClick={handleClickOpen}>
-//             Remove
-//                         </Button>
-//   
-//         fullScreen={fullScreen}  <Dialog
-//         open={open}
-//         onClose={handleClose}
-//         aria-labelledby="responsive-dialog-title"
-//     >
-//         <DialogTitle id="responsive-dialog-title">{"Are you sure?"}</DialogTitle>
-//         <DialogContent>
-//             <DialogContentText>
-//                     Are you sure you want to remove this volunteer from this event?
-//                             </DialogContentText>
-//         </DialogContent>
-//         <DialogActions>
-//             <Button autoFocus onClick={handleClose} color="primary">
-//                     Disagree and Cancel
-//                                 </Button>
-//             <Button onClick={handleClose, archiveEvent} color="primary" autoFocus>
-//                     Agree and Remove Volunteer
-//                                 </Button>
-//         </DialogActions>
-//     </Dialog>
-// </div>

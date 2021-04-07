@@ -2,23 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./UserAdminView.css";
 import { useHistory, useParams } from 'react-router-dom'
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Container, TablePagination, TextField, Paper, Grid, Button, Dialog, DialogActions, DialogContent, DialogTitle, useMediaQuery } from '@material-ui/core';
+import { withStyles, useTheme } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import SaveIcon from '@material-ui/icons/Save';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { useTheme } from '@material-ui/core/styles';
 import moment from 'moment';
-import { DirectionsWalkRounded } from '@material-ui/icons';
 
 //Styling for material tables
 const StyledTableCell = withStyles((theme) => ({
@@ -200,7 +189,6 @@ function UserAdminView() {
 
     //get run when the edit button is pushed
     //to ensure oneUser store is populated before values are assinged       
-
     const declare = () => {
         setPerson({
             id: store.oneUser[0].id,
@@ -466,6 +454,4 @@ function UserAdminView() {
     );
 }
 
-
-// this allows us to use <App /> in index.js
 export default UserAdminView;

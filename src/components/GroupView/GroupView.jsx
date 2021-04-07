@@ -35,7 +35,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 
 //  This page is for officers and admins to view users by aflliliation
-//  They can also creat new affiliations here.
+//  They can also create new affiliations here.
 function GroupView() {
 
 
@@ -49,14 +49,7 @@ function GroupView() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-
-    const goToDetails = (eventId) => {
-        //TODO: this route may need to be updated 
-        history.push(`/details/${eventId}`)
-    }
-
     const goToGroup = (groupId) => {
-        //TODO: this route may need to be updated 
         history.push(`/group_view/${groupId}`)
     }
     const params = useParams()
@@ -97,7 +90,9 @@ function GroupView() {
             dispatch({ type: 'FETCH_ARCHIVED_GROUPS', payload: searchArch });
     }, [searchArch]);
     
-            const memberCount = (groupId) => {
+
+    //Calculates the number of users subscribed to a group
+    const memberCount = (groupId) => {
         let count = 0;
         for (let item of store.userGroup) {
             if (groupId === item.group_id) {

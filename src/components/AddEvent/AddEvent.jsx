@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import './AddEvent.css';
-import { TextField, FormControl, Button, FormHelperText, InputLabel, Select, MenuItem, makeStyles, Container, Grid } from "@material-ui/core";
+import { TextField, Button, FormHelperText, makeStyles, Container, Grid } from "@material-ui/core";
 import Image from '../Images/SONDLogo.png'; //src / components / Images / SONDLogo.png
-import moment from 'moment';
 
 
 //  This page is for officers and admins to create new events
