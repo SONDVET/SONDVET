@@ -7,6 +7,7 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 // GETS all users
+// TODO: 
 router.get('/', rejectUnauthenticated, (req, res) => {
     // Send back user object from the session (previously queried from the database)
     if (req.query.search.length === 0){
@@ -34,7 +35,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
-
+// TODO: 
 // GETS all affiliations
 router.get('/affiliation', (req, res) => {
     if(req.query.length === 0){
@@ -52,6 +53,7 @@ router.get('/affiliation', (req, res) => {
         })
 });
 
+// TODO: 
 router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
     if(req.query.search.length===0){
         queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`
@@ -109,7 +111,7 @@ router.put('/affiliation/:id/archived', rejectUnauthenticated, (req, res) => {
         })
 });
 
-
+// TODO: 
 // Selects All Users Who are in the affiliaton with the id
 // that is passed into the params
 router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
@@ -129,7 +131,7 @@ router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
-
+// TODO: 
 // ADMIN PUT request to modify user access level
 // available at /api/volunteer/:id/access_level
 router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
@@ -161,6 +163,7 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
         });
 });
 
+// TODO: 
 //  GET a specific affiliation by id
 router.get('/organization/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id

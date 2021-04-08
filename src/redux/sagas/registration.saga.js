@@ -22,7 +22,7 @@ function* registerUser(action) {
   }
 }
 
-
+//
 function* reRegisterUser(action) {
   try {
     yield axios.put('/api/user/', action.payload);
@@ -33,7 +33,7 @@ function* reRegisterUser(action) {
   }
 }
 
-
+// 
 function* updatePassword(action) {
   try{
     yield axios.put(`/api/admin/else`, action.payload);

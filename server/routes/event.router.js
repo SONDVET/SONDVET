@@ -6,6 +6,7 @@ const {
 } = require('../modules/authentication-middleware');
 
 //GET route for retrieving all events
+//TODO 
 router.get('/', rejectUnauthenticated, (req, res) => {
     // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
@@ -28,7 +29,7 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         })
 });
 
-//GET rout for retrieving all user_events
+//GET route for retrieving all user_events
 router.get('/aue', rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT * FROM "user_event" 
     JOIN "event" ON "user_event"."event_id"="event"."id" 
@@ -43,8 +44,8 @@ router.get('/aue', rejectUnauthenticated, (req, res) => {
         })
 });
 
-//GET rout for retrieving one user_events
-router.get('/oneuserevent/:id', (req, res) => {
+//GET route for retrieving one user_events
+router.get('/oneuserevent/:id', rejectUnauthenticated, (req, res) => {
     const queryText = `SELECT * FROM "user_event"
     JOIN "event" ON "user_event"."event_id" = "event"."id"
     WHERE "user_event"."user_id" = $1 AND "archived"='FALSE';`;
@@ -59,7 +60,7 @@ router.get('/oneuserevent/:id', (req, res) => {
 
 //GET route for one user
 //Used on /userdetails for admins to edit user info
-router.get('/oneuser/:id', (req, res) => {
+router.get('/oneuser/:id', rejectUnauthenticated, (req, res) => {
     const queryText = `
     SELECT "user"."id", "category", "first_name", "last_name", "email",
     "phone_number", "address", "city", "state", "zip", "dob",
@@ -160,7 +161,7 @@ router.put('/checkout', rejectUnauthenticated, (req, res) => {
         })
 });
 
-// updtates the total time column by calculating the difference
+// updates the total time column by calculating the difference
 // bewtween the check in and check out columns
 router.put('/addtotal', rejectUnauthenticated, (req, res) => {
     const userId = req.body.user_id;
@@ -201,7 +202,6 @@ router.post('/attending', rejectUnauthenticated, (req, res) => {
 // Delete Request For Removing User From Event
 // To be used with "cant make it" button on event cards
 //Deletes from "user_event Table"
-
 router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) => {
     const userId = req.params.userId
     const eventId = req.params.eventId
@@ -217,7 +217,6 @@ router.delete('/attending/:userId/:eventId', rejectUnauthenticated, (req, res) =
             res.sendStatus(500);
         })
 })
-
 
 // PUT route archives event
 // Used on Event Details page
@@ -258,7 +257,7 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
-
+// TODO: 
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
