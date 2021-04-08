@@ -6,7 +6,6 @@ const {
 } = require('../modules/authentication-middleware');
 
 //GET route for retrieving all events
-//TODO 
 router.get('/', rejectUnauthenticated, (req, res) => {
     // if the search query isnt there, all events are selected
     if (req.query.search.length === 0) {
@@ -14,19 +13,27 @@ router.get('/', rejectUnauthenticated, (req, res) => {
         SELECT * FROM "event" 
         WHERE "archived"='FALSE'
         ORDER BY "date";`;
-    }
-    //if there is a search query, only search matches are selected
-    else {
-        queryText = `SELECT * FROM "event"
-        WHERE "name" ILIKE '%${req.query.search}%' AND "archived"='FALSE' ORDER BY "date";`
-    }
-    pool.query(queryText)
+        pool.query(queryText)
         .then(result => {
             res.send(result.rows);
         }).catch(err => {
             console.log(err);
             res.sendStatus(500);
         })
+    }
+    //if there is a search query, only search matches are selected
+    else {
+        queryText = `SELECT * FROM "event"
+        WHERE "name" ILIKE $1 AND "archived"='FALSE' ORDER BY "date";`
+    
+    pool.query(queryText,[`%${req.query.search}%`])
+        .then(result => {
+            res.send(result.rows);
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        })
+    }
 });
 
 //GET route for retrieving all user_events
@@ -257,7 +264,7 @@ router.get('/eventdetails/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
-// TODO: 
+
 // Get Request for Selection All users from Specified Event
 // To be used on Event Details Page
 // Event Id Will Need to be passed in the params
@@ -271,22 +278,30 @@ router.get('/details/:id', rejectUnauthenticated, (req, res) => {
     JOIN "affiliation" as a ON ue."group_id" = a."id"
     WHERE ue."event_id" = ${req.params.id}
     ORDER BY "last_name"`;
-    }else{
+    pool.query(queryText)
+    .then(result => {
+        res.send(result.rows);
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+    })
+    }
+    else{
     queryText = 
     `SELECT u."id", "category", "first_name", "last_name", "email", 
     "phone_number", "college_name", ue."check_in", ue."check_out", 
     ue."total_time", ue."event_id"  FROM "user_event" as ue
     JOIN "user" AS u ON ue."user_id" = u."id"
     JOIN "affiliation" as a ON ue."group_id" = a."id"
-    WHERE ue."event_id" = ${req.params.id}
-    AND "last_name" ILIKE '${req.query.search}%' `;
-    }
-    pool.query(queryText)
+    WHERE ue."event_id" = $1
+    AND "last_name" ILIKE $2 `;
+    
+    pool.query(queryText,[req.params.id, `${req.query.search}%`])
         .then(result => {
             res.send(result.rows);
         }).catch(err => {
             console.log(err);
             res.sendStatus(500);
-        })
+        })}
 });
 module.exports = router;
