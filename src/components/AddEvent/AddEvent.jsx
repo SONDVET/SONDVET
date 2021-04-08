@@ -5,16 +5,25 @@ import './AddEvent.css';
 import { TextField, Button, FormHelperText, makeStyles, Container, Grid } from "@material-ui/core";
 import Image from '../Images/SONDLogo.png'; //src / components / Images / SONDLogo.png
 
+const useStyles = makeStyles({ // set stying for card and paper
+    input: {
+        width: 420,
+        padding: 10
+    },
+    description: {
+        width: 420,
+        padding: 10
+    },
+});
 
 //  This page is for officers and admins to create new events
 function AddEvent() {
 
     const dispatch = useDispatch();
     const history = useHistory();
+    const classes = useStyles();
 
     const user = useSelector((store) => store.user);
-    // const user = useSelector((store) => store.event);
-
 
     const [newEvent, setNewEvent] = useState({
         name: "",
@@ -31,19 +40,6 @@ function AddEvent() {
         dispatch({ type: 'ADD_NEW_EVENT', payload: newEvent });
         history.push('/events')
     };
-
-
-    const useStyles = makeStyles({ // set stying for card and paper
-        input: {
-            width: 420,
-            padding: 10
-        },
-        description: {
-            width: 420,
-            padding: 10
-        },
-    });
-    const classes = useStyles();
 
     return (
         <>
@@ -139,7 +135,7 @@ function AddEvent() {
                         </Grid>
 
                         <div className="buttonBox">
-                            <Button type="reset" variant="contained" style={{backgroundColor: "#FF0000", color:"white"}}>Clear Fields</Button>
+                            <Button type="reset" variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }}>Clear Fields</Button>
                             <Button type="submit" variant="contained" color="primary">Submit</Button>
                         </div>
                         <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>

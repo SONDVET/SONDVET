@@ -100,6 +100,7 @@ function* fetchArchivedGroups(action) {
 
 }
 
+// 
 function* fetchOneUserGroup(action) {
     try {
         const response = yield axios.get(`api/volunteer/usergroup/${action.payload}`);
