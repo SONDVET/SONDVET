@@ -68,7 +68,6 @@ router.get('/affiliation', (req, res) => {
         })}
 });
 
-// TODO: 
 router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
     if(req.query.search.length===0){
         queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`

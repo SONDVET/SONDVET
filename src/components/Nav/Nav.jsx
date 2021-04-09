@@ -92,10 +92,11 @@ function Nav() {
                   Info Page
             </Link>
             </>)}
+            {user.id &&
               <>
                 <LogOutButton className="navLink" />
               </>
-            
+}
 
           </div>
         </>
