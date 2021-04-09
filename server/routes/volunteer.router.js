@@ -7,7 +7,6 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 // GETS all users
-// TODO: 
 router.get('/', rejectUnauthenticated, (req, res) => {
     // Send back user object from the session (previously queried from the database)
     if (req.query.search.length === 0){
@@ -16,15 +15,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
     FROM "user" 
     WHERE "archived" = false 
     ORDER BY "last_name" ASC `;
-    }
-    else{
-        query=
-        `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
-        FROM "user" 
-        WHERE "last_name" ILIKE '${req.query.search}%'
-        AND "archived" = false 
-        ORDER BY "last_name" ASC `;
-    }
     pool.query(query)
         .then(result => {
             res.send(result.rows);
@@ -33,16 +23,30 @@ router.get('/', rejectUnauthenticated, (req, res) => {
             console.log(`Error getting all users`, err);
             res.sendStatus(500)
         })
+    }
+    else{
+        query=
+        `SELECT "first_name", "last_name", "email", "state", "zip", "phone_number", "involved_w_sond_since", "id", "dob", "city", "category", "archived", "address", "access_level" 
+        FROM "user" 
+        WHERE "last_name" ILIKE $1
+        AND "archived" = false 
+        ORDER BY "last_name" ASC `;
+    
+    pool.query(query, [`${req.query.search}%`])
+        .then(result => {
+            res.send(result.rows);
+        })
+        .catch(err => {
+            console.log(`Error getting all users`, err);
+            res.sendStatus(500)
+        })}
 });
 
-// TODO: 
+
 // GETS all affiliations
 router.get('/affiliation', (req, res) => {
     if(req.query.length === 0){
     queryText = `SELECT * FROM "affiliation" WHERE "inactive"=FALSE;`
-    }else{
-    queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE '${req.query.search}%' AND "inactive"=FALSE;` 
-    }
     pool.query(queryText)
         .then(result => {
             res.send(result.rows)
@@ -51,16 +55,24 @@ router.get('/affiliation', (req, res) => {
             console.log(`Error getting affiliations, ${err}`);
             res.sendStatus(500);
         })
+}
+    else{
+    queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE $1 AND "inactive"=FALSE;` 
+    pool.query(queryText,[`${req.query.search}%`])
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error getting affiliations, ${err}`);
+            res.sendStatus(500);
+        })}
 });
 
 // TODO: 
 router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
     if(req.query.search.length===0){
         queryText = `SELECT * FROM "affiliation" WHERE "inactive"=TRUE;`
-    }else{
-        queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE '${req.query.search}%' AND "inactive"=TRUE;`
-    }
-    pool.query(queryText)
+        pool.query(queryText)
         .then(result => {
             res.send(result.rows)
         })
@@ -68,6 +80,17 @@ router.get('/affiliation/archived', rejectUnauthenticated, (req, res) => {
             console.log(`Error getting affiliations, ${err}`);
             res.sendStatus(500);
         })
+    }
+    else{
+        queryText = `SELECT * FROM "affiliation" WHERE "college_name" ILIKE $1 AND "inactive"=TRUE;`
+    pool.query(queryText, [`${req.query.search}%`])
+        .then(result => {
+            res.send(result.rows)
+        })
+        .catch((err) => {
+            console.log(`Error getting affiliations, ${err}`);
+            res.sendStatus(500);
+        })}
 });
 
 
@@ -111,7 +134,6 @@ router.put('/affiliation/:id/archived', rejectUnauthenticated, (req, res) => {
         })
 });
 
-// TODO: 
 // Selects All Users Who are in the affiliaton with the id
 // that is passed into the params
 router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
@@ -120,8 +142,8 @@ router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
     FROM "user"
     JOIN "user_group" ON "user"."id" = "user_group"."user_id"
 	JOIN "affiliation" ON "user_group"."group_id" = "affiliation"."id"
-    WHERE "group_id" = ${id};`;
-    pool.query(queryText)
+    WHERE "group_id" = $1;`;
+    pool.query(queryText, [id])
         .then(result => {
             res.send(result.rows);
         })
@@ -131,16 +153,16 @@ router.get('/affiliation/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
-// TODO: 
 // ADMIN PUT request to modify user access level
 // available at /api/volunteer/:id/access_level
 router.put('/:id/access_level', rejectUnauthenticated, (req, res) => {
     const id = req.params.id;
+    const access = req.body.access_level
     const query = `
     UPDATE "user" 
-    SET "access_level" = ${req.body.access_level} 
+    SET "access_level" = $2 
     WHERE "id"= $1;`
-    pool.query(query, [id]).then(() => {
+    pool.query(query, [id, access]).then(() => {
         res.sendStatus(200);
     }).catch(err => {
         console.log('Error updating user access level', err);
@@ -163,12 +185,12 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
         });
 });
 
-// TODO: 
+
 //  GET a specific affiliation by id
 router.get('/organization/:id', rejectUnauthenticated, (req, res) => {
     const id = req.params.id
-    const queryText = `SELECT * FROM "affiliation" WHERE "id" = ${id}`
-    pool.query(queryText)
+    const queryText = `SELECT * FROM "affiliation" WHERE "id" = $1`
+    pool.query(queryText,[id])
         .then(result => {
             res.send(result.rows)
         })
