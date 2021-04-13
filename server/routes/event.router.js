@@ -108,7 +108,7 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 //PUT route for editing a specific event 
 // reqs: id, name, description, special_inst, location, date, pic_url
-router.put('/:id', rejectUnauthenticated, (req, res) => {
+router.put('/', rejectUnauthenticated, (req, res) => {
     const eventEdit = {
         id: req.body.id,
         name: req.body.name,
