@@ -123,6 +123,15 @@ function* unremoveEvent(action) {
     }
 }
 
+//  Saga to handle editing events.
+function* editEvent(action) {
+    try {
+        yield axios.put(`/api/event/${action.payload}`);
+    } catch (error) {
+        console.log(`error editing event, ${error}`)
+    }
+}
+
 
 function* eventSaga() {
     yield takeLatest('FETCH_EVENT', fetchEvent);
@@ -138,6 +147,7 @@ function* eventSaga() {
     yield takeLatest('ADD_NEW_EVENT', addNewEvent);
     yield takeLatest('ARCHIVE_EVENT', removeEvent);
     yield takeLatest('UNARCHIVE_EVENT', unremoveEvent);
+    yield takeLatest('EDIT_EVENT', editEvent);
 }
 
 export default eventSaga;
