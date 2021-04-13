@@ -67,8 +67,9 @@ function EditEvent() {
         <>
             <Container>
                 <div className="addEventContainer" >
-                    <h1 className="registerHeader">Fill out this form to create a new event.</h1>
                     {store.event[0] &&
+                        <>
+                        <h1 className="registerHeader">Editing {store.event[0].name}</h1>
                         <form className="addEventForm" onSubmit={updateEvent} >
                             {declare()}
                             <Grid container direction="row" justify="center">
@@ -172,6 +173,7 @@ function EditEvent() {
                             </div>
                             <FormHelperText id="my-helper-text">*Fields with an asterisk are required</FormHelperText>
                         </form>
+                        </>
                     }
                 </div>
             </Container>

@@ -175,7 +175,7 @@ function EventDetail() {
                 <Container>
                     {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
                     <Grid item>
-                        <Button variant="contained" color="default" onClick={() => history.push(`/edit/${params.id}`)}>Edit</Button>
+                        <Button variant="contained" color="default" onClick={() => history.push(`/edit/${params.id}`)}>Edit Event</Button>
                     </Grid>
                     <Card className={classes.mobileCard}>
                         {/* <CardHeader title={event[0].name} className={classes.cardHead} /> */}
