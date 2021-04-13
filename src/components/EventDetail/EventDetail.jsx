@@ -11,7 +11,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Card, CardHeader, CardContent,TextField, Table, TableContainer, TableHead, TableRow, TableCell, Container, Grid, Paper } from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
+import { Card, CardHeader, CardContent, TextField, Table, TableContainer, TableHead, TableRow, TableCell, Container, Grid, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { useStyles } from '../EventCardStyle/EventCadStyle'
 
@@ -63,6 +64,65 @@ function EventDetail() {
         dispatch({ type: 'FETCH_USER_EVENT', payload: { params: params.id, search: search } })
     }, [search]);
 
+    const [edit, setEdit] = useState(true);
+
+    const setEditMode = () => {
+        declare()
+        if (edit === true) {
+            return setEdit(false);
+        }
+        else if (!edit === true) {
+            setTask({
+                id: event[0].id,
+                name: event[0].name,
+                description: event[0].description,
+                special_inst: event[0].special_inst,
+                location: event[0].location,
+                date: event[0].date,
+                pic_url: event[0].pic_url,
+                time: event[0].time
+            })
+            return setEdit(true);
+        }
+    };
+
+
+    const updateEvent = () => {
+        dispatch({ type: 'EDIT_EVENT', payload: task });
+        setEdit(true);
+    }
+
+
+    // defines event with empty values to avoid 
+    // error caused by setting it to a redux value
+    // before the redux store is defined 
+    const [task, setTask] = useState({
+        id: 0,
+        name: "",
+        description: "",
+        special_inst: "",
+        location: "",
+        date: 0,
+        pic_url: "",
+        time: "",
+    })
+
+
+    //gets run when the edit button is pushed
+    //to ensure event store is populated before values are assinged       
+    const declare = () => {
+        setTask({
+            id: event[0].id,
+            name: event[0].name,
+            description: event[0].description,
+            special_inst: event[0].special_inst,
+            location: event[0].location,
+            date: event[0].date,
+            pic_url: event[0].pic_url,
+            time: event[0].time
+        })
+    }
+
 
 
     const archiveEvent = () => {
@@ -96,6 +156,7 @@ function EventDetail() {
         handleCloser()
     }
 
+
     const phoneFormater = (phoneNumb) => {
         let format = ('' + phoneNumb).replace(/\D/g, '');
         let match = format.match(/^(\d{3})(\d{3})(\d{4})$/);
@@ -107,33 +168,45 @@ function EventDetail() {
 
     const classes = useStyles()
 
+
     return (
         <>
             {event[0] &&
                 <Container>
                     {/* <button ><img src={InfoIcon}/></button>  onClick should toggle a modal to desribe use of check-in */}
+                    <Grid item>
+                        <Button variant="contained" color="default" onClick={() => setEditMode()}>{edit ? 'Edit Event' : 'cancel edit'}</Button> {!edit ? <Button variant="contained" color="primary" startIcon={<SaveIcon />} onClick={() => updateEvent()} >save</Button> : ''}
+                    </Grid>
                     <Card className={classes.mobileCard}>
-                        <CardHeader title={event[0].name} className={classes.cardHead} />
+                        {/* <CardHeader title={event[0].name} className={classes.cardHead} /> */}
+                        {edit ?
+                            <CardHeader title={event[0].name} className={classes.cardHead} /> :
+                            <TextField defaultValue={event[0].name} onChange={(e) => setTask({ ...task, name: e.target.value })} />}
                         <CardContent>
-                            <img src={event[0].pic_url} height='100px' />
+                            {edit ? <img src={event[0].pic_url} height='100px' /> :
+                                <TextField defaultValue={event[0].pic_url} onChange={(e) => setTask({ ...task, pic_url: e.target.value })} />}
                         </CardContent>
                         <CardContent className="descriptionText" >
                             <Grid container direction="row" justify="space-around">
                                 <Grid item>
                                     <p><b>WHEN:</b></p>
-                                    <p>{moment(event[0].date).format('MMMM Do YYYY')}</p>
-                                    <p>{moment(event[0].time, "HH:mm").format('hh:mm A')}</p>
+                                    {edit ? <p>{moment(event[0].date).format('MMMM Do YYYY')}</p> :
+                                    <TextField defaultValue={moment(event[0].date).format('MMMM Do YYYY')} onChange={(e) => setTask({ ...task, date: e.target.value })} type="date" />}
+                                    {edit ? <p>{moment(event[0].time, "HH:mm").format('hh:mm A')}</p> :
+                                    <TextField defaultValue={moment(event[0].time, "HH:mm").format('hh:mm A')} onChange={(e) => setTask({ ...task, time: e.target.value })} type="time" />}
                                 </Grid>
                                 <Grid item>
                                     <p><b>WHERE:</b></p>
-                                    <p >{event[0].location}</p>
+                                    {edit ? <p>{event[0].location}</p> :
+                                    <TextField defaultValue={event[0].location} onChange={(e) => setTask({ ...task, location: e.target.value })} />}
                                 </Grid>
                             </Grid>
-                            <p>{event[0].description}</p>
-                            <p>{event[0].special_inst}</p>
+                            {edit ? <p>{event[0].description}</p> :
+                                <TextField defaultValue={event[0].description} onChange={(e) => setTask({ ...task, description: e.target.value })} />}
+                            {edit ? <p>{event[0].special_inst}</p> :
+                                <TextField defaultValue={event[0].special_inst} onChange={(e) => setTask({ ...task, special_inst: e.target.value })} />}
                         </CardContent>
                     </Card>
-
                     <h2>Scheduled Participants</h2>
                     <TextField style={{ width: '25%', paddingBottom: '10px' }} label="Search Scheduled Participants" value={search} onChange={(e) => setSearch(e.target.value)} />
                     <TableContainer component={Paper} >
@@ -199,12 +272,12 @@ function EventDetail() {
                             <Grid item>
                                 <div>
                                     {store.event[0].archived === false ?
-                                    <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpen}>
-                                        Archive Event
+                                        <Button variant="contained" style={{ backgroundColor: "#FF0000", color: "white" }} onClick={handleClickOpen}>
+                                            Archive Event
                                     </Button>
-                                    :
-                                    <Button variant='contained' color="primary" onClick={() => unarchiveEvent()}>
-                                        Restore Event
+                                        :
+                                        <Button variant='contained' color="primary" onClick={() => unarchiveEvent()}>
+                                            Restore Event
                                     </Button>}
                                     <Dialog
                                         open={open}
