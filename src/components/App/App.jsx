@@ -25,6 +25,7 @@ import Events from '../Events/Events';
 import GroupView from '../GroupView/GroupView';
 import UserAdminView from '../UserAdminView/UserAdminView';
 import Admin from '../Admin/Admin'
+import EditEvent from '../EventDetailEdit/EventDetailEdit'
 import './App.css';
 
 function App() {
@@ -155,6 +156,10 @@ function App() {
           >
             <Admin />
           </ProtectedAdminRoute>
+          <ProtectedOfficerRoute
+            exact path="/edit/:id">
+              <EditEvent/>
+            </ProtectedOfficerRoute>
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
             <h1>404</h1>

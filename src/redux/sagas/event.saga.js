@@ -126,8 +126,8 @@ function* unremoveEvent(action) {
 //  Saga to handle editing events.
 function* editEvent(action) {
     try {
-        yield axios.put('/api/event/', action.payload);
-        yield put({ type: 'FETCH_EVENT_DETAILS', payload: action.payload.id })
+        yield axios.put('/api/event/edit', action.payload);
+         yield put({ type: 'FETCH_EVENT_DETAILS', payload: action.payload.id })
     } catch (error) {
         console.log(`error editing event, ${error}`)
     }
