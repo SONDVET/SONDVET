@@ -108,7 +108,8 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 //PUT route for editing a specific event 
 // reqs: id, name, description, special_inst, location, date, pic_url
-router.put('/', rejectUnauthenticated, (req, res) => {
+router.put('/edit', rejectUnauthenticated, (req, res) => {
+    console.log(req.body)
     const eventEdit = {
         id: req.body.id,
         name: req.body.name,
@@ -117,13 +118,14 @@ router.put('/', rejectUnauthenticated, (req, res) => {
         location: req.body.location,
         date: req.body.date,
         image: req.body.pic_url,
+        time: req.body.time
     }
     const queryText = `
     UPDATE "event"
-    SET "name" = $1, "description" = $2, "special_inst" = $3, location = $4, "date" = $5, "pic_url" = $6
-    WHERE "id" = $7`;
+    SET "name" = $1, "description" = $2, "special_inst" = $3, location = $4, "date" = $5, "pic_url" = $6, "time" = $7
+    WHERE "id" = $8;`;
     pool.query(queryText, [eventEdit.name, eventEdit.description, eventEdit.special_inst, eventEdit.location, 
-        eventEdit.date, eventEdit.image, eventEdit.id])
+        eventEdit.date, eventEdit.image, eventEdit.time, eventEdit.id])
         .then((result) => {
             res.sendStatus(200);
         }).catch((err) => {
