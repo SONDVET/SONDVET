@@ -64,66 +64,6 @@ function EventDetail() {
         dispatch({ type: 'FETCH_USER_EVENT', payload: { params: params.id, search: search } })
     }, [search]);
 
-    const [edit, setEdit] = useState(true);
-
-    const setEditMode = () => {
-        declare()
-        if (edit === true) {
-            return setEdit(false);
-        }
-        else if (!edit === true) {
-            setTask({
-                id: event[0].id,
-                name: event[0].name,
-                description: event[0].description,
-                special_inst: event[0].special_inst,
-                location: event[0].location,
-                date: event[0].date,
-                pic_url: event[0].pic_url,
-                time: event[0].time
-            })
-            return setEdit(true);
-        }
-    };
-
-
-    const updateEvent = () => {
-        dispatch({ type: 'EDIT_EVENT', payload: task });
-        setEdit(true);
-    }
-
-
-    // defines event with empty values to avoid 
-    // error caused by setting it to a redux value
-    // before the redux store is defined 
-    const [task, setTask] = useState({
-        id: 0,
-        name: "",
-        description: "",
-        special_inst: "",
-        location: "",
-        date: 0,
-        pic_url: "",
-        time: "",
-    })
-
-
-    //gets run when the edit button is pushed
-    //to ensure event store is populated before values are assinged       
-    const declare = () => {
-        setTask({
-            id: event[0].id,
-            name: event[0].name,
-            description: event[0].description,
-            special_inst: event[0].special_inst,
-            location: event[0].location,
-            date: event[0].date,
-            pic_url: event[0].pic_url,
-            time: event[0].time
-        })
-    }
-
-
 
     const archiveEvent = () => {
         dispatch({ type: 'ARCHIVE_EVENT', payload: params.id });
@@ -178,33 +118,24 @@ function EventDetail() {
                         <Button variant="contained" color="default" onClick={() => history.push(`/edit/${params.id}`)}>Edit Event</Button>
                     </Grid>
                     <Card className={classes.mobileCard}>
-                        {/* <CardHeader title={event[0].name} className={classes.cardHead} /> */}
-                        {edit ?
-                            <CardHeader title={event[0].name} className={classes.cardHead} /> :
-                            <TextField defaultValue={event[0].name} onChange={(e) => setTask({ ...task, name: e.target.value })} />}
+                            <CardHeader title={event[0].name} className={classes.cardHead} />
                         <CardContent>
-                            {edit ? <img src={event[0].pic_url} height='100px' /> :
-                                <TextField defaultValue={event[0].pic_url} onChange={(e) => setTask({ ...task, pic_url: e.target.value })} />}
+                            <img src={event[0].pic_url} height='100px' />
                         </CardContent>
                         <CardContent className="descriptionText" >
                             <Grid container direction="row" justify="space-around">
                                 <Grid item>
                                     <p><b>WHEN:</b></p>
-                                    {edit ? <p>{moment(event[0].date).format('MMMM Do YYYY')}</p> :
-                                    <TextField defaultValue={moment(event[0].date).format('MMMM Do YYYY')} onChange={(e) => setTask({ ...task, date: e.target.value })} type="date" />}
-                                    {edit ? <p>{moment(event[0].time, "HH:mm").format('hh:mm A')}</p> :
-                                    <TextField defaultValue={moment(event[0].time, "HH:mm").format('hh:mm A')} onChange={(e) => setTask({ ...task, time: e.target.value })} type="time" />}
+                                    <p>{moment(event[0].date).format('MMMM Do YYYY')}</p> 
+                                    <p>{moment(event[0].time, "HH:mm").format('hh:mm A')}</p>
                                 </Grid>
                                 <Grid item>
                                     <p><b>WHERE:</b></p>
-                                    {edit ? <p>{event[0].location}</p> :
-                                    <TextField defaultValue={event[0].location} onChange={(e) => setTask({ ...task, location: e.target.value })} />}
+                                    <p>{event[0].location}</p>
                                 </Grid>
                             </Grid>
-                            {edit ? <p>{event[0].description}</p> :
-                                <TextField defaultValue={event[0].description} onChange={(e) => setTask({ ...task, description: e.target.value })} />}
-                            {edit ? <p>{event[0].special_inst}</p> :
-                                <TextField defaultValue={event[0].special_inst} onChange={(e) => setTask({ ...task, special_inst: e.target.value })} />}
+                            <p>{event[0].description}</p>
+                            <p>{event[0].special_inst}</p>
                         </CardContent>
                     </Card>
                     <h2>Scheduled Participants</h2>
